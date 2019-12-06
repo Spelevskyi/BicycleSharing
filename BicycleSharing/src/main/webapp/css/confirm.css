@@ -1,0 +1,11 @@
+@import "../css/index.css";
+
+body {
+	background-image:url("../image/background.jpg");
+	background-size:1400px 660px;
+	font-family: Georgia, Helvetica, serif;
+}
+
+.modal{
+	display:block;
+}

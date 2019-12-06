@@ -1,0 +1,46 @@
+body {
+	background-image:url("../image/background.jpg");
+	background-size:1400px 660px;
+	font-family: Georgia, Helvetica, serif;
+}
+
+#table-wrapper {
+    height:450px;
+    width:auto;
+    position:absolute;
+    overflow:auto;
+    border:1px solid black;
+    text-align:center;
+}
+
+.table-inner {
+    height:auto;
+    width:auto;
+    display:table-cell;
+    vertical-align:middle;
+}
+
+.row-button{
+	background-color:white;
+}
+
+.tab{
+	width:auto;
+	height:auto;
+	background-color:white;
+}
+
+.button{
+	width:200px;
+	background-color:#d9d4d4;
+	color:black;
+	margin-left:30px;
+	margin-bottom:10px;
+	margin-right: 100px;
+}
+
+.table{
+	width:auto;
+	margin-top: 20px;
+}
+

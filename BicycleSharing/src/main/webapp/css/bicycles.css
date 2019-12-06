@@ -1,0 +1,157 @@
+body {
+	background-image:url("./image/background.jpg");
+	background-size:1400px 660px;
+	font-family: Georgia, Helvetica, serif;
+}
+
+.row{
+	width:1200px;
+}
+
+.row-button{
+	background-color:white;
+}
+
+.form-control{
+	padding-top:10px;
+	width:300px;
+}
+
+.tab{
+	width:auto;
+	height:auto;
+	background-color:white;
+}
+
+#bicycle-button{
+	width:auto;
+	background-color:#4CAF50;
+	color:white;
+	margin-left:20px;
+	margin-bottom:10px;
+}
+
+.table{
+	width:auto;
+	margin-top: 20px;
+}
+
+.adding{
+	padding-top:10px;
+	margin-left:30px;
+	width:335px;
+	background-color:white;
+}
+
+.add{
+	margin-left:10px;
+	margin-top: 20px;
+}
+
+#type{
+	margin-left:10px;
+}
+
+#uploadImage
+{
+    display: none;
+}
+
+#searchImage
+{
+    cursor: pointer;
+}
+
+#search-container {
+    width: 20px;
+    height: 20px;
+    overflow: hidden;
+    margin-top:6px;
+    margin-bottom: 18px;
+    margin-left:65px;
+}
+
+#search-container img {
+    width: 20px;
+    height: 20px;
+}
+
+#table-wrapper {
+    height:450px;
+    width:auto;
+    position:absolute;
+    overflow:auto;
+    border:1px solid black;
+    text-align:center;
+}
+
+.table-inner {
+    height:auto;
+    width:auto;
+    display:table-cell;
+    vertical-align:middle;
+}
+
+
+#bicycle-wrapper {
+    width: 60px;
+    height: 50px;
+    position: relative;
+    margin: 2em auto;
+    background: #f6f6f6;
+    border: 2px solid #ddd;
+    margin-left:0;
+    margin-top:0;
+}
+
+#bicycle-wrapper img {
+	width: 60px;
+    height: 50px;
+    display: block;
+    margin: 25px auto;
+    margin-left: 0;
+    margin-top:0;
+}
+
+
+#image-wrapper {
+    height:450px;
+    width:auto;
+    position:absolute;
+    overflow:auto;
+    border:1px solid black;
+    text-align:center;
+}
+
+.inner {
+    height:auto;
+    width:auto;
+    display:table-cell;
+    vertical-align:middle;
+}
+
+
+input:valid:not(:placeholder-shown) {
+  border-color: green;
+}
+
+input:invalid:not(:placeholder-shown) {
+  border-color: red;
+}
+
+input:invalid:not(:placeholder-shown) + .form_error {
+  display: block;
+}
+
+.form_error {
+  font-size: 15px;
+  font-weight: 300;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  color: red;
+  text-align: left;
+  margin-top: 3px;
+  display: none;
+  padding-left: 10px;
+}

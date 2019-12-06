@@ -1,0 +1,207 @@
+body {
+	background-image: url("./image/background.jpg");
+	background-size: 1400px 660px;
+	font-family: Georgia, Helvetica, serif;
+}
+
+.navbar-inverse.nav-upper {
+	width: 100%;
+	background-color: #272929;
+}
+
+.navbar-inverse.nav-upper ul {
+	float: left;
+}
+
+.navbar-inverse.nav-upper .navbar-nav.navbar-right>li>a {
+	display: #272929;
+	color: white;
+	text-align: center;
+	padding: 14px 14px;
+	text-decoration: none;
+	font-size: 17px;
+}
+
+.navbar-inverse.nav-upper .navbar-nav.navbar-right>li>a:hover {
+	background-color: #272929;
+	color: #084473;
+}
+
+.navbar-inverse.nav-upper .navbar-nav input[type=text] {
+	float: right;
+	padding: 6px;
+	border: none;
+	margin-top: 8px;
+	margin-right: 16px;
+	font-size: 17px;
+}
+
+.navbar.navbar-inverse.navbar-static-top.navbar-lower {
+	width: 100%;
+	background-color: #d9d4d4;
+}
+
+.navbar.navbar-inverse.navbar-static-top.navbar-lower .navbar-nav.navbar-left
+	{
+	padding-left: 350px;
+}
+
+.navbar.navbar-inverse.navbar-static-top.navbar-lower .navbar-nav.navbar-right ul
+	{
+	padding-right: 10px;
+}
+
+.navbar.navbar-inverse.navbar-static-top.navbar-lower .navbar-nav.navbar-left>li>a
+	{
+	text-align: center;
+	color: black;
+	text-decoration: none;
+	font-size: 17px;
+}
+
+.navbar.navbar-inverse.navbar-static-top.navbar-lower .navbar-nav.navbar-right>li
+	{
+	text-align: center;
+	color: #d9d4d4;
+	text-decoration: none;
+	font-size: 0px;
+}
+
+.navbar.navbar-inverse.navbar-static-top.navbar-lower .navbar-nav.navbar-left>li>a:hover
+	{
+	background-color: #084473;
+	color: white;
+}
+
+@media ( min-width : 768px) {
+	.navbar-inverse.nav-upper .navbar-nav.navbar-right {
+		display: block;
+		margin-top: 0;
+		border-radius: 0;
+	}
+}
+
+#imageUpload {
+	display: none;
+}
+
+#profileImage {
+	cursor: pointer;
+}
+
+#profile-container {
+	width: 300px;
+	height: 200px;
+	overflow: hidden;
+	margin-bottom: 20px;
+	margin-top: 20px;
+}
+
+#profile-container img {
+	width: 200px;
+	height: 200px;
+}
+
+.row {
+	width: 800px;
+	height: 400px;
+	margin-right: 400px;
+	margin-left: 300px;
+}
+
+.account {
+	width: 300px;
+	height: 300px;
+	border: 1px solid black;
+	margin-left: 50px;
+	margin-top: 20px;
+	background-color: white;
+}
+
+.account-info {
+	width: 400px;
+	height: 200px;
+	border: 1px solid black;
+	margin-top: 20px;
+	background-color: white;
+}
+
+.account-cash {
+	width: 400px;
+	height: 80px;
+	border: 1px solid black;
+	margin-top: 20px;
+	background-color: white;
+}
+
+.dropdown {
+	text-align: center;
+	color: white;
+}
+
+.hidden-info .dropdown .dropdown-toggle {
+	margin-top: 50px;
+	margin-right:40px;
+	width: 200px;
+	background-color: #d9d4d4;
+	color: black;
+}
+
+.dropdown-menu{
+	margin-left:45px;
+}
+
+.account-info .main-info .name {
+	padding-right: 100px;
+	padding-bottom: 40px;
+}
+
+.account-info .main-info .email {
+	padding-right: 35px;
+}
+
+.form {
+	padding-right: 48px;
+	padding-left: 10px;
+	text-align: center;
+	color: white;
+}
+
+.change-profile {
+	margin-left:35px;
+	width: 200px;
+	background-color: #4CAF50;
+	color: white;
+}
+
+.change-password {
+	margin-top:10px;
+	width: 200px;
+	background-color: #4CAF50;
+	color: white;
+}
+
+input:valid:not (:placeholder-shown ) {
+	border-color: green;
+}
+
+input:invalid:not (:placeholder-shown ) {
+	border-color: red;
+}
+
+input:invalid:not (:placeholder-shown ) +.form_error {
+	display: block;
+}
+
+.form_error {
+	font-size: 15px;
+	font-weight: 300;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	color: red;
+	text-align: left;
+	margin-top: 3px;
+	display: none;
+	padding-left: 10px;
+}

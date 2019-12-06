@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status = "info">
+    <ThresholdFilter level="trace"/>
+    <Appenders>
+        <RollingFile name="File" fileName="logs/text.log" append="true"
+                     filePattern = "logFiles/${date:yyyy-MM-dd}/%d{yyyy-MM-dd_HH-mm}_%i.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{5} - %msg%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="1 KB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level = "debug" >
+            <Appender-ref ref = "File" level = "trace" />
+        </Root>
+    </Loggers>
+</Configuration>
