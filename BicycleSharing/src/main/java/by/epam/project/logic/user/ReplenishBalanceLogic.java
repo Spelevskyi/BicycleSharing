@@ -38,9 +38,13 @@ public class ReplenishBalanceLogic implements Logic {
         double amount = Double.valueOf(parameters.get(2));
         String code = parameters.get(3);
         int number = Integer.valueOf(parameters.get(4));
-        if (!(amount < 0) && !(amount > Constants.INITIAL_RENTAL_AMOUNT)) {
-            logger.error("Invalid cash amount value!");
-            throw new LogicException("Invalid cash amount value!");
+        if ((amount < 0)) {
+            logger.error("Cash amount is less than 0!");
+            throw new LogicException("Cash amount is less than 0!");
+        }
+        if ((amount > Constants.INITIAL_RENTAL_AMOUNT)) {
+            logger.error("Cash amount is more than 1000!");
+            throw new LogicException("Cash amount is more than 1000!");
         }
         if (!CardDataValidator.isCardCodeValid(code)) {
             logger.error("Invalid card code value!");
@@ -62,27 +66,28 @@ public class ReplenishBalanceLogic implements Logic {
             Optional<Card> findedCard = cardDao.findUserCard(userId, code, number, type);
             if (!findedCard.isPresent()) {
                 logger.error("Card not exists!");
-                throw new DaoException("Card no exists!");
+                throw new LogicException("Card no exists!");
+            } else {
+                User changedUser = findedUser.get();
+                Card changedCard = findedCard.get();
+                if (changedCard.getBalance().doubleValue() < amount) {
+                    logger.error("Card balance is limited!");
+                    throw new LogicException("Card balance is linited!");
+                }
+                if (changedCard.getStatus().equals(Constants.DISABLE)) {
+                    logger.error("Card is blocked!");
+                    throw new LogicException("Card is blocked!");
+                }
+                BigDecimal cash = new BigDecimal(amount);
+                changedUser.setCash(changedUser.getCash().add(cash));
+                changedCard.setBalance(changedCard.getBalance().subtract(cash));
+                userDao.replenishCash(changedUser, changedCard);
+                user = userDao.findById(userId).get();
+                logger.info("Succesfully replenish user balance!");
             }
-            User changedUser = findedUser.get();
-            Card changedCard = findedCard.get();
-            if (changedCard.getBalance().doubleValue() < amount) {
-                logger.error("Card balance is limited!");
-                throw new LogicException("Card balance is linited!");
-            }
-            if (changedCard.getStatus().equals(Constants.DISABLE)) {
-                logger.error("Card is blocked!");
-                throw new LogicException("Card is blocked!");
-            }
-            BigDecimal cash = new BigDecimal(amount);
-            changedUser.setCash(changedUser.getCash().add(cash));
-            changedCard.setBalance(changedCard.getBalance().subtract(cash));
-            userDao.replenishCash(changedUser, changedCard);
-            user = userDao.findById(userId).get();
-            logger.info("Succesfully replenish user balance!");
         } catch (DaoException ex) {
             logger.error(ex);
-            throw new LogicException(ex);
+            throw new LogicException("Replenishing user balance failed!", ex);
         }
     }
 

@@ -8,16 +8,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import by.epam.project.builder.RentalPointBuilder;
 import by.epam.project.dao.RentalPointDao;
 import by.epam.project.entity.point.RentalPoint;
 import by.epam.project.exception.DaoException;
 import by.epam.project.pool.ConnectionPool;
+import by.epam.project.pool.ProxyConnection;
 
 public class RentalPointDaoImpl extends RentalPointDao {
 
+    private static final Logger logger = LogManager.getLogger(RentalPointDaoImpl.class);
+
     private static final String FIND_ALL_RENTAL_POINTS = "SELECT * FROM rental_point";
-    private static final String ADD_POINT_IN_DATABASE = "INSERT INTO rental_point(x_coordinate,y_coordinate) VALUES(?,?)";
+    private static final String SQL_CREATE_POINT = "INSERT INTO rental_point(x_coordinate,y_coordinate) VALUES(?,?)";
     private static final String SEARCH_BY_COORDINATES = "SELECT * FROM rental_point WHERE x_coordinate = ? AND y_coordinate = ?";
     private static final String SEARCH_BY_ID = "SELECT * FROM rental_point WHERE Id = ?";
     private static final String FIND_ALL_RENTAL_POINTS_BY_LOCATION = "SELECT * FROM rental_point WHERE Location = ?";
@@ -26,14 +32,24 @@ public class RentalPointDaoImpl extends RentalPointDao {
             + "rental_point.y_coordinate = ? WHERE Id = ?";
 
     @Override
-    public void createRentalPoint(int x_coordinate, int y_coordinate) throws DaoException {
-        try (Connection connection = ConnectionPool.INSTANCE.getConnection();
-                PreparedStatement statement = connection.prepareStatement(ADD_POINT_IN_DATABASE)) {
-            statement.setInt(1, x_coordinate);
-            statement.setInt(2, y_coordinate);
-            statement.executeUpdate();
+    public void create(RentalPoint entity) throws DaoException {
+        logger.info("Creation rental point in point dao.");
+        ProxyConnection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = ConnectionPool.INSTANCE.getConnection();
+            statement = connection.prepareStatement(SQL_CREATE_POINT);
+            statement.setInt(1, entity.getX_coordinate());
+            statement.setInt(2, entity.getY_coordinate());
+            int result = statement.executeUpdate();
+            if (result == 0) {
+                logger.error("Rental point was not created!");
+            }
         } catch (SQLException ex) {
-            throw new DaoException(ex.getMessage());
+            throw new DaoException(ex);
+        } finally {
+            close(statement);
+            close(connection);
         }
     }
 
@@ -114,6 +130,12 @@ public class RentalPointDaoImpl extends RentalPointDao {
         } catch (SQLException ex) {
             throw new DaoException(ex.getMessage());
         }
+
+    }
+
+    @Override
+    public void update(RentalPoint entity) throws DaoException {
+        // TODO Auto-generated method stub
 
     }
 

@@ -8,9 +8,6 @@ import org.apache.logging.log4j.Logger;
 
 import by.epam.project.dao.impl.BicycleDaoImpl;
 import by.epam.project.entity.bicycle.Bicycle;
-import by.epam.project.entity.bicycle.BrandType;
-import by.epam.project.entity.bicycle.ColorType;
-import by.epam.project.entity.bicycle.StateType;
 import by.epam.project.exception.DaoException;
 import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
@@ -62,8 +59,7 @@ public class AddBicycleLogic implements Logic {
         }
         try {
             Date registrationDate = new Date(System.currentTimeMillis());
-            Bicycle bicycle = new Bicycle(BrandType.valueOf(brand), ColorType.valueOf(color), speed, registrationDate,
-                    StateType.valueOf(state), path, status);
+            Bicycle bicycle = new Bicycle(brand, color, speed, registrationDate, state, path, status);
             bicycleDao.create(bicycle);
             logger.info("Creating bicycle parameter for inserting in database.");
         } catch (DaoException ex) {

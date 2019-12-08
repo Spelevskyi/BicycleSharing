@@ -35,7 +35,7 @@ public class EnableBicycleLogic implements Logic {
                 Bicycle bicycle = findedBicycle.get();
                 bicycle.setStatus(Constants.ENABLE);
                 bicycleDao.update(bicycle);
-                logger.info("Enable bicycle!");
+                logger.info("Enable bicycle performing!");
             }
         } catch (DaoException ex) {
             throw new LogicException("Enabling bicycle failed!", ex);

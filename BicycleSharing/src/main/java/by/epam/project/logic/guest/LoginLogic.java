@@ -44,6 +44,8 @@ public class LoginLogic implements Logic {
                 throw new DaoException("User not exists!");
             }
             user = userDao.findUserByEmail(email).get();
+            user.setOnline(true);
+            userDao.update(user);
             logger.info("Succesfully sign in system.");
         } catch (DaoException ex) {
             throw new LogicException(ex);

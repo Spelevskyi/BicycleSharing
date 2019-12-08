@@ -1,4 +1,4 @@
-package by.epam.project.action.command.admin;
+package by.epam.project.action.command.common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,44 +13,42 @@ import by.epam.project.action.command.ActionCommand;
 import by.epam.project.action.command.RoutePath;
 import by.epam.project.action.command.RouteType;
 import by.epam.project.action.command.Router;
-import by.epam.project.entity.user.User;
 import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
-import by.epam.project.logic.common.ChangeAvatarLogic;
+import by.epam.project.logic.common.ConfirmLogic;
 import by.epam.project.util.Constants;
 import by.epam.project.util.PageError;
 
-public class AdminChangeAvatarCommand implements ActionCommand {
+public class ConfirmCommand implements ActionCommand {
 
-    private static final Logger logger = LogManager.getLogger(AdminChangeAvatarCommand.class);
+    public static final Logger logger = LogManager.getLogger(ConfirmCommand.class);
 
-    private Logic logic = new ChangeAvatarLogic();
+    private Logic logic = new ConfirmLogic();
 
     @Override
     public Router execute(HttpServletRequest request) {
-        logger.info("Admin avatar image changing executing.");
+        logger.info("User confirmation executing.");
         Router router = new Router();
-        router.setType(RouteType.REDIRECT);
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute(Constants.SESSION_USER);
-        String imagePath = request.getParameter(Constants.ACCOUNT_IMAGE_PATH);
+        String email = (String) session.getAttribute(Constants.EMAIL);
+        int confirmationCode = (int) session.getAttribute(Constants.CONFIRMATION_CODE);
+        int enteredCode = Integer.valueOf(request.getParameter(Constants.CONFIRMATION_CODE));
         List<String> parameters = new ArrayList<>();
-        parameters.add(imagePath);
-        parameters.add(String.valueOf(user.getId()));
+        parameters.add(String.valueOf(email));
+        parameters.add(String.valueOf(enteredCode));
+        parameters.add(String.valueOf(confirmationCode));
         try {
             logic.action(parameters);
-            ChangeAvatarLogic avatarLogic = (ChangeAvatarLogic) logic;
-            request.getSession().setAttribute(Constants.SESSION_USER, avatarLogic.getUser());
-            router.setRoutePath(RoutePath.REDIRECT_ADMIN_ACCOUNT.getRoutePath());
-            logger.info("Succesfully changing avatar image!");
+            router.setRoutePath(RoutePath.INDEX_PAGE_PATH.getRoutePath());
+            router.setType(RouteType.FORWARD);
+            logger.info("Successfully confirm user email!");
         } catch (LogicException ex) {
             logger.error(ex);
             request.getSession().setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
-            router.setType(RouteType.REDIRECT);
+            router.setType(RouteType.FORWARD);
         }
         return router;
-
     }
 }
 

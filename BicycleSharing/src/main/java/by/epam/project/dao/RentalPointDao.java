@@ -7,8 +7,6 @@ import by.epam.project.exception.DaoException;
 
 public abstract class RentalPointDao extends AbstractDao<RentalPoint> {
 
-    public abstract void createRentalPoint(int x_coordinate, int y_coordinate) throws DaoException;
-
     public abstract List<RentalPoint> searchRentalPointsByLocation(String location) throws DaoException;
 
     public abstract void updateRentalPoint(int x_coordinate, int y_coordinate, int id) throws DaoException;

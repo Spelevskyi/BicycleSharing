@@ -33,7 +33,6 @@ public class UsersCommand implements ActionCommand {
         User user = (User) session.getAttribute(Constants.SESSION_USER);
         String previousPage = (String) session.getAttribute(Constants.PREVIOUS_PATH_PAGE);
         List<String> parameters = new ArrayList<>();
-        parameters.add(String.valueOf(user.getId()));
         try {
             logic.action(parameters);
             UsersLogic usersLogic = (UsersLogic) logic;

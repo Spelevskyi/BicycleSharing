@@ -4,9 +4,8 @@
 <html>
 <head>
 <style>
-<%@include file="/css/confirm.css"%>
+<%@include file="/css/main.css"%>
 </style>
-<c:set var="previous_path" value="/jsp/confirm_navbar.jsp" scope="session"/>
 <c:set var="language" value="${sessionScope.lang}" />
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="properties.local" var="local" />
@@ -67,10 +66,10 @@
 							<li>
 								<div class="btn-group btn-group-sm divLang" id="center" role="group" aria-label="...">
 									<button type="submit" name="lang" value="en" class="btn btn-default navbar-btn">
-										<img src="../image/england.png" />
+										<img src="${pageContext.session.servletContext.contextPath}/image/england.png" />
 									</button>
 									<button type="submit" name="lang" value="ru" class="btn btn-default navbar-btn">
-										<img src="../image/russia.png" />
+										<img src="${pageContext.session.servletContext.contextPath}/image/russia.png" />
 									</button>
 								</div>
 							</li>
@@ -79,88 +78,6 @@
 				</li>
 			</ul>
 		</div>
-	</nav>
-	<div class="modal fade login" id="login" role="dialog">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header" style="padding: 35px 50px;">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4>
-						<span class="glyphicon glyphicon-lock"></span>${sign_in}</h4>
-				</div>
-				<div class="modal-body" style="padding: 40px 50px;">
-					<form name="form" method="POST" action="controller">
-						<input type="hidden" name="command" value="Login" />
-						<div class="form-group">
-							<label for="email"><span class="glyphicon glyphicon-user"></span>${email}</label> <input type="text" name="email" value="" class="form-control"
-								placeholder="${enter_email}" />
-						</div>
-						<div class="form-group">
-							<label for="psw"><span class="glyphicon glyphicon-eye-open"></span>${password}</label> <input type="password" name="password" value="" class="form-control"
-								placeholder="${enter_password}" />
-						</div>
-						<button type="submit" class="btn btn-success btn-block">
-							<span class="glyphicon glyphicon-off"></span>${login}
-						</button>
-						<p>
-							<a href="#">${forgot_password} </a>
-						</p>
-					</form>
-				</div>
-				<div class="modal-footer" style="padding: 40px 50px;">
-					<p>${not_member}
-						<a href="#registration" data-toggle="modal" data-target="#registration">${signup_here}</a>
-					</p>
-				</div>
-			</div>
-
-		</div>
-	</div>
-	<div class="modal fade" id="registration" role="dialog">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header" style="padding: 35px 50px;">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4>
-						<span class="glyphicon glyphicon-lock"></span>${sign_up}</h4>
-				</div>
-				<div class="modal-body" style="padding: 40px 50px;">
-					<form name="form" method="POST" action="controller">
-						<input type="hidden" name="command" value="Register" />
-						<div class="form-group">
-							<label for="First name"><span class="glyphicon glyphicon-user"></span>${firstname}</label> <input type="text" name="firstName" value="" class="form-control"
-								placeholder="${enter_firstname}" />
-						</div>
-						<div class="form-group">
-							<label for="Last name"><span class="glyphicon glyphicon-user"></span>${lastname}</label> <input type="text" name="lastName" value="" class="form-control"
-								placeholder="${enter_lastname}" />
-						</div>
-						<div class="form-group">
-							<label for="Email"><span class="glyphicon glyphicon-eye-open"></span>${email}</label> <input type="text" name="email" value="" class="form-control"
-								placeholder="${enter_email}" />
-						</div>
-						<div class="form-group">
-							<label for="Password"><span class="glyphicon glyphicon-eye-open"></span>${password}</label> <input type="password" name="password" value="" class="form-control"
-								placeholder="${enter_password}" />
-						</div>
-						<div class="form-group">
-							<label for="Phone number"><span class="glyphicon glyphicon-eye-open"></span>${number}</label> <input type="text" name="phoneNumber" value="" class="form-control"
-								placeholder="${enter_number}" />
-						</div>
-						<button type="submit" class="btn btn-success btn-block">
-							<span class="glyphicon glyphicon-off"></span>${register}
-						</button>
-						<div class="form-group">
-							<a href="#">${forgot_password}</a>
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer" style="padding: 40px 50px;">
-					<p>${not_member}<a href="#login" data-toggle="modal" data-target="#login">${signin_here}</a>
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
+	</nav>	
 </body>
 </html>

@@ -21,7 +21,7 @@ public class DisableBicycleLogic implements Logic {
 
     @Override
     public void action(List<String> parameters) throws LogicException {
-        logger.info("Action of disabling bicycle executing.");
+        logger.info("Action of disabling bicycle performing.");
         if (parameters.size() == 0) {
             logger.error("Invalid parameters amount for disabling cards!");
             throw new LogicException("Invalid parameters amount for disabling cards!");

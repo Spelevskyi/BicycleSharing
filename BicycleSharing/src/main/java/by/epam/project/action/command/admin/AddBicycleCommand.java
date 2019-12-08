@@ -21,6 +21,7 @@ import by.epam.project.util.PageError;
 public class AddBicycleCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger(AddBicycleCommand.class);
+
     private Logic logic = new AddBicycleLogic();
 
     public Router execute(HttpServletRequest request) {
@@ -48,7 +49,7 @@ public class AddBicycleCommand implements ActionCommand {
         try {
             logic.action(parameters);
             router.setRoutePath(RoutePath.REDIRECT_BICYCLE_PAGE.getRoutePath());
-            logger.info("Redirecting to points page.");
+            logger.info("Redirecting to admin points page.");
         } catch (LogicException ex) {
             logger.error(ex);
             request.getSession().setAttribute(Constants.ERROR,

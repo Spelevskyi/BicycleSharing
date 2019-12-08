@@ -1,6 +1,5 @@
 package by.epam.project.dao.impl;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,7 +20,6 @@ import by.epam.project.entity.user.User;
 import by.epam.project.exception.DaoException;
 import by.epam.project.pool.ConnectionPool;
 import by.epam.project.pool.ProxyConnection;
-import by.epam.project.util.Constants;
 
 public class BicycleDaoImpl extends BicycleDao {
 
@@ -29,7 +27,7 @@ public class BicycleDaoImpl extends BicycleDao {
 
     private static final String SQL_CREATE_BICYCLE = "INSERT INTO bicycle (Brand,Color,MaxSpeed,CreationDate,State,ImagePath,Status,BillingId) VALUES"
             + "(?,?,?,?,?,?,?,(SELECT billing.Id FROM billing WHERE billing.Brand = ?))";
-    private static final String SQL_UPDATE_BICYCLE = "UPDATE bicycle SET Brand = ?,Color = ?,MaxSpeed = ? ,CreationDate = ? ,State = ? ,ImagePath = ? ,Status = ?,PointId = ?, BillingId = ?"
+    private static final String SQL_UPDATE_BICYCLE = "UPDATE bicycle SET Brand = ?,Color = ?,MaxSpeed = ? ,CreationDate = ? ,State = ? ,ImagePath = ? ,Status = ?, BillingId = ?"
             + " WHERE Id = ?";
     private static final String SQL_SORT_BY_BRAND = "SELECT bicycle.Brand,COUNT(bicycle.Brand) AS BicycleCount FROM bicycle JOIN rental_order ON rental_order.bicycleId = bicycle.Id WHERE rental_order.RenterId = ?"
             + " GROUP BY bicycle.Brand ORDER BY BicycleCount DESC";
@@ -39,29 +37,23 @@ public class BicycleDaoImpl extends BicycleDao {
     private static final String SQL_UPDATE_POINT_AFTER_MOVE = "UPDATE rental_point SET x_coordinate  = ?, y_coordinate = ? WHERE Id = ?";
     private static final String SQL_UPDATE_USER_AFTER_MOVE = "UPDATE user SET Cash = ?,Status = ? WHERE Id = ?";
     private static final String SQL_UPDATE_BICYCLE_AFTER_MOVE = "UPDATE bicycle SET Status = ? WHERE Id = ?";
-    private static final String UPDATE_POINT_ID = "UPDATE bicycle SET PointId = (SELECT Id FROM rental_point WHERE x_coordinate = ? AND y_coordinate = ?) WHERE Id = ?";
+    private static final String SQL_UPDATE_POINT_ID = "UPDATE bicycle SET PointId = (SELECT Id FROM rental_point WHERE x_coordinate = ? AND y_coordinate = ?) WHERE Id = ?";
     private static final String SQL_FIND_ALL = "SELECT * FROM bicycle";
     private static final String SQL_FIND_BICYCLES_WITH_LOCATION = "SELECT * FROM bicycle INNER JOIN rental_point"
             + " ON bicycle.PointId = rental_point.Id  INNER JOIN billing ON bicycle.BillingId = billing.Id WHERE bicycle.Status = 'ENABLE'";
+    private static final String SQL_FIND_BICYCLES_WITH_POINTS = "SELECT * FROM bicycle LEFT JOIN rental_point"
+            + " ON bicycle.PointId = rental_point.Id INNER JOIN billing ON bicycle.BillingId = billing.Id ";
     private static final String FIND_ALL_BICYCLES_NOT_LOCATED = "SELECT * FROM bicycle WHERE bicycle.PointId = 'null'";
-    private static final String ADD_POINT = "INSERT INTO rental_point(x_coordinate,y_coordinate) VALUES(?,?)";
-    private static final String SEARCH_BY_ID = "SELECT * FROM bicycle WHERE Id = ?";
+    private static final String SQL_ADD_POINT = "INSERT INTO rental_point(x_coordinate,y_coordinate) VALUES(?,?)";
+    private static final String SQL_SEARCH_BY_ID = "SELECT * FROM bicycle WHERE Id = ?";
     private static final String SQL_DELETE_BICYCLE = "DELETE FROM bicycle WHERE Id = ?";
-    private static final String SEARCH_BRAND = "SELECT UnlockPrice FROM billing WHERE Brand = ?";
-    private static final String ENABLE_BICYCLE = "UPDATE bicycle SET Status = 'ENABLE' WHERE Id = ?";
-    private static final String DISABLE_BICYCLE = "UPDATE bicycle SET Status = 'DISABLE' WHERE Id = ?";
     private static final String FIND_BICYCLE_BY_ORDER_ID = "SELECT * FROM bicycle JOIN rental_order ON bicycle.Id = rental_order.BicycleId WHERE rental_order.RenterId = (SELECT user.Id FROM user WHERE user.Id = ?)";
-    private static final String UPDATE_RENTAL_POINT = "UPDATE rental_point SET rental_point.x_coordinate = ?,"
-            + "rental_point.y_coordinate = ? WHERE Id = ?";
-    private static final String UPDATE_COVERED_DISTANCE = "UPDATE rental_order SET Distance = ?,Status = ?,ActualEndTime = ?,BookedEndTime = ?"
-            + " WHERE RenterId = ? AND Status = 'ACTIVE'";
-    private static final String UPDATE_USER_BALANCE = "UPDATE user SET Cash = Cash - ? WHERE Id = ?";
     private static final String SQL_DELETE_POINT = "DELETE FROM rental_point WHERE rental_point.Id = (SELECT bicycle.PointId FROM bicycle WHERE bicycle.Id = ?)";
 
-    // BicycleDap method for creation bicycle
+    // BicycleDao method for creation bicycle
     @Override
     public void create(Bicycle entity) throws DaoException {
-        logger.info("Creation bicycle in dao.");
+        logger.info("Creation bicycle in bicycle dao.");
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         try {
@@ -85,11 +77,12 @@ public class BicycleDaoImpl extends BicycleDao {
             close(statement);
             close(connection);
         }
-
     }
 
+    // BicycleDao method for sorting favorites bicycles by brand
     @Override
     public Map<Integer, String> sortedBicycleByBrand(int id) throws DaoException {
+        logger.info("Sorting by brand in dao.");
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         ResultSet result = null;
@@ -109,8 +102,10 @@ public class BicycleDaoImpl extends BicycleDao {
         }
     }
 
+    // BicycleDao method for sorting favorites bicycles by color
     @Override
     public Map<Integer, String> sortedBicycleByColor(int id) throws DaoException {
+        logger.info("Sorting by color in dao.");
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         ResultSet result = null;
@@ -164,7 +159,6 @@ public class BicycleDaoImpl extends BicycleDao {
             userStatement.executeUpdate();
             connection.commit();
         } catch (SQLException ex) {
-            System.out.println(ex);
             try {
                 connection.rollback();
             } catch (SQLException e) {
@@ -200,45 +194,6 @@ public class BicycleDaoImpl extends BicycleDao {
         }
     }
 
-    @Override
-    public void enableBicycle(int id) throws DaoException {
-        ProxyConnection connection = null;
-        PreparedStatement statement = null;
-        try {
-            connection = ConnectionPool.INSTANCE.getConnection();
-            statement = connection.prepareStatement(ENABLE_BICYCLE);
-            statement.setInt(1, id);
-            int row = statement.executeUpdate();
-            if (row == 0) {
-                throw new DaoException("Bicycle enabling fault!");
-            }
-        } catch (SQLException ex) {
-            throw new DaoException(ex);
-        } finally {
-            close(connection);
-            close(statement);
-        }
-    }
-
-    @Override
-    public void disableBicycle(int id) throws DaoException {
-        ProxyConnection connection = null;
-        PreparedStatement statement = null;
-        try {
-            connection = ConnectionPool.INSTANCE.getConnection();
-            statement = connection.prepareStatement(DISABLE_BICYCLE);
-            statement.setInt(1, id);
-            int row = statement.executeUpdate();
-            if (row == 0) {
-                throw new DaoException("Bicycle disabling fault!");
-            }
-        } catch (SQLException ex) {
-            throw new DaoException(ex);
-        } finally {
-            close(connection);
-            close(statement);
-        }
-    }
 
     // BicycleDao method for finding all bicycles
     @Override
@@ -252,6 +207,27 @@ public class BicycleDaoImpl extends BicycleDao {
             statement = connection.prepareStatement(SQL_FIND_ALL);
             result = statement.executeQuery();
             return BicycleBuilder.createBicycles(result);
+        } catch (SQLException ex) {
+            throw new DaoException(ex);
+        } finally {
+            close(result);
+            close(statement);
+            close(connection);
+        }
+    }
+
+    // BicycleDao method of finding located bicycles
+    @Override
+    public Map<Bicycle, RentalPoint> findBicyclesWithPoints() throws DaoException {
+        logger.info("Founding bicycles with location in dao.");
+        ProxyConnection connection = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+        try {
+            connection = ConnectionPool.INSTANCE.getConnection();
+            statement = connection.prepareStatement(SQL_FIND_BICYCLES_WITH_POINTS);
+            result = statement.executeQuery();
+            return BicycleBuilder.createBicyclesWithLocation(result);
         } catch (SQLException ex) {
             throw new DaoException(ex);
         } finally {
@@ -316,9 +292,8 @@ public class BicycleDaoImpl extends BicycleDao {
             statement.setString(5, entity.getState().toString());
             statement.setString(6, entity.getImagePath());
             statement.setString(7, entity.getStatus());
-            statement.setInt(8, entity.getPointId());
-            statement.setInt(9, entity.getBillingId());
-            statement.setInt(10, entity.getId());
+            statement.setInt(8, entity.getBillingId());
+            statement.setInt(9, entity.getId());
             int result = statement.executeUpdate();
             if (result == 0) {
                 logger.error("Bicycle was not updated!");
@@ -335,21 +310,21 @@ public class BicycleDaoImpl extends BicycleDao {
     // BicycleDao transaction method for adding bicycle with point on map
     @Override
     public void addBicycleWithPoint(int id, int x_coordinate, int y_coordinate) throws DaoException {
-        logger.info("Adding bicycle with rental point on map in dao.");
+        logger.info("Adding bicycle with rental point on map in bicycle dao.");
         ProxyConnection connection = null;
         PreparedStatement pointStatement = null;
         PreparedStatement bicycleStatement = null;
         try {
             connection = ConnectionPool.INSTANCE.getConnection();
             connection.setAutoCommit(false);
-            pointStatement = connection.prepareStatement(ADD_POINT);
+            pointStatement = connection.prepareStatement(SQL_ADD_POINT);
             pointStatement.setInt(1, x_coordinate);
             pointStatement.setInt(2, y_coordinate);
             int row = pointStatement.executeUpdate();
             if (row == 0) {
                 logger.error("Point was not added!");
             }
-            bicycleStatement = connection.prepareStatement(UPDATE_POINT_ID);
+            bicycleStatement = connection.prepareStatement(SQL_UPDATE_POINT_ID);
             bicycleStatement.setInt(1, x_coordinate);
             bicycleStatement.setInt(2, y_coordinate);
             bicycleStatement.setInt(3, id);
@@ -372,26 +347,30 @@ public class BicycleDaoImpl extends BicycleDao {
         }
     }
 
+    // BicycleDao method for finding bicycle by id
     @Override
     public Optional<Bicycle> findById(int id) throws DaoException {
+        logger.info("Finding bicycle by id in bicycle dao.");
         ProxyConnection connection = null;
         PreparedStatement statement = null;
+        ResultSet result = null;
         try {
             connection = ConnectionPool.INSTANCE.getConnection();
-            statement = connection.prepareStatement(SEARCH_BY_ID);
+            statement = connection.prepareStatement(SQL_SEARCH_BY_ID);
             statement.setInt(1, id);
-            ResultSet result = statement.executeQuery();
+            result = statement.executeQuery();
             Optional<Bicycle> bicycle = BicycleBuilder.createBicycle(result);
             return bicycle;
         } catch (SQLException ex) {
             throw new DaoException(ex.getMessage());
         } finally {
+            close(result);
             close(statement);
             close(connection);
         }
     }
 
-    // BicycleDao transaction method for deleting bicycles
+    // BicycleDao method for deleting bicycles
     @Override
     public void delete(int id) throws DaoException {
         logger.info("Deleting bicycles in dao.");
@@ -405,7 +384,7 @@ public class BicycleDaoImpl extends BicycleDao {
             pointStatement.setInt(1, id);
             int result = pointStatement.executeUpdate();
             if (result == 0) {
-                logger.error("Bicycle point was not deleted!");
+                logger.error("Point was not deleted!");
             }
             bicycleStatement = connection.prepareStatement(SQL_DELETE_BICYCLE);
             bicycleStatement.setInt(1, id);
@@ -427,19 +406,4 @@ public class BicycleDaoImpl extends BicycleDao {
             close(connection);
         }
     }
-
-    @Override
-    public int getUnlockPrice(String brand) throws DaoException {
-        try (Connection connection = ConnectionPool.INSTANCE.getConnection();
-                PreparedStatement statement = connection.prepareStatement(SEARCH_BRAND)) {
-            statement.setString(1, brand);
-            ResultSet result = statement.executeQuery();
-            result.beforeFirst();
-            result.next();
-            return result.getInt(Constants.UNLOCK_PRICE);
-        } catch (SQLException ex) {
-            throw new DaoException(ex.getMessage());
-        }
-    }
-
 }

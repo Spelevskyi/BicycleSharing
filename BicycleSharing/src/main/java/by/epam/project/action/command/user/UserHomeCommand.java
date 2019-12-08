@@ -30,6 +30,7 @@ public class UserHomeCommand implements ActionCommand {
         router.setType(RouteType.FORWARD);
         HttpSession session = request.getSession(true);
         User user = (User) session.getAttribute(Constants.SESSION_USER);
+        String previousPage = (String) session.getAttribute(Constants.PREVIOUS_PATH_PAGE);
         List<String> parameters = new ArrayList<String>();
         parameters.add(String.valueOf(user.getId()));
         try {
@@ -38,10 +39,10 @@ public class UserHomeCommand implements ActionCommand {
             request.setAttribute(Constants.ORDER_LIST, homeLogic.getOrders());
             request.setAttribute(Constants.ACTIVE_ORDER, homeLogic.getActiveOrder());
             router.setRoutePath(RoutePath.USER_MAIN_PAGE_PATH.getRoutePath());
-            logger.info("Succesfully forwarding to user home page.");
+            logger.info("Succesfully forwarding to user home page executing.");
         } catch (LogicException ex) {
             logger.error(ex);
-            router.setRoutePath(session.getAttribute(Constants.PREVIOUS_PATH_PAGE).toString());
+            router.setRoutePath(previousPage);
         }
         return router;
     }

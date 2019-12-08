@@ -46,9 +46,9 @@ public class RegisterCommand implements ActionCommand {
             logic.action(parameters);
             RegistrationLogic registerLogic = (RegistrationLogic) logic;
             int confirmCode = registerLogic.getConfirmCode();
-            request.setAttribute(Constants.CONFIRMATION_CODE, confirmCode);
-            request.setAttribute(Constants.EMAIL, email);
-            router.setRoutePath(RoutePath.CONFIRMATION_PAGE_PATH.getRoutePath());
+            request.getSession().setAttribute(Constants.CONFIRMATION_CODE, confirmCode);
+            request.getSession().setAttribute(Constants.EMAIL, email);
+            router.setRoutePath(RoutePath.REDIRECT_CONFIRM_PAGE.getRoutePath());
         } catch (LogicException ex) {
             logger.error(ex);
             request.getSession().setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));

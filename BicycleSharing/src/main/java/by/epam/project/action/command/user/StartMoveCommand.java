@@ -28,7 +28,7 @@ public class StartMoveCommand implements ActionCommand {
 
     @Override
     public Router execute(HttpServletRequest request) {
-        logger.info("Starting moving execution.");
+        logger.info("Starting moving executing.");
         Router router = new Router();
         router.setType(RouteType.REDIRECT);
         HttpSession session = request.getSession();
@@ -38,7 +38,7 @@ public class StartMoveCommand implements ActionCommand {
         try {
             logic.action(parameters);
             router.setRoutePath(RoutePath.REDIRECT_USER_POINTS.getRoutePath());
-            logger.info("Starting moving.");
+            logger.info("Starting moving executing.");
         } catch (LogicException ex) {
             logger.error(ex);
             request.getSession().setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));

@@ -1,6 +1,7 @@
 package by.epam.project.logic.admin;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,6 +10,7 @@ import by.epam.project.dao.impl.BicycleDaoImpl;
 import by.epam.project.dao.impl.BillingDaoImpl;
 import by.epam.project.entity.bicycle.Bicycle;
 import by.epam.project.entity.billing.PriceList;
+import by.epam.project.entity.point.RentalPoint;
 import by.epam.project.exception.DaoException;
 import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
@@ -22,26 +24,26 @@ public class BicyclesLogic implements Logic {
     private BicycleDaoImpl bicycleDao = new BicycleDaoImpl();
 
     private List<PriceList> lists;
-    private List<Bicycle> bicycles;
+    private Map<Bicycle, RentalPoint> bicycles;
 
     @Override
     public void action(List<String> parameters) throws LogicException {
-        logger.info("Bicycles page logic performing.");
+        logger.info("Action of bicycles page forwarding performing.");
         if (parameters.size() != Constants.BICYCLES_PARAMETERS_AMOUNT) {
             logger.error("Invalid bicycles page parameters amount!");
             throw new LogicException("Invalid bicycles page parameters amount!");
         }
-        int userId = Integer.valueOf(parameters.get(0));
         try {
             lists = billDao.findAll();
-            bicycles = bicycleDao.findAll();
+            bicycles = bicycleDao.findBicyclesWithPoints();
             logger.info("Succesfully bicycles page forwarding!");
         } catch (DaoException ex) {
+            System.out.println(ex.getMessage());
             throw new LogicException("Bicycles page forwarding failed!", ex);
         }
     }
 
-    public List<Bicycle> getBicycles() {
+    public Map<Bicycle, RentalPoint> getBicycles() {
         return bicycles;
     }
 

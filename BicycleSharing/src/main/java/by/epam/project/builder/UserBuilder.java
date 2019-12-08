@@ -19,12 +19,12 @@ public class UserBuilder {
 
     private static final Logger logger = LogManager.getLogger(UserBuilder.class);
 
-    // method for creating user entity
+    // UserBuilder method for creating user entity
     public static Optional<User> createUser(ResultSet result) throws DaoException {
         logger.info("Creating user in builder method.");
         try {
             if (!result.next()) {
-                logger.info("User was not found in builder method!");
+                logger.info("User was not found in builder method by current result set!");
                 return Optional.empty();
             }
             result.beforeFirst();
@@ -42,9 +42,13 @@ public class UserBuilder {
             boolean confirmed = result.getBoolean(Constants.CONFIRMED_USER);
             String imagePath = result.getString(Constants.IMAGE_PATH);
             BigDecimal cash = result.getBigDecimal(Constants.USER_CASH);
+            boolean onRoad = result.getBoolean(Constants.USER_ONROAD);
+            boolean online = result.getBoolean(Constants.USER_ONLINE);
             User user = new User(firstName, lastName, email, password, role, registrationDate, rentalAmount,
                     lastRentalDate, phoneNumber, status, confirmed, imagePath, cash);
             user.setId(result.getInt(Constants.USER_ID));
+            user.setOnline(online);
+            user.setOnRoad(onRoad);
             logger.info("Succesfully creating user in builder method!");
             return Optional.of(user);
         } catch (SQLException ex) {
@@ -68,9 +72,13 @@ public class UserBuilder {
             boolean confirmed = result.getBoolean(Constants.CONFIRMED_USER);
             String imagePath = result.getString(Constants.IMAGE_PATH);
             BigDecimal cash = result.getBigDecimal(Constants.USER_CASH);
+            boolean onRoad = result.getBoolean(Constants.USER_ONROAD);
+            boolean online = result.getBoolean(Constants.USER_ONLINE);
             User user = new User(firstName, lastName, email, password, role, registrationDate, rentalAmount,
                     lastRentalDate, phoneNumber, status, confirmed, imagePath, cash);
             user.setId(result.getInt(Constants.USER_ID));
+            user.setOnline(online);
+            user.setOnRoad(onRoad);
             logger.info("Succesfully creating user in builder method!");
             return Optional.of(user);
         } catch (SQLException ex) {
@@ -95,13 +103,15 @@ public class UserBuilder {
             boolean confirmed = result.getBoolean(Constants.CONFIRMED_USER);
             String imagePath = result.getString(Constants.IMAGE_PATH);
             BigDecimal cash = result.getBigDecimal(Constants.USER_CASH);
+            boolean onRoad = result.getBoolean(Constants.USER_ONROAD);
+            boolean online = result.getBoolean(Constants.USER_ONLINE);
             User user = new User(firstName, lastName, email, password, role, registrationDate, rentalAmount,
                     lastRentalDate, phoneNumber, status, confirmed, imagePath, cash);
             user.setId(result.getInt(Constants.USER_ID));
+            user.setOnline(online);
+            user.setOnRoad(onRoad);
             user.setCards(CardBuilder.createUserCards(result));
-            System.out.println(user.getCards().size());
             user.setOrders(RentalOrderBuilder.createOrders(result));
-            System.out.println(user.getOrders().size());
             return Optional.ofNullable(user);
         } catch (SQLException ex) {
             throw new DaoException(ex);
@@ -130,9 +140,13 @@ public class UserBuilder {
             boolean confirmed = result.getBoolean(Constants.CONFIRMED_USER);
             String imagePath = result.getString(Constants.IMAGE_PATH);
             BigDecimal cash = result.getBigDecimal(Constants.USER_CASH);
+            boolean onRoad = result.getBoolean(Constants.USER_ONROAD);
+            boolean online = result.getBoolean(Constants.USER_ONLINE);
             User user = new User(firstName, lastName, email, password, role, registrationDate, rentalAmount,
                     lastRentalDate, phoneNumber, status, confirmed, imagePath, cash);
             user.setId(result.getInt(Constants.USER_ID));
+            user.setOnline(online);
+            user.setOnRoad(onRoad);
             user.setCards(CardBuilder.createUserCards(result));
             logger.info("Succesfully creating user entity with card list.");
             return Optional.ofNullable(user);
@@ -162,9 +176,13 @@ public class UserBuilder {
             boolean confirmed = result.getBoolean(Constants.CONFIRMED_USER);
             String imagePath = result.getString(Constants.IMAGE_PATH);
             BigDecimal cash = result.getBigDecimal(Constants.USER_CASH);
+            boolean onRoad = result.getBoolean(Constants.USER_ONROAD);
+            boolean online = result.getBoolean(Constants.USER_ONLINE);
             User user = new User(firstName, lastName, email, password, role, registrationDate, rentalAmount,
                     lastRentalDate, phoneNumber, status, confirmed, imagePath, cash);
             user.setId(result.getInt(Constants.USER_ID));
+            user.setOnline(online);
+            user.setOnRoad(onRoad);
             user.setOrders(RentalOrderBuilder.createUserOrders(result));
             logger.info("Succesfully creating user entity with order list.");
             return Optional.ofNullable(user);
@@ -190,11 +208,14 @@ public class UserBuilder {
             boolean confirmed = result.getBoolean(Constants.CONFIRMED_USER);
             String imagePath = result.getString(Constants.IMAGE_PATH);
             BigDecimal cash = result.getBigDecimal(Constants.USER_CASH);
+            boolean onRoad = result.getBoolean(Constants.USER_ONROAD);
+            boolean online = result.getBoolean(Constants.USER_ONLINE);
             User user = new User(firstName, lastName, email, password, role, registrationDate, rentalAmount,
                     lastRentalDate, phoneNumber, status, confirmed, imagePath, cash);
             user.setId(result.getInt(Constants.USER_ID));
-            user.setActiveOrder(RentalOrderBuilder.createOrder(result));
-            System.out.println(user.getActiveOrder().getBicycleId());
+            user.setOnline(online);
+            user.setOnRoad(onRoad);
+            user.setActiveOrder(RentalOrderBuilder.createOrder(result).get());
             return Optional.ofNullable(user);
         } catch (SQLException ex) {
             throw new DaoException(ex);
@@ -223,9 +244,13 @@ public class UserBuilder {
                 boolean confirmed = result.getBoolean(Constants.CONFIRMED_USER);
                 String imagePath = result.getString(Constants.IMAGE_PATH);
                 BigDecimal cash = result.getBigDecimal(Constants.USER_CASH);
+                boolean onRoad = result.getBoolean(Constants.USER_ONROAD);
+                boolean online = result.getBoolean(Constants.USER_ONLINE);
                 User user = new User(firstName, lastName, email, password, role, registrationDate, rentalAmount,
                         lastRentalDate, phoneNumber, status, confirmed, imagePath, cash);
                 user.setId(result.getInt(Constants.USER_ID));
+                user.setOnline(online);
+                user.setOnRoad(onRoad);
                 users.add(user);
                 logger.info("User was created in builder.");
             }

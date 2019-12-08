@@ -81,6 +81,14 @@ body {
 	}
 }
 
+h2{
+	padding-left:10px;
+}
+
+h4{
+	padding-left:10px;
+}
+
 #imageUpload {
 	display: none;
 }
@@ -130,8 +138,13 @@ body {
 	width: 400px;
 	height: 80px;
 	border: 1px solid black;
-	margin-top: 20px;
+	margin-top: 50px;
 	background-color: white;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 20px;
+  	font-weight: 300;
+  	color:orange;
+  	padding-left:10px;
 }
 
 .dropdown {
@@ -181,27 +194,27 @@ body {
 	color: white;
 }
 
-input:valid:not (:placeholder-shown ) {
-	border-color: green;
+input:valid:not(:placeholder-shown) {
+  border-color: green;
 }
 
-input:invalid:not (:placeholder-shown ) {
-	border-color: red;
+input:invalid:not(:placeholder-shown) {
+  border-color: red;
 }
 
-input:invalid:not (:placeholder-shown ) +.form_error {
-	display: block;
+input:invalid:not(:placeholder-shown) + .form_error {
+  display: block;
 }
 
 .form_error {
-	font-size: 15px;
-	font-weight: 300;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	color: red;
-	text-align: left;
-	margin-top: 3px;
-	display: none;
-	padding-left: 10px;
+  font-size: 15px;
+  font-weight: 300;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  color: red;
+  text-align: left;
+  margin-top: 3px;
+  display: none;
+  padding-left: 10px;
 }

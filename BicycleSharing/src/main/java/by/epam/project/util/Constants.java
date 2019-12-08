@@ -8,21 +8,48 @@ public class Constants {
     public static final String SESSION_IS_LOGIN = "is_login";
 
     // errors
-    public static final String IS_ERROR = "isError";
+    public static final String LOCKED_ERROR = "You are locked in sharing system besause of not paying debt. Please pay debt!";
+    public static final String CONFIRMED_ERROR = "You are locked in sharing system besause of yoa are not confirmed your email. Please confirm!";
     public static final String ERROR_CAUSE = "cause";
 
+    // bicycle colors
+    public static final String RED = "RED";
+    public static final String PURPLE = "PURPLE";
+    public static final String BLACK = "BLACK";
+    public static final String WHITE = "WHITE";
+    public static final String ORANGE = "ORANGE";
+    public static final String YELLOW = "YELLOW";
+    public static final String BLUE = "BLUE";
+    public static final String GREEN = "GREEN";
+    public static final String GRAY = "GRAY";
+
+    // bicycle states
+    public static final String GOOD = "GOOD";
+    public static final String WORN = "WORD";
+    public static final String BAD = "BAD";
+
+    // bank masters
+    public static final String BELARUSBANK = "BELARUSBANK";
+    public static final String BELINVESTBANK = "BELINVESTBANK";
+    public static final String ALFABANK = "ALFABANK";
+
     // logic parameters amount values
-    public static final int BICYCLES_PARAMETERS_AMOUNT = 1;
+    public static final int BICYCLES_PARAMETERS_AMOUNT = 0;
+    public static final int ILLEGAL_DELETE_PARAMETERS_AMOUNT = 0;
     public static final int ACCOUNT_PARAMETERS_AMOUNT = 1;
+    public static final int DISABLE_CARD_PARAMETERS_AMOUNT = 1;
+    public static final int ENABLE_CARD_PARAMETERS_AMOUNT = 1;
     public static final int HOME_PARAMETERS_AMOUNT = 1;
     public static final int FAVORITES_PARAMETERS_AMOUNT = 1;
     public static final int START_MOVE_PARAMETERS_AMOUNT = 1;
     public static final int BILLING_USER_PARAMETERS_AMOUNT = 1;
     public static final int RENTAL_POINTS_PARAMETERS_AMOUNT = 1;
-    public static final int USERS_PARAMETERS_AMOUNT = 1;
+    public static final int USERS_PARAMETERS_AMOUNT = 0;
+    public static final int SEND_MAIL_PARAMETERS_AMOUNT = 1;
     public static final int PAY_DEBT_PARAMETERS_AMOUNT = 2;
+    public static final int CONFIRM_PARAMETERS_AMOUNT = 3;
     public static final int LOGIN_PARAMETERS_AMOUNT = 2;
-    public static final int LANGUAGE_PARAMETERS_AMOUNT = 2;
+    public static final int LOGOUT_PARAMETERS_AMOUNT = 1;
     public static final int CHANGE_AVATAR_PARAMETERS_AMOUNT = 2;
     public static final int ORDER_PARAMETERS_AMOUNT = 2;
     public static final int ADD_BICYCLE_LOCATION_PARAMETERS_AMOUNT = 3;
@@ -34,7 +61,7 @@ public class Constants {
     public static final int REGISTRATION_PARAMETERS_AMOUNT = 6;
     public static final int ADD_BICYCLE_PARAMETERS_AMOUNT = 6;
     public static final int ADD_BILLING_PARAMETERS_AMOUNT = 12;
-    public static final int CHANGE_BILLING_PARAMETERS_AMOUNT = 13;
+    public static final int CHANGE_BILLING_PARAMETERS_AMOUNT = 12;
 
     // user constants
     public static final String USER_ID = "user.Id";
@@ -51,6 +78,8 @@ public class Constants {
     public static final String CONFIRMED_USER = "user.Confirmed";
     public static final String IMAGE_PATH = "user.ImagePath";
     public static final String USER_CASH = "user.Cash";
+    public static final String USER_ONLINE = "user.InSystem";
+    public static final String USER_ONROAD = "user.OnRoad";
 
     // Rental point constants
     public static final String POINT_ID = "rental_point.Id";
@@ -262,7 +291,7 @@ public class Constants {
     public static final String ADMIN_IMAGE_ERROR = "admin_image_error";
     public static final String USER_ERROR = "user_error";
     public static final String PROFILE_ERROR = "profile_error";
-    public static final int INITIAL_RENTAL_AMOUNT = 0;
+    public static final int INITIAL_RENTAL_AMOUNT = 1000;
     public static final String INITIAL_IMAGE_PATH = "../image/default_user.png";
     public static final String TRUE = "true";
     public static final String FALSE = "false";

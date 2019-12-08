@@ -28,14 +28,12 @@ public class FavoritesLogic implements Logic {
 
     @Override
     public void action(List<String> parameters) throws LogicException {
+        logger.info("Favorites page forwarding perforning!");
         if (parameters.size() != Constants.FAVORITES_PARAMETERS_AMOUNT) {
             logger.error("Invalid favorites parameters amount!");
             throw new LogicException("Invalid favorites parameters amount!");
         }
         int userId = Integer.valueOf(parameters.get(0));
-        if (userId == 0) {
-            logger.error("User not found!");
-        }
         try {
             Optional<User> findedUser = userDao.findById(userId);
             if (!findedUser.isPresent()) {
@@ -47,7 +45,7 @@ public class FavoritesLogic implements Logic {
             }
             logger.info("Sucesfully favorites page redirect!");
         } catch (DaoException ex) {
-            throw new LogicException(ex.getMessage());
+            throw new LogicException("Forwarding to favorites page failed!", ex);
         }
     }
 

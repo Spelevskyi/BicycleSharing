@@ -7,14 +7,14 @@ public class Card {
 
     private int id;
     private int ownerId;
-    private CardType type;
+    private String type;
     private BigDecimal balance;
     private String code;
     private int number;
     private Date date;
     private String status;
 
-    public Card(int ownerId, CardType type, BigDecimal balance, String code, int number, Date date, String status) {
+    public Card(int ownerId, String type, BigDecimal balance, String code, int number, Date date, String status) {
         super();
         this.ownerId = ownerId;
         this.type = type;
@@ -49,11 +49,11 @@ public class Card {
         this.ownerId = ownerId;
     }
 
-    public CardType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(CardType type) {
+    public void setType(String type) {
         this.type = type;
     }
 

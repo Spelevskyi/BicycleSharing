@@ -35,7 +35,7 @@ public class DisableBicycleCommand implements ActionCommand {
         try {
             logic.action(parameters);
             router.setRoutePath(RoutePath.REDIRECT_BICYCLE_PAGE.getRoutePath());
-            logger.info("Successfully disabling bicycle.");
+            logger.info("Successfully disabling bicycle executing!");
         } catch (LogicException ex) {
             logger.error(ex);
             request.setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));

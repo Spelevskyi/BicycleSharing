@@ -32,14 +32,16 @@ public class EnableBicycleCommand implements ActionCommand {
         String bicycleId = request.getParameter(Constants.ENABLE_BICYCLE_ID);
         List<String> parameters = new ArrayList<>();
         parameters.add(bicycleId);
-        router.setRoutePath(RoutePath.REDIRECT_BICYCLE_PAGE.getRoutePath());
         try {
             logic.action(parameters);
             request.getSession().setAttribute(Constants.ERROR, PageError.getError(Constants.FALSE, ""));
-            logger.info("Successfully enabling bicycle.");
+            router.setRoutePath(RoutePath.REDIRECT_BICYCLE_PAGE.getRoutePath());
+            logger.info("Successfully enabling bicycle executing!");
         } catch (LogicException ex) {
             logger.error(ex);
             request.getSession().setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
+            router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
+            router.setType(RouteType.FORWARD);
         }
         return router;
     }

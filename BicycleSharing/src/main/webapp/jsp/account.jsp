@@ -1,9 +1,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <html>
 <head>
-<title>Index page</title>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,14 +17,17 @@
 <style>
 <%@include file="/css/account.css"%>
 </style>
-<c:set var="previous_path" value="controller?command=User_account_page" scope="session" />
-<c:set var="language" value="${sessionScope.lang}" />
+
+<c:set var="previous_path" value="controller?command=Account_page" scope="session" />
+<c:set var="language" value="${lang}" />
 <fmt:setLocale value="${language}" />
+
 <fmt:setBundle basename="properties.local" var="local" />
 <fmt:message bundle="${local}" key="account.home" var="home" />
 <fmt:message bundle="${local}" key="account.account" var="account" />
 <fmt:message bundle="${local}" key="account.points" var="points" />
 <fmt:message bundle="${local}" key="account.billing" var="billing" />
+<fmt:message bundle="${local}" key="account.title" var="title" />
 <fmt:message bundle="${local}" key="account.favorites" var="favorites" />
 <fmt:message bundle="${local}" key="account.search" var="search" />
 <fmt:message bundle="${local}" key="account.users" var="users" />
@@ -65,16 +68,19 @@
 <fmt:message bundle="${local}" key="account.enter.second.password" var="enter_second_password" />
 <fmt:message bundle="${local}" key="account.ru" var="ru" />
 <fmt:message bundle="${local}" key="account.en" var="en" />
+<title>${title}</title>
+
 </head>
 <body>
-	<jsp:include page="/jsp/user/user_navbar.jsp"/> 
-	
-    <div style="color: #a94442" class="text-center">
-       <c:if test="${image_error =='true'}">
-          <p>Error in image changing!</p>
-       </c:if>
-    </div>
-      <div class="info text-center">
+	<c:choose>
+		<c:when test="${role == 'ADMIN'}">
+			<jsp:include page="/jsp/admin/admin_navbar.jsp" />
+		</c:when>
+		<c:when test="${role == 'USER'}">
+			<jsp:include page="/jsp/user/user_navbar.jsp" />
+		</c:when>
+	</c:choose>
+	<div class="info text-center">
 		<h1>${welcome}</h1>
 		<div class="row">
 			<div class="col-sm-6">
@@ -86,8 +92,7 @@
 						<input id="imageUpload" type="file" name="profile_photo" placeholder="Photo" required="" capture>
 					</form>
 					<form id="formId" action="${pageContext.session.servletContext.contextPath}/controller" method="POST">
-						<input type="hidden" value="User_change_avatar" name="command" /> 
-						<input type="hidden" name="ImagePath" id="ImagePathId" value="" /> 
+						<input type="hidden" value="Change_avatar" name="command" /> <input type="hidden" name="ImagePath" id="ImagePathId" value="" />
 					</form>
 					<div class="form">
 						<a href="#change_profile" data-toggle="modal" class="change-profile" type="submit">${change_info}</a>
@@ -101,7 +106,7 @@
 				<div class="account-info text-left">
 					<div class="main-info">
 						<h2>${user.getFirstName()}  ${user.getLastName()}</h2>
-						<h4>${email}:${user.getEmail()}</h4>
+						<h4>${email}:  ${user.getEmail()}</h4>
 					</div>
 					<ul class="hidden-info">
 						<li class="dropdown"><button class="dropdown-toggle" data-toggle="dropdown">${show_hidden}<b class="caret"></b>
@@ -121,10 +126,9 @@
 								<li class="email"><a href="#">${last_date}: ${user.getLastRentalDate()}</a></li>
 							</ul></li>
 					</ul>
-					
-				</div>
-				<div class="account-cash text-left">
-					<h3>${balance} : ${user.getCash()}</h3>
+					<div class="account-cash text-left">
+						<h3>${balance}:  ${user.getCash()}$</h3>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -132,62 +136,58 @@
 	<div class="modal fade" id="change_profile" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
-			<div class="modal-header" style="padding: 35px 50px;">
+				<div class="modal-header" style="padding: 35px 50px;">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4>
-						<span class="glyphicon glyphicon-pencil"></span>${update}</h4>
+						<span class="glyphicon glyphicon-pencil"></span> ${update}
+					</h4>
 				</div>
 				<div class="modal-body" style="padding: 40px 50px;">
-				<h3>${update_info}  ${user.getFirstName()} ${user.getLastName()}</h3>
-						<form name="form" method="POST" action="${pageContext.session.servletContext.contextPath}/controller">
-							<input type="hidden" name="command" value="User_change_profile" />
-							<input type="hidden" name="id" value="${user.getId()}" />
-							<div class="form-group">
-								<label for="First name"><span class="glyphicon glyphicon-user"></span>${firstname}</label> 
-								<input type="text" name="firstName" value="${user.getFirstName()}" class="form-control" placeholder="${enter_firstname}" pattern="^[A-Z][a-zA-Z]{2,20}$" required />
-								<span class="form_error">${firstname_error}</span>
-							</div>
-							<div class="form-group">
-								<label for="Last name"><span class="glyphicon glyphicon-user"></span>${lastname}</label> 
-								<input type="text" name="lastName" value="${user.getLastName()}" class="form-control" placeholder="${enter_lastname}" pattern="^[A-Z][a-zA-Z]{5,20}$" required  />
-								<span class="form_error">${lastname_error}</span>
-							</div>
-							<div class="form-group">
-								<label for="Phone number"><span class="glyphicon glyphicon-phone-alt"></span>${number}</label> 
-								<input type="text" name="phoneNumber" value="${user.getPhoneNumber()}" class="form-control" placeholder="${enter_number}" pattern="(\+375|80) (29|25|44|33) (\d{3})-(\d{2})-(\d{2})$" required />
-								<span class="form_error">${number_error}</span>
-							</div>
-							<button type="submit" class="btn btn-success btn-block">${update}
-							</button>
-						</form>
-					</div>
+					<h3>${update_info} ${user.getFirstName()} ${user.getLastName()}</h3>
+					<form name="form" method="POST" action="${pageContext.session.servletContext.contextPath}/controller">
+						<input type="hidden" name="command" value="Change_profile" /> <input type="hidden" name="id" value="${user.getId()}" />
+						<div class="form-group">
+							<label for="First name"><span class="glyphicon glyphicon-user"></span> ${firstname}</label> <input type="text" name="firstName" value="${user.getFirstName()}"
+								class="form-control" placeholder="${enter_firstname}" pattern="^[A-Z][a-zA-Z]{2,20}$" required /> <span class="form_error">${firstname_error}</span>
+						</div>
+						<div class="form-group">
+							<label for="Last name"><span class="glyphicon glyphicon-user"></span> ${lastname}</label> <input type="text" name="lastName" value="${user.getLastName()}"
+								class="form-control" placeholder="${enter_lastname}" pattern="^[A-Z][a-zA-Z]{5,20}$" required /> <span class="form_error">${lastname_error}</span>
+						</div>
+						<div class="form-group">
+							<label for="Phone number"><span class="glyphicon glyphicon-phone-alt"></span> ${number}</label> <input type="text" name="phoneNumber"
+								value="${user.getPhoneNumber()}" class="form-control" placeholder="${enter_number}" pattern="(\+375|80) (29|25|44|33) (\d{3})-(\d{2})-(\d{2})$" required /> <span
+								class="form_error">${number_error}</span>
+						</div>
+						<button type="submit" class="btn btn-success btn-block"> ${update}</button>
+					</form>
 				</div>
-				
+			</div>
 		</div>
 	</div>
-		<div class="modal fade" id="change_password" role="dialog">
+	<div class="modal fade" id="change_password" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header" style="padding: 35px 50px;">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4>
-						<span class="glyphicon glyphicon-eye-open"></span>${password_info}</h4>
+						<span class="glyphicon glyphicon-eye-open"></span> ${password_info}
+					</h4>
 				</div>
 				<div class="modal-body" style="padding: 40px 50px;">
+					<h3>${password_info} ${user.getFirstName()} ${user.getLastName()}</h3>
 					<form name="form" method="POST" action="controller">
 						<input type="hidden" name="command" value="Change_password" />
 						<div class="form-group">
-							<label for="Password"><span class="glyphicon glyphicon-eye-open"></span>${password}</label> 
-							<input type="password" name="first_password" value="" class="form-control" placeholder="${enter_password}" pattern="^[0-9a-zA-Z]{4,20}$" required/>
-							<span class="form_error">${password_error}</span>
+							<label for="Password"><span class="glyphicon glyphicon-eye-open"></span> ${password}</label> <input type="password" name="first_password" value=""
+								class="form-control" placeholder="${enter_password}" pattern="^[0-9a-zA-Z]{4,20}$" required /> <span class="form_error">${password_error}</span>
 						</div>
 						<div class="form-group">
-							<label for="Password"><span class="glyphicon glyphicon-eye-open"></span>${password}</label> 
-							<input type="password" name="second_password" value="" class="form-control" placeholder="${enter_second_password}" pattern="^[0-9a-zA-Z]{4,20}$" required/>
-							<span class="form_error">${password_error}</span>
+							<label for="Password"><span class="glyphicon glyphicon-eye-open"></span> ${password}</label> <input type="password" name="second_password" value=""
+								class="form-control" placeholder="${enter_second_password}" pattern="^[0-9a-zA-Z]{4,20}$" required /> <span class="form_error">${password_error}</span>
 						</div>
 						<button type="submit" class="btn btn-success btn-block">
-							<span class="glyphicon glyphicon-off"></span>${change}
+							<span class="glyphicon glyphicon-off"></span> ${change}
 						</button>
 					</form>
 				</div>

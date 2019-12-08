@@ -66,7 +66,7 @@
 				<div class="container-fluid">
 					<ul class="nav navbar-nav navbar-left">
 						<li><a href="${pageContext.session.servletContext.contextPath}/controller?command=Admin_home_page"><i class="fa fa-fw fa-home"></i>${home}</a></li>
-						<li><a href="${pageContext.session.servletContext.contextPath}/controller?command=Admin_account_page"><i class="fa fa-fw fa-user-circle"></i>${account}</a></li>
+						<li><a href="${pageContext.session.servletContext.contextPath}/controller?command=Account_page"><i class="fa fa-fw fa-user-circle"></i>${account}</a></li>
 						<li><a href="${pageContext.session.servletContext.contextPath}/controller?command=Points"><i class="fa fa-fw fa-map-marker"></i>${points}</a></li>
 						<li><a href="${pageContext.session.servletContext.contextPath}/controller?command=Admin_billing_page"><i class="fa fa-fw fa-money"></i>${billing}</a></li>
 						<li><a href="${pageContext.session.servletContext.contextPath}/controller?command=Bicycles"><i class="fa fa-fw fa-bicycle"></i>${bicycles}</a></li>

@@ -26,7 +26,7 @@ public class DeleteCardCommand implements ActionCommand {
 
     @Override
     public Router execute(HttpServletRequest request) {
-        logger.info("Deleting user cards executing.");
+        logger.info("Deleting user card or cards executing.");
         Router router = new Router();
         router.setType(RouteType.REDIRECT);
         String[] requestParameters = request.getParameterValues(Constants.DELETE_CARD_ID);
@@ -38,7 +38,7 @@ public class DeleteCardCommand implements ActionCommand {
             List<String> parameters = Arrays.asList(requestParameters);
             logic.action(parameters);
             router.setRoutePath(RoutePath.REDIRECT_USER_BILLING.getRoutePath());
-            logger.info("Successfully deleting user cards.");
+            logger.info("Successfully deleting user card or cards!");
         } catch (LogicException ex) {
             logger.error(ex);
             request.setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));

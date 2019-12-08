@@ -13,13 +13,6 @@
 <%@include file="/css/main.css"%>
 </style>
 
-<script>
-	$(document).ready(function() {
-		if ('${error[0]}' == "true") {
-			$("#userError").modal('show');
-		}
-	});
-</script>
 
 <c:set var="previous_path" value="controller?command=Admin_home_page" scope="session" />
 <c:set var="language" value="${lang}" />

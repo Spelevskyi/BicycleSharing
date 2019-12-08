@@ -77,6 +77,8 @@ public class RegistrationLogic implements Logic {
                 User user = new User(firstName, lastName, email, firstPassword, RoleType.USER, registrationDate,
                         Constants.INITIAL_RENTAL_AMOUNT, registrationDate, phoneNumber, Constants.UNLOCKED, false,
                         Constants.INITIAL_IMAGE_PATH, new BigDecimal(0));
+                user.setOnRoad(false);
+                user.setOnline(false);
                 userDao.create(user);
                 confirmCode = generatedCode;
                 GoogleMail.INSTANCE.sendMessage(String.valueOf(generatedCode), email);

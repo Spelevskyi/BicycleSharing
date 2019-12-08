@@ -12,7 +12,7 @@ import by.epam.project.exception.DaoException;
 import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 
-public class DeleteBillingLogic implements Logic{
+public class DeleteBillingLogic implements Logic {
 
     private static final Logger logger = LogManager.getLogger(ChangeBillingLogic.class);
 
@@ -31,10 +31,11 @@ public class DeleteBillingLogic implements Logic{
                 Optional<PriceList> findedList = billDao.findById(billId);
                 if (!findedList.isPresent()) {
                     logger.error("Price list not exists!");
+                } else {
+                    billDao.delete(billId);
+                    logger.info("Deleting row from bicycle price list.");
                 }
-                billDao.delete(billId);
             }
-            logger.info("Deleting row from bicycle price list.");
         } catch (DaoException ex) {
             throw new LogicException("Deleting price lists failed!", ex);
         }

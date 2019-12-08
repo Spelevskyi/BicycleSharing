@@ -28,7 +28,6 @@ public class UsersLogic implements Logic {
             logger.error("Invalid users page parameters amount!");
             throw new LogicException("Invalid users page parameters amount!");
         }
-        int userId = Integer.valueOf(parameters.get(0));
         try {
             users = userDao.findAll();
             logger.info("All users where found!");

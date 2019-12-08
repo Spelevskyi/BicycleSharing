@@ -26,7 +26,7 @@ public class EnableCardCommand implements ActionCommand {
 
     @Override
     public Router execute(HttpServletRequest request) {
-        logger.info("Enabling card executing.");
+        logger.info("Enabling credit card executing.");
         Router router = new Router();
         router.setType(RouteType.REDIRECT);
         String cardId = request.getParameter(Constants.ENABLE_CARD_ID);
@@ -35,10 +35,10 @@ public class EnableCardCommand implements ActionCommand {
         try {
             logic.action(parameters);
             router.setRoutePath(RoutePath.REDIRECT_USER_BILLING.getRoutePath());
-            logger.info("Successfully enabling card!.");
+            logger.info("Successfully enabling credit card executing!");
         } catch (LogicException ex) {
             logger.info(ex);
-            request.getSession().setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
+            request.setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }

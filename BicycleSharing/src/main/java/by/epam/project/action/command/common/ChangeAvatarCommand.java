@@ -1,4 +1,4 @@
-package by.epam.project.action.command.user;
+package by.epam.project.action.command.common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,37 +16,40 @@ import by.epam.project.action.command.Router;
 import by.epam.project.entity.user.User;
 import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
-import by.epam.project.logic.common.AccountPageLogic;
+import by.epam.project.logic.common.ChangeAvatarLogic;
 import by.epam.project.util.Constants;
 import by.epam.project.util.PageError;
 
-public class UserAccountPageCommand implements ActionCommand {
+public class ChangeAvatarCommand implements ActionCommand {
 
-    private static final Logger logger = LogManager.getLogger(UserAccountPageCommand.class);
-    private Logic logic = new AccountPageLogic();
+    private static final Logger logger = LogManager.getLogger(ChangeAvatarCommand.class);
+
+    private Logic logic = new ChangeAvatarLogic();
 
     @Override
     public Router execute(HttpServletRequest request) {
-        logger.info("User account page forwarding executing.");
+        logger.info("Avatar image changing executing.");
         Router router = new Router();
-        router.setType(RouteType.FORWARD);
+        router.setType(RouteType.REDIRECT);
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(Constants.SESSION_USER);
+        String imagePath = request.getParameter(Constants.ACCOUNT_IMAGE_PATH);
         List<String> parameters = new ArrayList<>();
+        parameters.add(imagePath);
         parameters.add(String.valueOf(user.getId()));
         try {
             logic.action(parameters);
-            AccountPageLogic accountLogic = (AccountPageLogic) logic;
-            request.getSession().setAttribute(Constants.USER, accountLogic.getUser());
-            request.getSession().setAttribute(Constants.ERROR, PageError.getError(Constants.FALSE, ""));
-            router.setRoutePath(RoutePath.USER_ACCOUNT_PAGE_PATH.getRoutePath());
-            logger.info("Succesfully forwarding to user account page!");
+            ChangeAvatarLogic avatarLogic = (ChangeAvatarLogic) logic;
+            request.getSession().setAttribute(Constants.SESSION_USER, avatarLogic.getUser());
+            router.setRoutePath(RoutePath.REDIRECT_ACCOUNT_PAGE.getRoutePath());
+            logger.info("Succesfully changing avatar image executing!");
         } catch (LogicException ex) {
             logger.error(ex);
-            router.setRoutePath(session.getAttribute(Constants.PREVIOUS_PATH_PAGE).toString());
+            request.setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
+            router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
+            router.setType(RouteType.FORWARD);
         }
         return router;
     }
-
 }
 

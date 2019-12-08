@@ -12,9 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.epam.project.entity.bicycle.Bicycle;
-import by.epam.project.entity.bicycle.BrandType;
-import by.epam.project.entity.bicycle.ColorType;
-import by.epam.project.entity.bicycle.StateType;
+import by.epam.project.entity.billing.PriceList;
 import by.epam.project.entity.point.RentalPoint;
 import by.epam.project.exception.DaoException;
 import by.epam.project.util.Constants;
@@ -23,23 +21,28 @@ public class BicycleBuilder {
 
     private static final Logger logger = LogManager.getLogger(BicycleBuilder.class);
 
+    // BicycleBuilder method for creating bicycle from ResultSet
     public static Optional<Bicycle> createBicycle(ResultSet result) throws DaoException {
+        logger.info("Creating bicycle in builder method.");
         try {
+            if (!result.next()) {
+                logger.info("Bicycle was not found in builder method by current result set!");
+                return Optional.empty();
+            }
             result.beforeFirst();
             result.next();
-
-            BrandType brand = BrandType.valueOf(result.getString(Constants.BICYCLE_BRAND));
-            ColorType color = ColorType.valueOf(result.getString(Constants.BICYCLE_COLOR));
+            String brand = result.getString(Constants.BICYCLE_BRAND);
+            String color = result.getString(Constants.BICYCLE_COLOR);
             int maxSpeed = result.getInt(Constants.BICYCLE_MAX_SPEED);
             Date registrationDate = result.getDate(Constants.BICYCLE_REGISTRATION_DATE);
-            StateType state = StateType.valueOf(result.getString(Constants.BICYCLE_STATE));
+            String state = result.getString(Constants.BICYCLE_STATE);
             String image_path = result.getString(Constants.BICYCLE_IMAGE_PATH);
             String status = result.getString(Constants.BICYCLE_STATUS);
             Bicycle bicycle = new Bicycle(brand, color, maxSpeed, registrationDate, state, image_path, status);
             bicycle.setId(result.getInt(Constants.BICYCLE_ID));
             bicycle.setPointId(result.getInt(Constants.BICYCLE_POINT_ID));
             bicycle.setBillingId(result.getInt(Constants.BICYCLE_BILLING_ID));
-            return Optional.ofNullable(bicycle);
+            return Optional.of(bicycle);
         } catch (SQLException ex) {
             throw new DaoException(ex);
         }
@@ -48,11 +51,11 @@ public class BicycleBuilder {
     public static Optional<Bicycle> createOrderBicycle(ResultSet result) throws DaoException {
         logger.info("Creating bicycle in builder method.");
         try {
-            BrandType brand = BrandType.valueOf(result.getString(Constants.BICYCLE_BRAND));
-            ColorType color = ColorType.valueOf(result.getString(Constants.BICYCLE_COLOR));
+            String brand = result.getString(Constants.BICYCLE_BRAND);
+            String color = result.getString(Constants.BICYCLE_COLOR);
             int maxSpeed = result.getInt(Constants.BICYCLE_MAX_SPEED);
             Date registrationDate = result.getDate(Constants.BICYCLE_REGISTRATION_DATE);
-            StateType state = StateType.valueOf(result.getString(Constants.BICYCLE_STATE));
+            String state = result.getString(Constants.BICYCLE_STATE);
             String image_path = result.getString(Constants.BICYCLE_IMAGE_PATH);
             String status = result.getString(Constants.BICYCLE_STATUS);
             Bicycle bicycle = new Bicycle(brand, color, maxSpeed, registrationDate, state, image_path, status);
@@ -71,15 +74,15 @@ public class BicycleBuilder {
         try {
             result.beforeFirst();
             result.next();
-            BrandType brand = BrandType.valueOf(result.getString(Constants.BICYCLE_BRAND));
-            ColorType color = ColorType.valueOf(result.getString(Constants.BICYCLE_COLOR));
+            String brand = result.getString(Constants.BICYCLE_BRAND);
+            String color = result.getString(Constants.BICYCLE_COLOR);
             int maxSpeed = result.getInt(Constants.BICYCLE_MAX_SPEED);
             Date registrationDate = result.getDate(Constants.BICYCLE_REGISTRATION_DATE);
-            StateType state = StateType.valueOf(result.getString(Constants.BICYCLE_STATE));
+            String state = result.getString(Constants.BICYCLE_STATE);
             String image_path = result.getString(Constants.BICYCLE_IMAGE_PATH);
             String status = result.getString(Constants.BICYCLE_STATUS);
             Bicycle bicycle = new Bicycle(brand, color, maxSpeed, registrationDate, state, image_path, status);
-            bicycle.setId(result.getInt("bicycle.Id"));
+            bicycle.setId(result.getInt(Constants.BICYCLE_ID));
             bicycle.setPointId(result.getInt(Constants.BICYCLE_POINT_ID));
             bicycle.setBillingId(result.getInt(Constants.BICYCLE_BILLING_ID));
             RentalPoint point = new RentalPoint(result.getInt(Constants.POINT_X_COORDINATE),
@@ -99,11 +102,11 @@ public class BicycleBuilder {
         Map<Bicycle, RentalPoint> bicycles = new HashMap<>();
         try {
             while (result.next()) {
-                BrandType brand = BrandType.valueOf(result.getString(Constants.BICYCLE_BRAND));
-                ColorType color = ColorType.valueOf(result.getString(Constants.BICYCLE_COLOR));
+                String brand = result.getString(Constants.BICYCLE_BRAND);
+                String color = result.getString(Constants.BICYCLE_COLOR);
                 int maxSpeed = result.getInt(Constants.BICYCLE_MAX_SPEED);
                 Date registrationDate = result.getDate(Constants.BICYCLE_REGISTRATION_DATE);
-                StateType state = StateType.valueOf(result.getString(Constants.BICYCLE_STATE));
+                String state = result.getString(Constants.BICYCLE_STATE);
                 String image_path = result.getString(Constants.BICYCLE_IMAGE_PATH);
                 String status = result.getString(Constants.BICYCLE_STATUS);
                 Bicycle bicycle = new Bicycle(brand, color, maxSpeed, registrationDate, state, image_path, status);
@@ -113,7 +116,8 @@ public class BicycleBuilder {
                 RentalPoint point = new RentalPoint(result.getInt(Constants.POINT_X_COORDINATE),
                         result.getInt(Constants.POINT_Y_COORDINATE));
                 point.setId(result.getInt(Constants.POINT_ID));
-                bicycle.setPriceList(PriceListBuilder.createBicyclePriceList(result).get());
+                PriceList list = PriceListBuilder.createBicyclePriceList(result).get();
+                bicycle.setPriceList(list);
                 bicycles.put(bicycle, point);
                 logger.info("Bicycle was created!");
             }
@@ -161,11 +165,11 @@ public class BicycleBuilder {
             }
             result.beforeFirst();
             while (result.next()) {
-                BrandType brand = BrandType.valueOf(result.getString(Constants.BICYCLE_BRAND));
-                ColorType color = ColorType.valueOf(result.getString(Constants.BICYCLE_COLOR));
+                String brand = result.getString(Constants.BICYCLE_BRAND);
+                String color = result.getString(Constants.BICYCLE_COLOR);
                 int maxSpeed = result.getInt(Constants.BICYCLE_MAX_SPEED);
                 Date registrationDate = result.getDate(Constants.BICYCLE_REGISTRATION_DATE);
-                StateType state = StateType.valueOf(result.getString(Constants.BICYCLE_STATE));
+                String state = result.getString(Constants.BICYCLE_STATE);
                 String image_path = result.getString(Constants.BICYCLE_IMAGE_PATH);
                 String status = result.getString(Constants.BICYCLE_STATUS);
                 Bicycle bicycle = new Bicycle(brand, color, maxSpeed, registrationDate, state, image_path, status);

@@ -34,7 +34,7 @@ public class BillingAdminLogic implements Logic {
             lists = billDao.findAll();
             logger.info("Forwarding to admin billing page was succesfull!");
         } catch (DaoException ex) {
-            throw new LogicException("Admin page forwarding failed!");
+            throw new LogicException("Admin page forwarding failed!", ex);
         }
     }
 

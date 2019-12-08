@@ -18,7 +18,6 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.admin.AdminHomeLogic;
 import by.epam.project.util.Constants;
-import by.epam.project.util.PageError;
 
 public class AdminHomeCommand implements ActionCommand {
 
@@ -38,7 +37,6 @@ public class AdminHomeCommand implements ActionCommand {
             logic.action(parameters);
             AdminHomeLogic homeLogic = (AdminHomeLogic) logic;
             request.setAttribute(Constants.DEBTS, homeLogic.getDebts());
-            request.getSession().setAttribute(Constants.ERROR, PageError.getError(Constants.FALSE, ""));
             router.setRoutePath(RoutePath.ADMIN_MAIN_PAGE_PATH.getRoutePath());
             logger.info("Succesfully forwarding to admin home page.");
         } catch (LogicException ex) {

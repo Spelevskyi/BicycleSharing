@@ -81,7 +81,6 @@ public class RentalOrderBuilder {
     }
 
     public static Optional<RentalOrder> createOrderWithBicycleAndUser(ResultSet result) throws DaoException {
-        System.out.println("sdsda");
         try {
             logger.info("Creating new rental order entity.");
             if (!result.next()) {
@@ -103,7 +102,7 @@ public class RentalOrderBuilder {
             order.setUser(UserBuilder.createOrderUser(result).get());
             order.setBicycle(BicycleBuilder.createBicycleWithPointAndBilling(result).get());
             logger.info("Rental order entity was created succesfully!");
-            return Optional.ofNullable(order);
+            return Optional.of(order);
         } catch (SQLException ex) {
             throw new DaoException(ex);
         }
@@ -119,7 +118,7 @@ public class RentalOrderBuilder {
                 String bookedEndTime = result.getString(Constants.ORDER_BOOKED_END_TIME);
                 String actualStartTime = result.getString(Constants.ORDER_ACTUAL_START_TIME);
                 String actualEndTime = result.getString(Constants.ORDER_ACTUAL_END_TIME);
-                String status = result.getString("rental_order.Status");
+                String status = result.getString(Constants.ORDER_STATUS);
                 String direction = result.getString(Constants.ORDER_DIRECTION);
                 int distance = result.getInt(Constants.ORDER_DISTANCE);
                 RentalOrder order = new RentalOrder(bicycleId, renterId, bookedStartTime, bookedEndTime,

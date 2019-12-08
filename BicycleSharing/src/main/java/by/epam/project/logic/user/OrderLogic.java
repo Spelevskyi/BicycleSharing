@@ -49,6 +49,10 @@ public class OrderLogic implements Logic {
             if (!findedUser.isPresent()) {
                 logger.error("User not exists!");
             }
+            if (findedUser.get().isOnRoad()) {
+                logger.error("You are in road already!");
+                throw new LogicException("You are in road already!");
+            }
             Optional<Bicycle> findedBicycle = bicycleDao.findById(bicycleId);
             if (!findedBicycle.isPresent()) {
                 logger.error("Bicycle not exists!");
@@ -62,17 +66,19 @@ public class OrderLogic implements Logic {
                     throw new DaoException("You cash value not enough for ordering! Should be more than "
                             + list.getUnlockPrice().doubleValue() + " !");
                 }
-                RentalOrder order = new RentalOrder(bicycleId, userId, dateTime, "", "", "", OrderStatus.ACTIVE, "", 0);
+                RentalOrder order = new RentalOrder(bicycleId, userId, dateTime, new String(""), new String(""),
+                        new String(""), OrderStatus.ACTIVE, new String(""), 0);
                 orderDao.create(order);
                 changedUser.setRentalAmount(changedUser.getRentalAmount() + 1);
                 changedUser.setLastRentalDate(date);
+                changedUser.setOnRoad(true);
                 changedUser.setCash(changedUser.getCash().subtract(list.getUnlockPrice()));
                 userDao.updateUserAfterOrder(changedUser, changedBicycle);
                 user = userDao.findById(userId).get();
                 logger.info("Succesfully ordering bicycle!");
             }
         } catch (DaoException ex) {
-            System.out.println(ex);
+            System.out.println(ex.getMessage());
             throw new LogicException("Ordering bicycle failed!", ex);
         }
     }

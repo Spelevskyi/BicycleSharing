@@ -38,7 +38,7 @@ public class LockUserCommand implements ActionCommand {
             logger.info("Successfully locking user.");
         } catch (LogicException ex) {
             logger.error(ex);
-            request.getSession().setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
+            request.setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }

@@ -45,7 +45,7 @@ public class CreateCardCommand implements ActionCommand {
         try {
             logic.action(parameters);
             router.setRoutePath(RoutePath.REDIRECT_USER_BILLING.getRoutePath());
-            logger.info("Succesfully creating credit card.");
+            logger.info("Succesfully creating credit card executing!");
         } catch (LogicException ex) {
             logger.error(ex);
             request.setAttribute(Constants.ERROR,

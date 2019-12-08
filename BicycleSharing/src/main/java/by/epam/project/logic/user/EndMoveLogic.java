@@ -37,10 +37,10 @@ public class EndMoveLogic implements Logic{
             } else {
                 BicycleLocation.changeBicycleLocation(userId);
                 user = userDao.findById(userId).get();
-                logger.info("Succesfully ending road.");
+                logger.info("Succesfully ending road performing!");
             }
         } catch (DaoException ex) {
-            throw new LogicException(ex);
+            throw new LogicException("Ending road failed!", ex);
         }
     }
 

@@ -56,7 +56,7 @@
 						<li><a href="#"></a></li>
 						<c:choose>
 							<c:when test="${user.isConfirmed() == false}">
-								<li><a href="${pageContext.session.servletContext.contextPath}/controller?command=Confirm_page&email=${user.getEmail()}">${confirm}</a></li>
+								<li><a href="${pageContext.session.servletContext.contextPath}/controller?command=Send_mail">${confirm}</a></li>
 								<li><a href="${pageContext.session.servletContext.contextPath}/controller?command=Logout">${logout}</a></li>
 							</c:when>
 							<c:when test="${user.isConfirmed() == true}">	
@@ -71,11 +71,11 @@
 	</nav>
 	<nav class="navbar navbar-inverse navbar-static-top navbar-lower">
 		<c:choose>
-			<c:when test="${user.isConfirmed() == true && user.getStatus() == 'LOCKED'}">
+			<c:when test="${user.isConfirmed() == true}">
 				<div class="container-fluid">
 					<ul class="nav navbar-nav navbar-left">
 						<li><a href="${pageContext.session.servletContext.contextPath}/controller?command=User_home_page"><i class="fa fa-fw fa-home"></i>${home}</a></li>
-						<li><a href="${pageContext.session.servletContext.contextPath}/controller?command=User_account_page"><i class="fa fa-fw fa-user-circle"></i>${account}</a></li>
+						<li><a href="${pageContext.session.servletContext.contextPath}/controller?command=Account_page"><i class="fa fa-fw fa-user-circle"></i>${account}</a></li>
 						<li><a href="${pageContext.session.servletContext.contextPath}/controller?command=User_points"><i class="fa fa-fw fa-map-marker"></i>${points}</a></li>
 						<li><a href="${pageContext.session.servletContext.contextPath}/controller?command=User_billing_page"><i class="fa fa-fw fa-money"></i>${billing}</a></li>
 						<li><a href="${pageContext.session.servletContext.contextPath}/controller?command=Favorites"><i class="fa fa-fw fa-heart"></i>${favorites}</a></li>
@@ -101,7 +101,7 @@
 					</ul>
 				</div>
 			</c:when>
-			<c:when test="${user.isConfirmed() == true && user.getStatus() == 'UNLOCKED'}">
+			<c:when test="${user.isConfirmed() == true}">
 				<div class="container-fluid">
 					<ul class="nav navbar-nav navbar-left">
 						<li><a href="${pageContext.session.servletContext.contextPath}/controller?command=User_home_page"><i class="fa fa-fw fa-home"></i>${home}</a></li>
@@ -134,7 +134,7 @@
 			<c:when test="${user.isConfirmed() == false && (user.getStatus() == 'UNLOCKED' || user.getStatus() == 'LOCKED')}">
 				<div class="container-fluid">
 					<ul class="nav navbar-nav navbar-left"  style="z-index: 1">
-						<li><a class="active" href="#"><i class="fa fa-fw fa-home"></i>${home}</a></li>
+						<li><a class="active" href="${pageContext.session.servletContext.contextPath}/controller?command=User_home_page"><i class="fa fa-fw fa-home"></i>${home}</a></li>
 						<li><a href="#"><i class="fa fa-fw fa-user-circle"></i>${account}</a></li>
 						<li><a href="#"><i class="fa fa-fw fa-map-marker"></i>${points}</a></li>
 						<li><a href="#"><i class="fa fa-fw fa-money"></i>${billing}</a></li>
@@ -148,10 +148,10 @@
 									<li>
 										<div class="btn-group btn-group-sm divLang" id="center" role="group" aria-label="...">
 											<button type="submit" name="lang" value="en" class="btn btn-default navbar-btn">
-												<img src="../../image/england.png" />
+												<img src="${pageContext.session.servletContext.contextPath}/image/england.png" />
 											</button>
 											<button type="submit" name="lang" value="ru" class="btn btn-default navbar-btn">
-												<img src="../../image/russia.png" />
+												<img src="${pageContext.session.servletContext.contextPath}/image/russia.png" />
 											</button>
 										</div>
 									</li>

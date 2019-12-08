@@ -22,7 +22,7 @@ import by.epam.project.util.Constants;
 public class UserBillingPageCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger(UserBillingPageCommand.class);
-    
+
     private Logic logic = new BillingUserLogic();
 
     @Override
@@ -32,6 +32,7 @@ public class UserBillingPageCommand implements ActionCommand {
         router.setType(RouteType.FORWARD);
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(Constants.SESSION_USER);
+        String previousPage = (String) session.getAttribute(Constants.PREVIOUS_PATH_PAGE);
         List<String> parameters = new ArrayList<>();
         parameters.add(String.valueOf(user.getId()));
         try {
@@ -43,10 +44,8 @@ public class UserBillingPageCommand implements ActionCommand {
             logger.info("Forwarding to user billing page.");
         } catch (LogicException ex) {
             logger.error(ex);
-            router.setRoutePath(session.getAttribute(Constants.PREVIOUS_PATH_PAGE).toString());
+            router.setRoutePath(previousPage);
         }
         return router;
     }
-
 }
-

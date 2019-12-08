@@ -47,6 +47,9 @@
 		<c:when test="${role == 'USER'}">
 			<jsp:include page="/jsp/user/user_navbar.jsp" />
 		</c:when>
+		<c:when test="${role == 'GUEST'}">
+			<jsp:include page="/jsp/confirm_navbar.jsp" />
+		</c:when>
 	</c:choose>
 	<div class="modal fade" id="pointError" role="dialog">
 		<div class="modal-dialog">

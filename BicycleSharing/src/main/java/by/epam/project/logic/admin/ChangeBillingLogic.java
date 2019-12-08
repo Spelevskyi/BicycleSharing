@@ -2,6 +2,7 @@ package by.epam.project.logic.admin;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,23 +28,19 @@ public class ChangeBillingLogic implements Logic {
             logger.error("Invalid parameters amount for billing changing!");
             throw new LogicException("Invalid parameters amount for billing changing!");
         }
-        String brand = parameters.get(0);
-        BigDecimal unlockPrice = new BigDecimal(parameters.get(1));
-        BigDecimal perMinutePrice = new BigDecimal(parameters.get(2));
-        BigDecimal perHourPrice = new BigDecimal(parameters.get(3));
-        BigDecimal stayPrice = new BigDecimal(parameters.get(4));
-        BigDecimal threeHourDiscount = new BigDecimal(parameters.get(5));
-        BigDecimal sixHourDiscount = new BigDecimal(parameters.get(6));
-        BigDecimal nineHourDiscount = new BigDecimal(parameters.get(7));
-        BigDecimal daySale = new BigDecimal(parameters.get(8));
-        BigDecimal regularCustomerDiscount = new BigDecimal(parameters.get(19));
-        BigDecimal travelerDiscount = new BigDecimal(parameters.get(10));
-        BigDecimal newCutomerDiscount = new BigDecimal(parameters.get(11));
-        int id = Integer.valueOf(parameters.get(13));
-        if (!(PriceListValidator.isBrandTypeValid(brand))) {
-            logger.error("Invalid brand type input value!");
-            throw new LogicException("Invalid brand type input value!");
-        }
+        BigDecimal unlockPrice = new BigDecimal(parameters.get(0));
+        BigDecimal perMinutePrice = new BigDecimal(parameters.get(1));
+        BigDecimal perHourPrice = new BigDecimal(parameters.get(2));
+        BigDecimal stayPrice = new BigDecimal(parameters.get(3));
+        BigDecimal threeHourDiscount = new BigDecimal(parameters.get(4));
+        BigDecimal sixHourDiscount = new BigDecimal(parameters.get(5));
+        BigDecimal nineHourDiscount = new BigDecimal(parameters.get(6));
+        BigDecimal daySale = new BigDecimal(parameters.get(7));
+        BigDecimal regularCustomerDiscount = new BigDecimal(parameters.get(8));
+        BigDecimal travelerDiscount = new BigDecimal(parameters.get(9));
+        BigDecimal newCustomerDiscount = new BigDecimal(parameters.get(10));
+        System.out.println(newCustomerDiscount);
+        int id = Integer.valueOf(parameters.get(11));
         if (!(PriceListValidator.isPriceValueValid(unlockPrice))) {
             logger.error("Invalid unlock price input value!");
             throw new LogicException("Invalid unlock price input value!");
@@ -84,19 +81,32 @@ public class ChangeBillingLogic implements Logic {
             logger.error("Invalid traveler discount input value!");
             throw new LogicException("Invalid traveler discount input value!");
         }
-        if (!(PriceListValidator.isPriceValueValid(newCutomerDiscount))) {
+        if (!(PriceListValidator.isPriceValueValid(newCustomerDiscount))) {
             logger.error("Invalid new customer discount input value!");
             throw new LogicException("Invalid new customer discount input value!");
         }
         try {
-            PriceList list = new PriceList(brand, unlockPrice, perMinutePrice, perHourPrice, stayPrice,
-                    threeHourDiscount, sixHourDiscount, nineHourDiscount, daySale, regularCustomerDiscount,
-                    travelerDiscount, newCutomerDiscount);
-            list.setId(id);
-            billDao.update(list);
-            logger.info("Price list " + id + " was updated!");
+            Optional<PriceList> findedList = billDao.findById(id);
+            if (!findedList.isPresent()) {
+                logger.error("Price list not exists!");
+            } else {
+                PriceList changedList = findedList.get();
+                changedList.setUnlockPrice(unlockPrice);
+                changedList.setStayPrice(stayPrice);
+                changedList.setDaySale(daySale);
+                changedList.setNewCustomerDiscount(newCustomerDiscount);
+                changedList.setNineHoursDiscount(nineHourDiscount);
+                changedList.setThreeHoursDiscount(threeHourDiscount);
+                changedList.setPerMinutePrice(perMinutePrice);
+                changedList.setPerHourPrice(perHourPrice);
+                changedList.setRegularCustomerDiscount(regularCustomerDiscount);
+                changedList.setSixHoursDiscount(sixHourDiscount);
+                changedList.setTravelerDiscount(travelerDiscount);
+                billDao.update(changedList);
+                logger.info("Price list for " + changedList.getBrand() + " was updated!");
+            }
         } catch (DaoException ex) {
-            throw new LogicException("Changing price list for brand: " + brand + " failed!", ex);
+            throw new LogicException("Changing price list failed!", ex);
         }
     }
 }

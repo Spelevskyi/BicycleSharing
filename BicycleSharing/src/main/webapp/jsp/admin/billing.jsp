@@ -13,7 +13,8 @@
 <style>
 <%@include file="/css/billing.css"%>
 </style>
-<c:set var="previous_path" value="/jsp/admin/billing.jsp" scope="session" />
+
+<c:set var="previous_path" value="controller?command=Admin_billing_page" scope="session" />
 <c:set var="language" value="${lang}" />
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="properties.local" var="local" />
@@ -48,6 +49,8 @@
 <fmt:message bundle="${local}" key="billing.stay.price" var="stay_price" />
 <fmt:message bundle="${local}" key="billing.change.info" var="change_info" />
 <fmt:message bundle="${local}" key="billing.price.error" var="price_error" />
+<fmt:message bundle="${local}" key="billing.percentage.error" var="percentage_error" />
+<fmt:message bundle="${local}" key="billing.day.price.error" var="day_error" />
 <fmt:message bundle="${local}" key="billing.brand.error" var="brand_error" />
 <fmt:message bundle="${local}" key="billing.update" var="update" />
 <fmt:message bundle="${local}" key="billing.error.info" var="error_info" />
@@ -68,7 +71,7 @@
 										<a href="#add_billing" data-toggle="modal" id="plus">Add</a>
 									</div>
 									<div class="col-sm-1">
-										<input type="hidden" name="command" value="Delete_billing" onclick="return confirm('Are you sure?')">
+										<input type="hidden" name="command" value="Delete_billing">
 										<button type="submit" class="btn">
 											<i class="glyphicon glyphicon-trash"></i>
 										</button>
@@ -127,56 +130,52 @@
 					<form name="form" method="POST" action="${pageContext.session.servletContext.contextPath}/controller">
 						<input type="hidden" name="command" value="Change_billing" /> <input type="hidden" name="id" value="" />
 						<div class="form-group">
-							<label for="Brand"><span class="glyphicon glyphicon-user"></span>${brand}</label> <input type="text" name="Brand" value="" class="form-control"
-								placeholder="${enter_brand}" pattern="^[A-Z]{2,20}$" required /> <span class="form_error">${brand_error}</span>
-						</div>
-						<div class="form-group">
 							<label for="Unlock price"><span class="glyphicon glyphicon-usd"></span>${unlockprice}</label> <input type="text" name="UnlockPrice" value="" class="form-control"
-								placeholder="${enter_unlock}" pattern="^[0-9]{1,20}$" required /> <span class="form_error">${price_error}</span>
+								placeholder="${enter_unlock}" pattern="^[0-9]{1,3}\.[0-9]{1,2}$" required /> <span class="form_error">${price_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Price per minute"><span class="glyphicon glyphicon-usd"></span>${per_minute}</label> <input type="text" name="PerMinutePrice" value=""
-								class="form-control" placeholder="${enter_per_minute}" pattern="^[0-9]{1,20}$" required /> <span class="form_error">${price_error}</span>
+								class="form-control" placeholder="${enter_per_minute}" pattern="^[0-9]{1,3}\.[0-9]{1,2}$" required /> <span class="form_error">${price_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Price per hour"><span class="glyphicon glyphicon-usd"></span>${per_hour}</label> <input type="text" name="PerHourPrice" value="" class="form-control"
-								placeholder="${enter_per_hour}" pattern="^[0-9]{1,20}$" required /> <span class="form_error">${price_error}</span>
+								placeholder="${enter_per_hour}" pattern="^[0-9]{1,3}\.[0-9]{1,2}$" required /> <span class="form_error">${price_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Price per day"><span class="glyphicon glyphicon-usd"></span>${per_day}</label> <input type="text" name="PerDayPrice" value="" class="form-control"
-								placeholder="${enter_per_day}" pattern="^[0-9]{1,20}$" required /> <span class="form_error">${price_error}</span>
+								placeholder="${enter_per_day}" pattern="^[0-9]{1,4}\.[0-9]{1,2}$" required /> <span class="form_error">${day_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Stay price"><span class="glyphicon glyphicon-usd"></span>${stay_price}</label> <input type="text" name="StayPrice" value="" class="form-control"
-								placeholder="${enter_stay}" pattern="^[0-9]{1,20}$" required /> <span class="form_error">${price_error}</span>
+								placeholder="${enter_stay}" pattern="^[0-9]{1,3}\.[0-9]{1,2}$" required /> <span class="form_error">${price_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Three hour discount"><span class="glyphicon glyphicon-usd"></span>${three_hour}</label> <input type="text" name="ThreeHourDiscount" value=""
-								class="form-control" placeholder="${enter_three}" pattern="^[0-9]{1,20}$" required /> <span class="form_error">${price_error}</span>
+								class="form-control" placeholder="${enter_three}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${percentage_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Six hour discount"><span class="glyphicon glyphicon-usd"></span>${six_hour}</label> <input type="text" name="SixHourDiscount" value=""
-								class="form-control" placeholder="${enter_six}" pattern="^[0-9]{1,20}$" required /> <span class="form_error">${price_error}</span>
+								class="form-control" placeholder="${enter_six}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${percentage_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Nine hour discount"><span class="glyphicon glyphicon-usd"></span>${nine_hour}</label> <input type="text" name="NineHourDiscount" value=""
-								class="form-control" placeholder="${enter_nine}" pattern="^[0-9]{1,20}$" required /> <span class="form_error">${price_error}</span>
+								class="form-control" placeholder="${enter_nine}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${percentage_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Day sale"><span class="glyphicon glyphicon-usd"></span>${all_day}</label> <input type="text" name="DaySale" value="" class="form-control"
-								placeholder="${enter_day_sale}" pattern="^[0-9]{1,20}$" required /> <span class="form_error">${price_error}</span>
+								placeholder="${enter_day_sale}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${percentage_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Regular customer discount"><span class="glyphicon glyphicon-usd"></span>${regular}</label> <input type="text" name="RegularCustomerDiscount" value=""
-								class="form-control" placeholder="${enter_regular}" pattern="^[0-9]{1,20}$" required /> <span class="form_error">${price_error}</span>
+								class="form-control" placeholder="${enter_regular}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${percentage_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Traveler discount"><span class="glyphicon glyphicon-usd"></span>${traveler}</label> <input type="text" name="TravelerDiscount" value=""
-								class="form-control" placeholder="${enter_traveler}" pattern="^[0-9]{1,20}$" required /> <span class="form_error">${price_error}</span>
+								class="form-control" placeholder="${enter_traveler}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${percentage_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="New customer discount"><span class="glyphicon glyphicon-usd"></span>${newcustomer}</label> <input type="text" name="NewCustomerDiscount" value=""
-								class="form-control" placeholder="${enter_new}" pattern="^[0-9]{1,20}$" required /> <span class="form_error">${price_error}</span>
+								class="form-control" placeholder="${enter_new}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${percentage_error}</span>
 						</div>
 						<button type="submit" class="btn btn-success btn-block">${update}</button>
 					</form>
@@ -201,51 +200,51 @@
 						</div>
 						<div class="form-group">
 							<label for="Unlock price"><span class="glyphicon glyphicon-usd"></span>${unlockprice}</label> <input type="text" name="UnlockPrice" value="" class="form-control"
-								placeholder="${enter_unlock}" pattern="^[0-9]{1,20}$" required /> <span class="form_error">${price_error}</span>
+								placeholder="${enter_unlock}" pattern="^[0-9]{1,3}\.[0-9]{1,2}$" required /> <span class="form_error">${price_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Price per minute"><span class="glyphicon glyphicon-usd"></span>${per_minute}</label> <input type="text" name="PerMinutePrice" value=""
-								class="form-control" placeholder="${enter_per_minute}" pattern="^[0-9]{1,20}$" required /> <span class="form_error">${price_error}</span>
+								class="form-control" placeholder="${enter_per_minute}" pattern="^[0-9]{1,3}\.[0-9]{1,2}$" required /> <span class="form_error">${price_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Price per hour"><span class="glyphicon glyphicon-usd"></span>${per_hour}</label> <input type="text" name="PerHourPrice" value="" class="form-control"
-								placeholder="${enter_per_hour}" pattern="^[0-9]{1,20}$" required /> <span class="form_error">${price_error}</span>
+								placeholder="${enter_per_hour}" pattern="^[0-9]{1,3}\.[0-9]{1,2}$" required /> <span class="form_error">${price_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Price per day"><span class="glyphicon glyphicon-usd"></span>${per_day}</label> <input type="text" name="PerDayPrice" value="" class="form-control"
-								placeholder="${enter_per_day}" pattern="^[0-9]{1,20}$" required /> <span class="form_error">${price_error}</span>
+								placeholder="${enter_per_day}" pattern="^[0-9]{1,4}\.[0-9]{1,2}$" required /> <span class="form_error">${price_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Stay price"><span class="glyphicon glyphicon-usd"></span>${stay_price}</label> <input type="text" name="StayPrice" value="" class="form-control"
-								placeholder="${enter_stay}" pattern="^[0-9]{1,20}$" required /> <span class="form_error">${price_error}</span>
+								placeholder="${enter_stay}" pattern="^[0-9]{1,3}\.[0-9]{1,2}$" required /> <span class="form_error">${price_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Three hour discount"><span class="glyphicon glyphicon-usd"></span>${three_hour}</label> <input type="text" name="ThreeHourDiscount" value=""
-								class="form-control" placeholder="${enter_three}" pattern="^[0-9]{1,20}$" required /> <span class="form_error">${price_error}</span>
+								class="form-control" placeholder="${enter_three}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${price_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Six hour discount"><span class="glyphicon glyphicon-usd"></span>${six_hour}</label> <input type="text" name="SixHourDiscount" value=""
-								class="form-control" placeholder="${enter_six}" pattern="^[0-9]{1,20}$" required /> <span class="form_error">${price_error}</span>
+								class="form-control" placeholder="${enter_six}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${price_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Nine hour discount"><span class="glyphicon glyphicon-usd"></span>${nine_hour}</label> <input type="text" name="NineHourDiscount" value=""
-								class="form-control" placeholder="${enter_nine}" pattern="^[0-9]{1,20}$" required /> <span class="form_error">${price_error}</span>
+								class="form-control" placeholder="${enter_nine}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${price_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Day sale"><span class="glyphicon glyphicon-usd"></span>${all_day}</label> <input type="text" name="DaySale" value="" class="form-control"
-								placeholder="${enter_day_sale}" pattern="^[0-9]{1,20}$" required /> <span class="form_error">${price_error}</span>
+								placeholder="${enter_day_sale}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${price_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Regular customer discount"><span class="glyphicon glyphicon-usd"></span>${regular}</label> <input type="text" name="RegularCustomerDiscount" value=""
-								class="form-control" placeholder="${enter_regular}" pattern="^[0-9]{1,20}$" required /> <span class="form_error">${price_error}</span>
+								class="form-control" placeholder="${enter_regular}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${price_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Traveler discount"><span class="glyphicon glyphicon-usd"></span>${traveler}</label> <input type="text" name="TravelerDiscount" value=""
-								class="form-control" placeholder="${enter_traveler}" pattern="^[0-9]{1,20}$" required /> <span class="form_error">${price_error}</span>
+								class="form-control" placeholder="${enter_traveler}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${price_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="New customer discount"><span class="glyphicon glyphicon-usd"></span>${newcustomer}</label> <input type="text" name="NewCustomerDiscount" value=""
-								class="form-control" placeholder="${enter_new}" pattern="^[0-9]{1,20}$" required /> <span class="form_error">${price_error}</span>
+								class="form-control" placeholder="${enter_new}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${price_error}</span>
 						</div>
 						<button type="submit" class="btn btn-success btn-block">${update}</button>
 					</form>

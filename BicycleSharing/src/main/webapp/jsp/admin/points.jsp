@@ -54,14 +54,6 @@
 							<img src="${pageContext.session.servletContext.contextPath}/image/map.png" id="image" class="image" />
 						</div>
 					</div>
-					<div class="buttons">
-						<button class="zoomout" data-zoom="out">
-							<p class="glyphicon glyphicon-minus"></p>
-						</button>
-						<button class="zoomin" data-zoom="in">
-							<p class="glyphicon glyphicon-plus"></p>
-						</button>
-					</div>
 				</div>
 				<div class="col-sm-4">
 					<h3>${add_form}</h3>
@@ -69,11 +61,11 @@
 						<form id="form" method="POST" action="${pageContext.session.servletContext.contextPath}/controller">
 							<input type="hidden" name="command" value="Add_bicycle_with_location" />
 							<div class="form-group">
-								<select name="bicycleId" id="select">
-									<c:forEach var="num" items='${not_located}'>
+								<select name="bicycleId" id="select" required>
+									<c:forEach var="num" items='${not_located.entrySet()}'>
 										<c:choose>
-											<c:when test='${num.getPointId() == 0}'>
-												<option value='${num.getId()}'>${num.getId()} ${num.getBrand()} ${num.getColor()}</option>
+											<c:when test='${num.getKey().getPointId() == 0}'>
+												<option value='${num.getKey().getId()}'>${num.getKey().getId()} ${num.getKey().getBrand()} ${num.getKey().getColor()}</option>
 											</c:when>
 										</c:choose>
 									</c:forEach>
@@ -108,10 +100,6 @@
 						var x = obj.x_coordinate;
 						var y = obj.y_coordinate;
 						var id = obj.id;
-						var brand = obj.brand;
-						var imagePath = obj.imagePath;
-						var color = obj.color;
-						var state = obj.state;
 						$('<span class="marker" id="marker"/>')
 								.css({
 									top : x,
@@ -119,43 +107,9 @@
 									id : id
 								})
 								.html(
-										'<span class="caption">'
-												+ '<a href="#order" data-toggle="modal" data-book-id="order_id" data-id='
-											+ id + ' data-brand=' + brand
-											+ ' data-color=' + color
-											+ ' data-state=' + state + ' data-img='
-											+ imagePath + '>Click me</a>'
-												+ '</span>').appendTo(target);
+										'<span class="caption"></span>').appendTo(target);
 
-						$('#order')
-								.on(
-										'show.bs.modal',
-										function(e) {
-											var id = $(e.relatedTarget).data(
-													'id');
-											var brand = $(e.relatedTarget)
-													.data('brand');
-											var color = $(e.relatedTarget)
-													.data('color');
-											var state = $(e.relatedTarget)
-													.data('state');
-											var imagePath = $(e.relatedTarget)
-													.data('img');
-											$(e.currentTarget).find(
-													'input[name="id"]').val(id);
-											$(e.currentTarget).find(
-													'input[name="brand"]').val(
-													"Brand type: " + brand);
-											$(e.currentTarget).find(
-													'input[name="state"]').val(
-													"State: " + state);
-											$(e.currentTarget).find(
-													'input[name="color"]').val(
-													"Color: " + color);
-											document
-													.getElementById("modal_image").src = imagePath;
-										});
-
+						
 					}
 
 				},
@@ -187,30 +141,7 @@
 		$(function() {
 			$("span").remove();
 			Markers.init();
-
-			var img = $('img[id="image"]'), imgWidth = img.width(), imgHeight = img
-					.height();
-			$('.zoomout').on('click', function() {
-				imgWidth = imgWidth - 20;
-				imgHeight = imgHeight - 20;
-				$('img[id="image"]').width(imgWidth);
-				$('img[id="image"]').height(imgHeight);
-				$('span[class="marker"]').each(function(index, item) {
-					$(item).css("padding-left", (imgWidth - 450) / 5);
-					$(item).css("padding-top", (imgHeight - 450) / 5);
-				});
-			});
-
-			$('.zoomin').on('click', function() {
-				imgWidth = imgWidth + 20;
-				imgHeight = imgHeight + 20;
-				$('img[id="image"]').width(imgWidth);
-				$('img[id="image"]').height(imgHeight);
-				$('span[class="marker"]').each(function(index, item) {
-					$(item).css("padding-left", (imgWidth - 450) / 5);
-					$(item).css("padding-top", (imgHeight - 450) / 5);
-				});
-			});
+			
 
 		});
 		function myFunction() {
@@ -218,16 +149,11 @@
 		};
 		$(document).ready(function() {
 			$("#image").on("click", function(event) {
-				var x = event.pageX - this.offsetLeft - 100;
-				var y = event.pageY - this.offsetTop - 120;
-				alert("X Coordinate: " + x + " Y Coordinate: " + y);
+				var x = event.pageX - this.offsetLeft - 143;
+				var y = event.pageY - this.offsetTop - 150;
+				document.getElementById('xCoordinate').value = x;
+				document.getElementById('yCoordinate').value = y;
 			});
-		});
-
-		$(document).ready(function() {
-			if ('${error[0]}' == "true") {
-				$("#pointsError").modal('show');
-			}
 		});
 	</script>
 </body>

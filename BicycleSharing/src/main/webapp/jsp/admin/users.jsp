@@ -63,6 +63,7 @@
 									<th>${amount}</th>
 									<th>${balance}</th>
 									<th>${confirmed}</th>
+									<th>Online</th>
 									<th></th>
 								</tr>
 								<c:forEach var="user" items="${users}">
@@ -76,6 +77,7 @@
 										<td>${user.getRentalAmount()}</td>
 										<td>${user.getCash()}</td>
 										<td>${user.isConfirmed()}</td>
+										<td>${user.isOnline()}</td>
 										<c:choose>
 											<c:when test='${user.getStatus() == "LOCKED"}'>
 												<td><a href="${pageContext.session.servletContext.contextPath}/controller?command=Unlock_user&id=${user.getId()}"><i

@@ -84,9 +84,9 @@ public class PriceListBuilder {
                 BigDecimal sixHourDiscount = result.getBigDecimal(Constants.PRICE_LIST_SIX_HOUR_DISCOUNT);
                 BigDecimal nineHourDiscount = result.getBigDecimal(Constants.PRICE_LIST_NINE_HOUR_DISCOUNT);
                 BigDecimal daySale = result.getBigDecimal(Constants.PRICE_LIST_ALL_DAY);
-                BigDecimal travelerDiscount = result.getBigDecimal(Constants.PRICE_LIST_PER_MINUTE);
-                BigDecimal newCustomerDiscount = result.getBigDecimal(Constants.PRICE_LIST_PER_MINUTE);
-                BigDecimal regularCustomerDiscount = result.getBigDecimal(Constants.PRICE_LIST_PER_MINUTE);
+                BigDecimal travelerDiscount = result.getBigDecimal(Constants.PRICE_LIST_TRAVELER);
+                BigDecimal newCustomerDiscount = result.getBigDecimal(Constants.PRICE_LIST_NEW);
+                BigDecimal regularCustomerDiscount = result.getBigDecimal(Constants.PRICE_LIST_REGULAR);
                 PriceList list = new PriceList(brand, unlockPrice, perMinutePrice, perHourPrice, stayPrice,
                         threeHourDiscount, sixHourDiscount, nineHourDiscount, daySale, regularCustomerDiscount,
                         travelerDiscount, newCustomerDiscount);

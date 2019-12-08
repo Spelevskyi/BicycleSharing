@@ -21,6 +21,7 @@ import by.epam.project.util.PageError;
 public class AddBicycleWithLocationCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger(AddBicycleWithLocationLogic.class);
+
     private Logic logic = new AddBicycleWithLocationLogic();
 
     public Router execute(HttpServletRequest request) {
@@ -37,7 +38,7 @@ public class AddBicycleWithLocationCommand implements ActionCommand {
         try {
             logic.action(parameters);
             router.setRoutePath(RoutePath.REDIRECT_ADMIN_POINTS.getRoutePath());
-            logger.info("Succesfully adding bicycle om map!");
+            logger.info("Succesfully adding bicycle on map executing!");
         } catch (LogicException ex) {
             logger.error(ex);
             request.getSession().setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));

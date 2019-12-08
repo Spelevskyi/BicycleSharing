@@ -39,10 +39,10 @@ public class EndMoveCommand implements ActionCommand {
             EndMoveLogic endLogic = (EndMoveLogic) logic;
             request.getSession().setAttribute(Constants.SESSION_USER, endLogic.getUser());
             router.setRoutePath(RoutePath.REDIRECT_USER_POINTS.getRoutePath());
-            logger.info("Succesfully ending current road!");
+            logger.info("Succesfully ending current road executing!");
         } catch (LogicException ex) {
             logger.info(ex);
-            request.getSession().setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
+            request.setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }

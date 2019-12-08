@@ -94,6 +94,12 @@ th {
 	width: auto;
 }
 
+h4,h3{
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+}
+
 td {
 	border: 1px solid #ddd;
 	padding: 10px;
@@ -134,7 +140,6 @@ tr:hover {
 	font-size: 20px;
   	font-weight: 300;
   	color:orange;
-	padding-left:200px;
 }
 
 .cash{
@@ -166,13 +171,18 @@ tr:hover {
 	text-align: center;
 }
 
-input:valid:not (:placeholder-shown ) {
-	border-color: green;
+input:valid:not(:placeholder-shown) {
+  border-color: green;
 }
 
-input:invalid:not (:placeholder-shown ) {
-	border-color: red;
+input:invalid:not(:placeholder-shown) {
+  border-color: red;
 }
+
+input:invalid:not(:placeholder-shown) + .form_error {
+  display: block;
+}
+
 
 input:invalid:not (:placeholder-shown ) +.form_error {
 	display: block;

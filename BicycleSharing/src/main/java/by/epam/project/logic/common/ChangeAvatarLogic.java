@@ -24,7 +24,7 @@ public class ChangeAvatarLogic implements Logic {
 
     @Override
     public void action(List<String> parameters) throws LogicException {
-        logger.info("Action of changing avatar image executing.");
+        logger.info("Action of changing avatar image performing.");
         if (parameters.size() != Constants.CHANGE_AVATAR_PARAMETERS_AMOUNT) {
             logger.error("Invalid changing avatar parameters amount!");
             throw new LogicException("Invalid changing avatar parameters amount!");
@@ -44,10 +44,10 @@ public class ChangeAvatarLogic implements Logic {
                 user.setImagePath(imagePath);
                 userDao.update(user);
                 user = userDao.findById(userId).get();
+                logger.info("Succesfully image changing.");
             }
-            logger.info("Succesfully image changing.");
         } catch (DaoException ex) {
-            throw new LogicException("Image changing error!", ex);
+            throw new LogicException("User avatar image changing failed!", ex);
         }
     }
 

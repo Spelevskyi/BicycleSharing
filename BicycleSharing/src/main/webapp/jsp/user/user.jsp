@@ -7,9 +7,11 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <style>
 <%@include file="/css/main.css"%>
 </style>
+
 <c:set var="previous_path" value="controller?command=User_home_page" scope="session" />
 <c:set var="language" value="${lang}" />
 <fmt:setLocale value="${language}" />
@@ -40,12 +42,15 @@
 <fmt:message bundle="${local}" key="main.user.balance" var="user_balance" />
 <fmt:message bundle="${local}" key="main.replenish" var="replenish" />
 <fmt:message bundle="${local}" key="main.enter.code" var="enter_code" />
+<fmt:message bundle="${local}" key="main.brand" var="brand" />
 <fmt:message bundle="${local}" key="main.enter.amount" var="enter_amount" />
 <fmt:message bundle="${local}" key="main.code.error" var="code_error" />
 <fmt:message bundle="${local}" key="main.cash.error" var="cash_error" />
+<fmt:message bundle="${local}" key="main.price.error" var="price_error" />
 <fmt:message bundle="${local}" key="main.number.error" var="number_error" />
 <fmt:message bundle="${local}" key="main.enter.number" var="enter_number" />
 <title>${title}</title>
+
 </head>
 <body>
 	<jsp:include page="/jsp/user/user_navbar.jsp" />
@@ -90,11 +95,14 @@
 						<form class="form" method="POST" action="${pageContext.session.servletContext.contextPath}/controller" id="card">
 							<input type="hidden" name="command" value="Replenish_balance" />
 							<div class="form-group">
-								<select name="cardId" id="cardId">
+							 <label for="Cash" id="label_cash">${user_balance} ${user.getCash()} $</label>
+							 </div>
+							<div class="form-group">
+								<select name="cardId" id="cardId" required>
 									<option value="BELARUSBANK">BELARUSBANK</option>
 									<option value="BELINVESTBANK">BELINVESTBANK</option>
 									<option value="ALFABANK">ALFABANK</option>
-								</select> <label for="Cash" id="label_cash">${user_balance} ${user.getCash()} $</label>
+								</select>
 							</div>
 							<div class="form-group">
 								<input type="text" name="code" value="" class="form-control" placeholder="${enter_code}" pattern="^[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}$" required /> <span
@@ -102,9 +110,10 @@
 							</div>
 							<div class="form-group">
 								<input type="text" name="amount" value="" class="form-control" placeholder="${enter_amount}" pattern="^[0-9]{1,3}\.[0-9]{1,2}$" required />
+								<span class="form_error">${price_error}</span>
 							</div>
 							<div class="form-group">
-								<input type="text" name="number" value="" class="form-control" placeholder="${enter_number}" pattern="^[0-9]{1,3}$" required />
+								<input type="text" name="number" value="" class="form-control" placeholder="${enter_number}" pattern="^[0-9]{3}$" required />
 								<span class="form_error">${number_error}</span>
 							</div>
 							<button type="submit" class="btn btn-submit" id="replenish">${replenish}</button>
@@ -125,7 +134,6 @@
 											<th>${distance}</th>
 											<th>${direction}</th>
 											<th>${brand}</th>
-											<th></th>
 										</tr>
 										<c:forEach var="num" items="${orderList.entrySet()}">
 											<tr>
@@ -135,7 +143,6 @@
 												<td>${num.getKey().getDistance()}</td>
 												<td>${num.getKey().getDirection()}</td>
 												<td>${num.getValue().getBrand()}</td>
-												<td>${num.getValue().getColor()}</td>
 											</tr>
 										</c:forEach>
 									</table>

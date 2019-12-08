@@ -20,27 +20,25 @@ public class BillingDaoImpl extends BillingDao {
 
     private static final Logger logger = LogManager.getLogger(BillingDaoImpl.class);
 
-    private static final String CREATE_PRICE_LIST = "INSERT INTO billing(Brand,UnlockPrice,PerMinutePrice,PerHourPrice,StayPrice,"
+    private static final String SQL_CREATE_PRICE_LIST = "INSERT INTO billing(Brand,UnlockPrice,PerMinutePrice,PerHourPrice,StayPrice,"
             + "ThreeHourDiscount,SixHourDiscount,NineHourDiscount,DaySale,RegularCustomerDiscount,TravelerDiscount,NewCustomerDiscount)"
             + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-    private static final String UPDATE_PRICE_LIST = "UPDATE billing SET Brand = ?, UnlockPrice = ?, PerMinutePrice = ?,PerHourPrice = ?,"
+    private static final String SQL_UPDATE_PRICE_LIST = "UPDATE billing SET Brand = ?, UnlockPrice = ?, PerMinutePrice = ?,PerHourPrice = ?,"
             + "StayPrice = ?, ThreeHourDiscount = ?, SixHourDiscount = ?, NineHourDiscount = ?, DaySale = ?,"
             + "RegularCustomerDiscount = ?, TravelerDiscount = ?, NewCustomerDiscount = ? WHERE Id = ?";
-    private static final String REMOVE_POINT = "DELETE FROM rental_point WHERE Id = (SELECT bicycle.PointId FROM bicycle WHERE bicycle.BillingId = ?)";
-    private static final String REMOVE_BILLING = "DELETE FROM billing WHERE Id = ?";
-    private static final String REMOVE_BRAND_BICYCLES = "DELETE FROM bicycle WHERE BillingId = ?";
+    private static final String SQL_DELETE_BILLING = "DELETE FROM billing WHERE Id = ?";
     private static final String SQL_FIND_ALL = "SELECT * FROM billing";
-    private static final String SEARCH_BY_BRAND = "SELECT * FROM billing WHERE Brand = ?";
     private static final String SQL_SEARCH_BY_ID = "SELECT * FROM billing WHERE Id = ?";
 
-
+    // BillingDao method for creating priceList
     @Override
     public void create(PriceList entity) throws DaoException {
+        logger.info("Creating price list in dao.");
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         try {
             connection = ConnectionPool.INSTANCE.getConnection();
-            statement = connection.prepareStatement(CREATE_PRICE_LIST);
+            statement = connection.prepareStatement(SQL_CREATE_PRICE_LIST);
             statement.setString(1, entity.getBrand());
             statement.setBigDecimal(2, entity.getUnlockPrice());
             statement.setBigDecimal(3, entity.getPerMinutePrice());
@@ -65,13 +63,15 @@ public class BillingDaoImpl extends BillingDao {
         }
     }
 
+    // BillingDao method for updating existing billing price list
     @Override
     public void update(PriceList entity) throws DaoException {
+        logger.info("Updating price list in dao.");
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         try {
             connection = ConnectionPool.INSTANCE.getConnection();
-            statement = connection.prepareStatement(UPDATE_PRICE_LIST);
+            statement = connection.prepareStatement(SQL_UPDATE_PRICE_LIST);
             statement.setString(1, entity.getBrand());
             statement.setBigDecimal(2, entity.getUnlockPrice());
             statement.setBigDecimal(3, entity.getPerMinutePrice());
@@ -98,65 +98,24 @@ public class BillingDaoImpl extends BillingDao {
 
     }
 
+    // BillingDao method for deleting existing price list
     @Override
-    public void updatePriceList(int id, String brand, int unlockPrice, int pricePerMinute, int pricePerHour,
-            int pricePerDay,
-            int stayPrice, int threeHoursDiscount, int sixHoursDiscount, int nineHoursDiscount, int daySale,
-            int regularCustomerDiscount, int travelerDiscount, int newCustomerDiscount) throws DaoException {
+    public void delete(int id) throws DaoException {
+        logger.info("Deleting price list in dao.");
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         try {
             connection = ConnectionPool.INSTANCE.getConnection();
-            statement = connection.prepareStatement(UPDATE_PRICE_LIST);
-            statement.setString(1, brand);
-            statement.setInt(2, unlockPrice);
-            statement.setInt(3, pricePerMinute);
-            statement.setInt(4, pricePerHour);
-            statement.setInt(5, pricePerDay);
-            statement.setInt(6, stayPrice);
-            statement.setInt(7, threeHoursDiscount);
-            statement.setInt(8, sixHoursDiscount);
-            statement.setInt(9, nineHoursDiscount);
-            statement.setInt(10, daySale);
-            statement.setInt(11, regularCustomerDiscount);
-            statement.setInt(12, travelerDiscount);
-            statement.setInt(13, newCustomerDiscount);
-            statement.setInt(14, id);
-            int row = statement.executeUpdate();
-            if (row == 0) {
-                throw new DaoException("Price list was not update!");
+            statement = connection.prepareStatement(SQL_DELETE_BILLING);
+            statement.setInt(1, id);
+            int result = statement.executeUpdate();
+            if (result == 0) {
+                throw new DaoException("Price list was not deleted!");
             }
         } catch (SQLException ex) {
             throw new DaoException(ex);
         } finally {
             close(statement);
-            close(connection);
-        }
-    }
-
-    @Override
-    public void delete(int id) throws DaoException {
-        ProxyConnection connection = null;
-        PreparedStatement billingStatement = null;
-        try {
-            connection = ConnectionPool.INSTANCE.getConnection();
-            connection.setAutoCommit(false);
-            billingStatement = connection.prepareStatement(REMOVE_BILLING);
-            billingStatement.setInt(1, id);
-            int result = billingStatement.executeUpdate();
-            if (result == 0) {
-                throw new DaoException("Price list was not deleted!");
-            }
-            connection.commit();
-        } catch (SQLException ex) {
-            try {
-                connection.rollback();
-            } catch (SQLException e) {
-                throw new DaoException(e);
-            }
-            throw new DaoException(ex);
-        } finally {
-            close(billingStatement);
             close(connection);
         }
 
@@ -201,30 +160,6 @@ public class BillingDaoImpl extends BillingDao {
         }
         finally {
             close(result);
-            close(statement);
-            close(connection);
-        }
-    }
-
-    @Override
-    public Optional<PriceList> findByBrand(String brand) throws DaoException {
-        ProxyConnection connection = null;
-        PreparedStatement statement = null;
-        try {
-            connection = ConnectionPool.INSTANCE.getConnection();
-            statement = connection.prepareStatement(SEARCH_BY_BRAND);
-            statement.setString(1, brand);
-            ResultSet result = statement.executeQuery();
-            if (!result.next()) {
-                throw new DaoException("Price list was not found!");
-            } else {
-                Optional<PriceList> list = PriceListBuilder.createPriceList(result);
-                return list;
-            }
-        } catch (SQLException ex) {
-            throw new DaoException(ex);
-        }
-        finally {
             close(statement);
             close(connection);
         }

@@ -57,7 +57,7 @@ public class AddBillingCommand implements ActionCommand {
         try {
             logic.action(parameters);
             router.setRoutePath(RoutePath.REDIRECT_ADMIN_BILLING.getRoutePath());
-            logger.info("Succesfully adding bicycle price list.");
+            logger.info("Succesfully adding bicycle price list executing!");
         } catch (LogicException ex) {
             logger.error(ex);
             request.getSession().setAttribute(Constants.ERROR,

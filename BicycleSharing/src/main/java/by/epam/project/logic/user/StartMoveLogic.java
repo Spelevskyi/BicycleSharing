@@ -39,7 +39,7 @@ public class StartMoveLogic implements Logic {
             } else {
                 int index = DirectionIndex.generateDirectionIndex();
                 orderDao.updateOrderForMove(dateTime, index, userId);
-                logger.info("Succesfully starting road.");
+                logger.info("Succesfully starting road performing!");
             }
         } catch (DaoException ex) {
             throw new LogicException("Starting road failed!", ex);

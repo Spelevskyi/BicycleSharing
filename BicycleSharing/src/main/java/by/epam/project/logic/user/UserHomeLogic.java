@@ -42,7 +42,7 @@ public class UserHomeLogic implements Logic {
                 activeOrder = findedOrder.get();
             }
             orders = orderDao.findOrderWithBicycle();
-            logger.info("Succesfully user home page forwarding!");
+            logger.info("Succesfully user home page forwarding performing!");
         } catch (DaoException ex) {
             throw new LogicException(ex);
         }

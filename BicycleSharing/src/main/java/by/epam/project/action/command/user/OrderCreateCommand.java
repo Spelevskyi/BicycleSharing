@@ -36,16 +36,15 @@ public class OrderCreateCommand implements ActionCommand {
         List<String> parameters = new ArrayList<>();
         parameters.add(String.valueOf(user.getId()));
         parameters.add(bicycleId);
-        System.out.println(bicycleId);
         try {
             logic.action(parameters);
             OrderLogic orderLogic = (OrderLogic) logic;
             request.getSession().setAttribute(Constants.SESSION_USER, orderLogic.getUser());
             router.setRoutePath(RoutePath.REDIRECT_USER_POINTS.getRoutePath());
-            logger.info("Succesfully creating user order!");
+            logger.info("Succesfully creating user order executing!");
         } catch (LogicException ex) {
             logger.error(ex);
-            request.getSession().setAttribute(Constants.ERROR,
+            request.setAttribute(Constants.ERROR,
                     PageError.getError(Constants.TRUE, ex.getMessage()));
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);

@@ -1,4 +1,4 @@
-package by.epam.project.action.command.user;
+package by.epam.project.action.command.common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,15 +20,15 @@ import by.epam.project.logic.common.ChangeProfileLogic;
 import by.epam.project.util.Constants;
 import by.epam.project.util.PageError;
 
-public class UserChangeProfileCommand implements ActionCommand {
+public class ChangeProfileCommand implements ActionCommand {
 
-    private static final Logger logger = LogManager.getLogger(UserChangeProfileCommand.class);
+    private static final Logger logger = LogManager.getLogger(ChangeProfileCommand.class);
 
     private Logic logic = new ChangeProfileLogic();
 
     @Override
     public Router execute(HttpServletRequest request) {
-        logger.info("Changing user profile info executing.");
+        logger.info("Profile info changing executing.");
         Router router = new Router();
         router.setType(RouteType.REDIRECT);
         HttpSession session = request.getSession();
@@ -45,16 +45,15 @@ public class UserChangeProfileCommand implements ActionCommand {
             logic.action(parameters);
             ChangeProfileLogic profileLogic = (ChangeProfileLogic) logic;
             request.getSession().setAttribute(Constants.SESSION_USER, profileLogic.getUser());
-            router.setRoutePath(RoutePath.REDIRECT_USER_ACCOUNT.getRoutePath());
+            router.setRoutePath(RoutePath.REDIRECT_ACCOUNT_PAGE.getRoutePath());
             router.setType(RouteType.REDIRECT);
+            logger.info("Succesfully changing user info executing!");
         } catch (LogicException ex) {
             logger.error(ex);
-            request.getSession().setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
+            request.setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }
         return router;
-
     }
 }
-

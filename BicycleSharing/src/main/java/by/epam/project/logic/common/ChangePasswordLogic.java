@@ -16,16 +16,16 @@ import by.epam.project.validation.UserDataValidator;
 
 public class ChangePasswordLogic implements Logic {
 
-    private static final Logger logger = LogManager.getLogger(ForgotPasswordLogic.class);
+    private static final Logger logger = LogManager.getLogger(ChangePasswordLogic.class);
 
     public UserDaoImpl userDao = new UserDaoImpl();
 
     @Override
     public void action(List<String> parameters) throws LogicException {
-        logger.info("Forgot password logic executing.");
+        logger.info("Action of changing password performing.");
         if (parameters.size() != Constants.CHANGE_PASSWORD_PARAMETERS_AMOUNT) {
-            logger.error("Invalid change password parameters amount!");
-            throw new LogicException("Invalid change password parameters amount!");
+            logger.error("Invalid changing password parameters amount!");
+            throw new LogicException("Invalid changing password parameters amount!");
         }
         int userId = Integer.valueOf(parameters.get(0));
         String firstPassword = parameters.get(1);
@@ -47,12 +47,14 @@ public class ChangePasswordLogic implements Logic {
             if (!findedUser.isPresent()) {
                 logger.error("User with current userId not exists!");
             }
-            User user = findedUser.get();
-            user.setPassword(firstPassword);
-            userDao.update(user);
-            logger.info("Succesfully changing password!");
+            else {
+                User user = findedUser.get();
+                user.setPassword(firstPassword);
+                userDao.update(user);
+                logger.info("Succesfully performing action of changing password!");
+            }
         } catch (DaoException ex) {
-            throw new LogicException(ex);
+            throw new LogicException("Changing user password failed!", ex);
         }
     }
 }

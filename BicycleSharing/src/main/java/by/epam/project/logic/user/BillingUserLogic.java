@@ -46,7 +46,7 @@ public class BillingUserLogic implements Logic {
                 logger.info("Succesfully forwarding to user billing page!");
             }
         } catch (DaoException ex) {
-            throw new LogicException(ex);
+            throw new LogicException("Forwarding to user billing page failed!", ex);
         }
     }
 
@@ -57,5 +57,4 @@ public class BillingUserLogic implements Logic {
     public List<Debt> getDebets() {
         return debets;
     }
-
 }

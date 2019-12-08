@@ -48,19 +48,19 @@ public class PayDebtLogic implements Logic {
                 for (Map.Entry<Debt, User> userDebt : debt.entrySet()) {
                     if (userDebt.getValue().getCash().doubleValue() < userDebt.getKey().getAmount().doubleValue()) {
                         logger.error("Not enough cash on balance!");
-                        throw new DaoException("Not enough cash on balance!");
+                        throw new LogicException("Not enough cash on balance!");
+                    } else {
+                        User changedUser = userDebt.getValue();
+                        Debt changedDebt = userDebt.getKey();
+                        changedUser.setCash(changedUser.getCash().subtract(changedDebt.getAmount()));
+                        changedUser.setStatus(Constants.UNLOCKED);
+                        debtDao.updateAfterPayDebt(changedUser, changedDebt);
+                        user = userDao.findById(userId).get();
+                        logger.info("Succesfully pay debt.");
                     }
-                    User changedUser = userDebt.getValue();
-                    Debt changedDebt = userDebt.getKey();
-                    changedUser.setCash(changedUser.getCash().subtract(changedDebt.getAmount()));
-                    changedUser.setStatus(Constants.LOCKED);
-                    debtDao.updateAfterPayDebt(changedUser, changedDebt);
-                    user = userDao.findById(userId).get();
-                    logger.info("Succesfully pay debt.");
                 }
             }
         } catch (DaoException ex) {
-            System.out.println(ex);
             throw new LogicException("Paying user debt failed!", ex);
         }
     }

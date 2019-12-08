@@ -1,7 +1,5 @@
 package by.epam.project.dao.impl;
 
-import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,26 +20,25 @@ public class CardDaoImpl extends CardDao {
 
     private static final Logger logger = LogManager.getLogger(CardDaoImpl.class);
 
-    private static final String FIND_ALL_CARDS = "SELECT * FROM credit_card";
-    private static final String ADD_CARD = "INSERT INTO credit_card(OwnerId,CardMaster,Balance,Code,Number,ValidationDate,Status) VALUES(?,?,?,?,?,?,?)";
-    private static final String REMOVE_CARD = "DELETE FROM credit_card WHERE Id = ?";
-    private static final String REMOVE_USER_CARDS = "DELETE FROM credit_card WHERE OwnerId = ?";
+    private static final String SQL_FIND_ALL = "SELECT * FROM credit_card";
+    private static final String SQL_CREATE_CARD = "INSERT INTO credit_card(OwnerId,CardMaster,Balance,Code,Number,ValidationDate,Status) VALUES(?,?,?,?,?,?,?)";
     private static final String SQL_FIND_USER_CARDS = "SELECT * FROM credit_card WHERE OwnerId = ?";
     private static final String SQL_UPDATE_CARD = "UPDATE credit_card SET OwnerId = ?,CardMaster = ? ,Balance = ? ,Code = ? ,Number = ? ,ValidationDate = ? ,Status = ? WHERE Id = ?";
     private static final String SQL_DELETE_CARD = "DELETE FROM credit_card WHERE Id = ?";
     private static final String SQL_FIND_BY_ID = "SELECT * FROM credit_card WHERE Id = ?";
-    private static final String WITHDRAW_BALANCE = "UPDATE credit_card SET Balance = Balance - ? WHERE Id = ?";
     private static final String SQL_MATCH_CODE_NUMBER_MASTER = "SELECT * FROM credit_card WHERE Code = ? AND Number = ? AND CardMaster = ?";
-    private static final String SQL_MATCH_CODE_NUMBER = "SELECT * FROM credit_card WHERE OwnerId = ? AND Code = ? AND Number = ?";
+    private static final String SQL_FIND_USER_CARD = "SELECT * FROM credit_card WHERE OwnerId = ? AND Code = ? AND Number = ?";
 
+    // CardDao method for finding user credit card
     @Override
     public Optional<Card> findUserCard(int id, String code, int number, String master) throws DaoException {
+        logger.info("Finding user credit card.");
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         ResultSet result = null;
         try {
             connection = ConnectionPool.INSTANCE.getConnection();
-            statement = connection.prepareStatement(SQL_MATCH_CODE_NUMBER);
+            statement = connection.prepareStatement(SQL_FIND_USER_CARD);
             statement.setInt(1, id);
             statement.setString(2, code);
             statement.setInt(3, number);
@@ -56,66 +53,32 @@ public class CardDaoImpl extends CardDao {
         }
     }
 
-    @Override
-    public void deleteUserCards(int id) throws DaoException {
-        try (Connection connection = ConnectionPool.INSTANCE.getConnection();
-                PreparedStatement statement = connection.prepareStatement(REMOVE_USER_CARDS)) {
-            statement.setInt(1, id);
-            statement.executeUpdate();
-        } catch (SQLException ex) {
-            throw new DaoException(ex.getMessage());
-        }
-    }
 
+    // CardDao method of founding all cards
     @Override
     public List<Card> findAll() throws DaoException {
-        try (Connection connection = ConnectionPool.INSTANCE.getConnection();
-                PreparedStatement statement = connection.prepareStatement(FIND_ALL_CARDS)) {
-            ResultSet result = statement.executeQuery();
-            return CardBuilder.createCards(result);
-        } catch (SQLException ex) {
-            throw new DaoException(ex.getMessage());
-        }
-    }
-
-    @Override
-    public void addCard(int ownerId, String cardType, int balance, String code, int number, Date date, String status)
-            throws DaoException {
+        logger.info("Findinf all cards in dao.");
         ProxyConnection connection = null;
         PreparedStatement statement = null;
+        ResultSet result = null;
         try {
             connection = ConnectionPool.INSTANCE.getConnection();
-            statement = connection.prepareStatement(ADD_CARD);
-            statement.setInt(1, ownerId);
-            statement.setString(2, cardType);
-            statement.setInt(3, balance);
-            statement.setString(4, code);
-            statement.setInt(5, number);
-            statement.setDate(6, date);
-            statement.setString(7, "ENABLE");
-            statement.execute();
+            statement = connection.prepareStatement(SQL_FIND_ALL);
+            result = statement.executeQuery();
+            return CardBuilder.createCards(result);
         } catch (SQLException ex) {
-            throw new DaoException(ex);
+            throw new DaoException();
         } finally {
+            close(result);
             close(statement);
             close(connection);
         }
     }
 
-    @Override
-    public void withdrawBalance(int id, int amount) throws DaoException {
-        try (Connection connection = ConnectionPool.INSTANCE.getConnection();
-                PreparedStatement statement = connection.prepareStatement(WITHDRAW_BALANCE)) {
-            statement.setInt(1, amount);
-            statement.setInt(2, id);
-            statement.executeUpdate();
-        } catch (SQLException ex) {
-            throw new DaoException(ex.getMessage());
-        }
-    }
-
+    // CardDo method of founding card by id
     @Override
     public Optional<Card> findById(int id) throws DaoException {
+        logger.info("Finding credit card by id in dao.");
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         ResultSet result = null;
@@ -144,7 +107,10 @@ public class CardDaoImpl extends CardDao {
             connection = ConnectionPool.INSTANCE.getConnection();
             statement = connection.prepareStatement(SQL_DELETE_CARD);
             statement.setInt(1, id);
-            statement.executeUpdate();
+            int result = statement.executeUpdate();
+            if (result == 0) {
+                throw new DaoException("User credit card was not deleted!");
+            }
         } catch (SQLException ex) {
             throw new DaoException(ex);
         } finally {
@@ -153,8 +119,10 @@ public class CardDaoImpl extends CardDao {
         }
     }
 
+    // CardDao method for finding all credit cards of current user
     @Override
     public List<Card> findUserCards(int id) throws DaoException {
+        logger.info("Finding users credit cards in dao.");
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         ResultSet result = null;
@@ -173,9 +141,11 @@ public class CardDaoImpl extends CardDao {
         }
     }
 
+    // CardDao method for matching existing card with new one
     @Override
     public boolean matchCodeNumberMaster(String code, int number, String master) throws DaoException {
-        logger.info("Matching inputing card code, identification number and card master with cards in database.");
+        logger.info(
+                "Matching inputing card code, identification number and card master with cards in database in dao.");
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         ResultSet result = null;
@@ -196,21 +166,26 @@ public class CardDaoImpl extends CardDao {
         }
     }
 
+    // CardDao method of creating credit card
     @Override
     public void create(Card entity) throws DaoException {
+        logger.info("Creating card in card dao.");
         ProxyConnection connection = null;
         PreparedStatement statement = null;
         try {
             connection = ConnectionPool.INSTANCE.getConnection();
-            statement = connection.prepareStatement(ADD_CARD);
+            statement = connection.prepareStatement(SQL_CREATE_CARD);
             statement.setInt(1, entity.getOwnerId());
-            statement.setString(2, entity.getType().toString());
+            statement.setString(2, entity.getType());
             statement.setBigDecimal(3, entity.getBalance());
             statement.setString(4, entity.getCode());
             statement.setInt(5, entity.getNumber());
             statement.setDate(6, entity.getDate());
             statement.setString(7, entity.getStatus());
-            statement.execute();
+            int result = statement.executeUpdate();
+            if (result == 0) {
+                logger.error("Credit card was not added!");
+            }
         } catch (SQLException ex) {
             throw new DaoException(ex);
         } finally {
@@ -219,11 +194,12 @@ public class CardDaoImpl extends CardDao {
         }
     }
 
+    // CarDao method of updating existing credit card
     @Override
     public void update(Card entity) throws DaoException {
+        logger.info("Updating current credit card in dao.");
         ProxyConnection connection = null;
         PreparedStatement statement = null;
-        ResultSet result = null;
         try {
             connection = ConnectionPool.INSTANCE.getConnection();
             statement = connection.prepareStatement(SQL_UPDATE_CARD);
@@ -235,11 +211,13 @@ public class CardDaoImpl extends CardDao {
             statement.setDate(6, entity.getDate());
             statement.setString(7, entity.getStatus());
             statement.setInt(8, entity.getId());
-            statement.execute();
+            int result = statement.executeUpdate();
+            if (result == 0) {
+                logger.error("Card was not updated!");
+            }
         } catch (SQLException ex) {
             throw new DaoException(ex);
         } finally {
-            close(result);
             close(statement);
             close(connection);
         }

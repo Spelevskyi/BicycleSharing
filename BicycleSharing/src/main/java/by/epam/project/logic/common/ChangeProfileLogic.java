@@ -50,15 +50,16 @@ public class ChangeProfileLogic implements Logic {
             if (!findedUser.isPresent()) {
                 logger.error("User not exists!");
             } else {
-                findedUser.get().setFirstName(firstName);
-                findedUser.get().setLastName(lastName);
-                findedUser.get().setPhoneNumber(phoneNumber);
-                userDao.update(findedUser.get());
+                User changedUser = findedUser.get();
+                changedUser.setFirstName(firstName);
+                changedUser.setLastName(lastName);
+                changedUser.setPhoneNumber(phoneNumber);
+                userDao.update(changedUser);
                 user = userDao.findById(userId).get();
+                logger.info("Succesfully updating user profile info!");
             }
-            logger.info("Succesfully updating user profile info!");
         } catch (DaoException ex) {
-            throw new LogicException(ex);
+            throw new LogicException("Changing user profile info failed!", ex);
         }
     }
 

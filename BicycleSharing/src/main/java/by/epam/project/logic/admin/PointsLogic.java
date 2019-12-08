@@ -23,16 +23,15 @@ public class PointsLogic implements Logic {
     private BicycleDaoImpl bicycleDao = new BicycleDaoImpl();
 
     private JsonArray pointsJson = new JsonArray();
-    private List<Bicycle> bicycles;
+    private Map<Bicycle, RentalPoint> bicycles;
 
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of forwarding to points page executing.");
-        if (parameters.size() != Constants.RENTAL_POINTS_PARAMETERS_AMOUNT) {
+        if (parameters.size() != 0) {
             logger.error("Invalid rental points page parameters amount!");
             throw new LogicException("Invalid rental points page parameters amount!");
         }
-        int userId = Integer.valueOf(parameters.get(0));
         try {
             Map<Bicycle, RentalPoint> points = bicycleDao.findBicyclesWithLocation();
             pointsJson = new JsonArray();
@@ -42,7 +41,7 @@ public class PointsLogic implements Logic {
                 object.addProperty(Constants.Y_COORDINATE, point.getValue().getY_coordinate());
                 pointsJson.add(object);
             }
-            bicycles = bicycleDao.findAll();
+            bicycles = bicycleDao.findBicyclesWithPoints();
             logger.info("Succefull rental points forwarding!");
         } catch (DaoException ex) {
             throw new LogicException(ex);
@@ -53,7 +52,7 @@ public class PointsLogic implements Logic {
         return pointsJson;
     }
 
-    public List<Bicycle> getBicycles() {
+    public Map<Bicycle, RentalPoint> getBicycles() {
         return bicycles;
     }
 

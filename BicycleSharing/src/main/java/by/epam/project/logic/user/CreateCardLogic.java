@@ -10,7 +10,6 @@ import org.apache.logging.log4j.Logger;
 import by.epam.project.dao.impl.CardDaoImpl;
 import by.epam.project.dao.impl.UserDaoImpl;
 import by.epam.project.entity.card.Card;
-import by.epam.project.entity.card.CardType;
 import by.epam.project.exception.DaoException;
 import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
@@ -57,8 +56,7 @@ public class CreateCardLogic implements Logic {
                 logger.error("Card already exists!");
                 throw new LogicException("Card already exists!");
             } else {
-                Card card = new Card(userId, CardType.valueOf(cardMaster),
-                        new BigDecimal(Constants.INITIAL_CARD_BALANCE), cardCode,
+                Card card = new Card(userId, cardMaster, new BigDecimal(Constants.INITIAL_CARD_BALANCE), cardCode,
                         number, Date.valueOf(date), Constants.ENABLE);
                 cardDao.create(card);
                 logger.info("Succesfully created card!");
@@ -67,5 +65,4 @@ public class CreateCardLogic implements Logic {
             throw new LogicException("Credit card creation failed!", ex);
         }
     }
-
 }

@@ -68,7 +68,8 @@ public class RentalPointsLogic implements Logic {
             user = userDao.findById(userId).get();
             logger.info("Succesfully forwarding to rental points page!");
         } catch (DaoException ex) {
-            throw new LogicException(ex);
+            System.out.println(ex.getMessage());
+            throw new LogicException("Forwarding to rental points page failed!", ex);
         }
     }
 

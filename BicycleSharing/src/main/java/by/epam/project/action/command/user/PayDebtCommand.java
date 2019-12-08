@@ -40,9 +40,9 @@ public class PayDebtCommand implements ActionCommand {
         try {
             logic.action(parameters);
             PayDebtLogic payLogic = (PayDebtLogic) logic;
-            request.setAttribute(Constants.SESSION_USER, payLogic.getUser());
+            request.getSession().setAttribute(Constants.SESSION_USER, payLogic.getUser());
             router.setRoutePath(RoutePath.REDIRECT_USER_BILLING.getRoutePath());
-            logger.info("Succesfully pay debt!");
+            logger.info("Succesfully pay debt executing!");
         } catch (LogicException ex) {
             logger.error(ex);
             request.setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));

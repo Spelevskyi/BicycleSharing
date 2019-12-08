@@ -10,17 +10,17 @@ public class Bicycle {
     private int id;
     private int pointId;
     private int billingId;
-    private BrandType brand;
-    private ColorType color;
+    private String brand;
+    private String color;
     private int speed;
     private Date date;
-    private StateType state;
+    private String state;
     private String imagePath;
     private String status;
     private RentalPoint point;
     private PriceList priceList;
 
-    public Bicycle(BrandType brand, ColorType color, int speed, Date date, StateType state, String imagePath,
+    public Bicycle(String brand, String color, int speed, Date date, String state, String imagePath,
             String status) {
         super();
         this.brand = brand;
@@ -51,20 +51,20 @@ public class Bicycle {
         this.pointId = pointId;
     }
 
-    public BrandType getBrand() {
+    public String getBrand() {
         return brand;
     }
 
     public void setBrand(String brand) {
-        this.brand = BrandType.valueOf(brand);
+        this.brand = brand;
     }
 
-    public ColorType getColor() {
+    public String getColor() {
         return color;
     }
 
     public void setColor(String color) {
-        this.color = ColorType.valueOf(color);
+        this.color = color;
     }
 
     public int getSpeed() {
@@ -83,12 +83,12 @@ public class Bicycle {
         this.date = date;
     }
 
-    public StateType getState() {
+    public String getState() {
         return state;
     }
 
     public void setState(String state) {
-        this.state = StateType.valueOf(state);
+        this.state = state;
     }
 
     public String getImagePath() {

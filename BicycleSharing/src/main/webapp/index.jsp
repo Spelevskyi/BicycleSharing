@@ -14,7 +14,7 @@
 <style>
 <%@include file="/css/index.css"%>
 </style>
-<c:set var="previous_path" value="/index.jsp" scope="session"/>
+<c:set var="previous_path" value="controller?command=Home_page" scope="session"/>
 <c:set var="language" value="${lang}" />
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="properties.local" var="local" />
@@ -98,14 +98,6 @@
 			</ul>
 		</div>
 	</nav>
-	<div style="color: #a94442" class="text-center">
-       <c:if test="${login_error =='true'}">
-          <p>Login error!</p>
-       </c:if>
-        <c:if test="${register_error =='true'}">
-          <p>Registration error!</p>
-       </c:if>
-    </div>
 	<div class="modal fade login" id="login" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -182,7 +174,7 @@
 						</div>
 						<div class="form-group">
 							<label for="Phone number"><span class="glyphicon glyphicon-phone-alt"></span>${number}</label> 
-							<input type="text" name="phoneNumber" value="" class="form-control" placeholder="${enter_number}" pattern="^\\+375((17|29|33|44))[0-9]{3}-[0-9]{2}-[0-9]{2}$" required/>
+							<input type="text" name="phoneNumber" value="" class="form-control" placeholder="${enter_number}" pattern="(\+375|80) (29|25|44|33) (\d{3})-(\d{2})-(\d{2})$" required/>
 							<span class="form_error">${number_error}</span>
 						</div>
 						<button type="submit" class="btn btn-success btn-block">

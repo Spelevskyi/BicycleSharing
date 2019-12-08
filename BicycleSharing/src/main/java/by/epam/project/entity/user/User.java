@@ -23,6 +23,8 @@ public class User {
     private boolean confirmed;
     private String imagePath;
     private BigDecimal cash;
+    private boolean onRoad;
+    private boolean online;
     private List<Card> cards;
     private List<RentalOrder> orders;
     private RentalOrder activeOrder;
@@ -166,7 +168,6 @@ public class User {
     }
 
     public void setCards(List<Card> cards) {
-        System.out.println(cards.size());
         this.cards = cards;
     }
 
@@ -184,5 +185,21 @@ public class User {
 
     public void setActiveOrder(RentalOrder activeOrder) {
         this.activeOrder = activeOrder;
+    }
+
+    public boolean isOnRoad() {
+        return onRoad;
+    }
+
+    public void setOnRoad(boolean onRoad) {
+        this.onRoad = onRoad;
+    }
+
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
     }
 }

@@ -22,7 +22,7 @@ public class DisableCardLogic implements Logic {
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of disabling user card performing.");
-        if (parameters.size() == 0) {
+        if (parameters.size() != Constants.DISABLE_CARD_PARAMETERS_AMOUNT) {
             logger.error("Invalid parameters amount for disabling cards!");
             throw new LogicException("Invalid parameters amount for disabling cards!");
         }
@@ -30,12 +30,13 @@ public class DisableCardLogic implements Logic {
         try {
             Optional<Card> findedCard = cardDao.findById(cardId);
             if (!findedCard.isPresent()) {
-                logger.error("Card not exists!");
+                logger.error("Card not exists! Try again. Choose existing credit card!");
+            } else {
+                Card card = findedCard.get();
+                card.setStatus(Constants.DISABLE);
+                cardDao.update(card);
+                logger.info("Disabling credit card performing!");
             }
-            Card card = findedCard.get();
-            card.setStatus(Constants.DISABLE);
-            cardDao.update(card);
-            logger.info("Disable card!");
         } catch (DaoException ex) {
             throw new LogicException("Disabling current card failed!", ex);
         }

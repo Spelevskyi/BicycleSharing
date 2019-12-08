@@ -31,10 +31,11 @@ public class DeleteUserLogic implements Logic {
                 Optional<User> findedUser = userDao.findById(userId);
                 if (!findedUser.isPresent()) {
                     logger.error("User not exists!");
+                } else {
+                    userDao.delete(userId);
+                    logger.info("Deleting users performing!");
                 }
-                userDao.delete(userId);
             }
-            logger.info("Deleting users from database.");
         } catch (DaoException ex) {
             throw new LogicException("Deleting users failed!", ex);
         }

@@ -25,7 +25,7 @@ public class LanguageCommand implements ActionCommand {
         String language = request.getParameter(Constants.LANGUAGE);
         session.setAttribute(Constants.LANGUAGE, language);
         router.setRoutePath(previousPage);
-        logger.error("Succesfully changing language.");
+        logger.error("Succesfully changing language executing!");
         return router;
     }
 }

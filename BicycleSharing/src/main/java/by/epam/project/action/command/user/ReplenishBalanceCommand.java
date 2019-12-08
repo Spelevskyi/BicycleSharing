@@ -46,10 +46,9 @@ public class ReplenishBalanceCommand implements ActionCommand {
         try {
             logic.action(parameters);
             ReplenishBalanceLogic balanceLogic = (ReplenishBalanceLogic) logic;
-            request.getSession().setAttribute(Constants.ERROR, PageError.getError(Constants.FALSE, ""));
             request.getSession().setAttribute(Constants.SESSION_USER, balanceLogic.getUser());
             router.setRoutePath(RoutePath.REDIRECT_USER_HOME.getRoutePath());
-            logger.info("Succesfully replenish card balance!");
+            logger.info("Succesfully replenish card balance executing!");
         } catch (LogicException ex) {
             logger.error(ex);
             request.setAttribute(Constants.ERROR,

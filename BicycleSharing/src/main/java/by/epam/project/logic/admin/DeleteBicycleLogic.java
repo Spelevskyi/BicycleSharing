@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.epam.project.dao.impl.BicycleDaoImpl;
+import by.epam.project.dao.impl.RentalPointDaoImpl;
 import by.epam.project.entity.bicycle.Bicycle;
 import by.epam.project.exception.DaoException;
 import by.epam.project.exception.LogicException;
@@ -17,6 +18,7 @@ public class DeleteBicycleLogic implements Logic {
     private static final Logger logger = LogManager.getLogger(DeleteBicycleLogic.class);
 
     public BicycleDaoImpl bicycleDao = new BicycleDaoImpl();
+    public RentalPointDaoImpl pointDao = new RentalPointDaoImpl();
 
     @Override
     public void action(List<String> parameters) throws LogicException {
@@ -33,9 +35,10 @@ public class DeleteBicycleLogic implements Logic {
                     logger.error("Bicycle not exists!");
                 }
                 bicycleDao.delete(bicycleId);
+                logger.info("Deleting bicycle performing.");
             }
-            logger.info("Deleting row from bicycle list.");
         } catch (DaoException ex) {
+            System.out.println(ex);
             throw new LogicException("Deleting bicycles failed!", ex);
         }
     }

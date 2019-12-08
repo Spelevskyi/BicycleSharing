@@ -3,10 +3,7 @@ package by.epam.project.action.command;
 import by.epam.project.action.command.admin.AddBicycleCommand;
 import by.epam.project.action.command.admin.AddBicycleWithLocationCommand;
 import by.epam.project.action.command.admin.AddBillingCommand;
-import by.epam.project.action.command.admin.AdminAccountPageCommand;
 import by.epam.project.action.command.admin.AdminBillingPageCommand;
-import by.epam.project.action.command.admin.AdminChangeAvatarCommand;
-import by.epam.project.action.command.admin.AdminChangeProfileCommand;
 import by.epam.project.action.command.admin.AdminHomeCommand;
 import by.epam.project.action.command.admin.BicyclesCommand;
 import by.epam.project.action.command.admin.ChangeBillingCommand;
@@ -19,14 +16,18 @@ import by.epam.project.action.command.admin.LockUserCommand;
 import by.epam.project.action.command.admin.PointsCommand;
 import by.epam.project.action.command.admin.UnlockUserCommand;
 import by.epam.project.action.command.admin.UsersCommand;
+import by.epam.project.action.command.common.AccountPageCommand;
+import by.epam.project.action.command.common.ChangeAvatarCommand;
 import by.epam.project.action.command.common.ChangePasswordCommand;
+import by.epam.project.action.command.common.ChangeProfileCommand;
+import by.epam.project.action.command.common.ConfirmCommand;
+import by.epam.project.action.command.common.ConfirmPageCommand;
 import by.epam.project.action.command.common.ForgotPasswordCommand;
+import by.epam.project.action.command.common.HomePageCommand;
 import by.epam.project.action.command.common.LanguageCommand;
 import by.epam.project.action.command.common.LogoutCommand;
 import by.epam.project.action.command.guest.LoginCommand;
 import by.epam.project.action.command.guest.RegisterCommand;
-import by.epam.project.action.command.impl.AddRentalPointCommand;
-import by.epam.project.action.command.impl.ConfirmUserPageCommand;
 import by.epam.project.action.command.user.ConfirmUserCommand;
 import by.epam.project.action.command.user.CreateCardCommand;
 import by.epam.project.action.command.user.DeleteCardCommand;
@@ -38,11 +39,9 @@ import by.epam.project.action.command.user.OrderCreateCommand;
 import by.epam.project.action.command.user.PayDebtCommand;
 import by.epam.project.action.command.user.RentalPointsCommand;
 import by.epam.project.action.command.user.ReplenishBalanceCommand;
+import by.epam.project.action.command.user.SendMailCommand;
 import by.epam.project.action.command.user.StartMoveCommand;
-import by.epam.project.action.command.user.UserAccountPageCommand;
 import by.epam.project.action.command.user.UserBillingPageCommand;
-import by.epam.project.action.command.user.UserChangeAvatarCommand;
-import by.epam.project.action.command.user.UserChangeProfileCommand;
 import by.epam.project.action.command.user.UserHomeCommand;
 
 public enum CommandType {
@@ -88,14 +87,9 @@ public enum CommandType {
             this.command = new EnableCardCommand();
         }
     },
-    ADMIN_ACCOUNT_PAGE {
+    ACCOUNT_PAGE {
         {
-            this.command = new AdminAccountPageCommand();
-        }
-    },
-    USER_ACCOUNT_PAGE {
-        {
-            this.command = new UserAccountPageCommand();
+            this.command = new AccountPageCommand();
         }
     },
     USER_BILLING_PAGE {
@@ -118,19 +112,9 @@ public enum CommandType {
             this.command = new DisableBicycleCommand();
         }
     },
-    CHANGE_PROFILE_PAGE {
+    CHANGE_PROFILE {
         {
-            this.command = new AdminChangeProfileCommand();
-        }
-    },
-    USER_CHANGE_PROFILE {
-        {
-            this.command = new UserChangeProfileCommand();
-        }
-    },
-    ADMIN_CHANGE_PROFILE {
-        {
-            this.command = new AdminChangeProfileCommand();
+            this.command = new ChangeProfileCommand();
         }
     },
     ORDER {
@@ -173,17 +157,26 @@ public enum CommandType {
             this.command = new RentalPointsCommand();
         }
     },
-    CONFIRM{
+    CONFIRM_USER {
         {
             this.command = new ConfirmUserCommand();
         }
     },
     CONFIRM_PAGE {
         {
-            this.command = new ConfirmUserPageCommand();
+            this.command = new ConfirmPageCommand();
         }
     },
-
+    CONFIRM{
+        {
+            this.command = new ConfirmCommand();
+        }
+    },
+    HOME_PAGE{
+        {
+            this.command = new HomePageCommand();
+        }
+    },
     START_MOVE {
         {
             this.command = new StartMoveCommand();
@@ -234,19 +227,9 @@ public enum CommandType {
             this.command = new AddBicycleCommand();
         }
     },
-    USER_CHANGE_AVATAR {
+    CHANGE_AVATAR {
         {
-            this.command = new UserChangeAvatarCommand();
-        }
-    },
-    ADMIN_CHANGE_AVATAR {
-        {
-            this.command = new AdminChangeAvatarCommand();
-        }
-    },
-    ADD_POINT {
-        {
-            this.command = new AddRentalPointCommand();
+            this.command = new ChangeAvatarCommand();
         }
     },
     POINTS {
@@ -267,6 +250,11 @@ public enum CommandType {
     FAVORITES {
         {
             this.command = new FavoritesPageCommand();
+        }
+    },
+    SEND_MAIL {
+        {
+            this.command = new SendMailCommand();
         }
     },
     LOGOUT {

@@ -1,4 +1,4 @@
-package by.epam.project.action.command.admin;
+package by.epam.project.action.command.common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,15 +18,17 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.common.AccountPageLogic;
 import by.epam.project.util.Constants;
+import by.epam.project.util.PageError;
 
-public class AdminAccountPageCommand implements ActionCommand {
+public class AccountPageCommand implements ActionCommand {
 
-    private static final Logger logger = LogManager.getLogger(AdminAccountPageCommand.class);
+    private static final Logger logger = LogManager.getLogger(AccountPageCommand.class);
+
     private Logic logic = new AccountPageLogic();
 
     @Override
     public Router execute(HttpServletRequest request) {
-        logger.info("Admin account page forwarding executing.");
+        logger.info("Account page forwarding executing.");
         Router router = new Router();
         router.setType(RouteType.FORWARD);
         HttpSession session = request.getSession();
@@ -34,18 +36,23 @@ public class AdminAccountPageCommand implements ActionCommand {
         String previousPage = (String) session.getAttribute(Constants.PREVIOUS_PATH_PAGE);
         List<String> parameters = new ArrayList<>();
         parameters.add(String.valueOf(user.getId()));
-        router.setRoutePath(RoutePath.ADMIN_ACCOUNT_PAGE_PATH.getRoutePath());
-        try {
-            logic.action(parameters);
-            AccountPageLogic accountLogic = (AccountPageLogic) logic;
-            request.setAttribute(Constants.USER, accountLogic.getUser());
-            logger.info("Succesfully forwarding to admin account page.");
-        } catch (LogicException ex) {
-            logger.error(ex);
-            router.setRoutePath(previousPage);
+        if (user.getStatus().equals(Constants.LOCKED)) {
+            request.getSession().setAttribute(Constants.ERROR,
+                    PageError.getError(Constants.TRUE, Constants.LOCKED_ERROR));
+            router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
+            router.setType(RouteType.FORWARD);
+        } else {
+            try {
+                logic.action(parameters);
+                AccountPageLogic accountLogic = (AccountPageLogic) logic;
+                request.setAttribute(Constants.USER, accountLogic.getUser());
+                router.setRoutePath(RoutePath.ACCOUNT_PAGE_PATH.getRoutePath());
+                logger.info("Succesfully forwarding to account page.");
+            } catch (LogicException ex) {
+                logger.error(ex);
+                router.setRoutePath(previousPage);
+            }
         }
         return router;
     }
-
 }
-

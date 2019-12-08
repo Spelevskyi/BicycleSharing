@@ -34,19 +34,18 @@ public class BicycleLocation {
             PriceList list = bicycle.getPriceList();
             double distance = (bicycle.getSpeed() * TimeDifference.roadTime(order.getActualStartTime(), dateTime));
             BigDecimal price = BillingOperation.ChangeBalance(order, user, list);
-            System.out.println(price.doubleValue() + " " + "df");
             BigDecimal difference = price.subtract(user.getCash());
             if (difference.doubleValue() >= 0) {
                 Date creationDate = new Date(System.currentTimeMillis());
                 user.setCash(BigDecimal.valueOf(0));
-                user.setStatus(Constants.UNLOCKED);
+                user.setStatus(Constants.LOCKED);
                 Debt debt = new Debt(id, difference, creationDate);
                 debtDao.create(debt);
             }
             else {
                 BigDecimal newCash = user.getCash().subtract(price);
                 user.setCash(newCash);
-                user.setStatus(Constants.LOCKED);
+                user.setStatus(Constants.UNLOCKED);
             }
             order.setDistance(distance);
             order.setActualEndTime(dateTime);
@@ -93,7 +92,6 @@ public class BicycleLocation {
             default:
                 break;
             }
-            System.out.println(point.getX_coordinate() + " " + point.getY_coordinate());
         } catch (DaoException ex) {
             throw new LogicException("Ending current road failed!", ex);
         }

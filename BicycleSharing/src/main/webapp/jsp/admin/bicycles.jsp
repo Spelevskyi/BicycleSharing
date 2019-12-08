@@ -82,37 +82,37 @@
 											<th>${location}</th>
 											<th></th>
 										</tr>
-										<c:forEach var="bicycle" items="${bicycles}">
+										<c:forEach var="bicycle" items="${bicycles.entrySet()}">
 											<tr>
-												<td><input type="checkbox" class="chkCheckBoxId" value='${bicycle.getId()}' name="id" /></td>
+												<td><input type="checkbox" class="chkCheckBoxId" value='${bicycle.getKey().getId()}' name="id" /></td>
 												<td>
 													<div id="bicycle-wrapper">
 														<p>
-															<img src="${bicycle.getImagePath()}">
+															<img src="${bicycle.getKey().getImagePath()}">
 														</p>
 													</div>
 												</td>
-												<td>${bicycle.getBrand()}</td>
-												<td>${bicycle.getColor()}</td>
-												<td>${bicycle.getSpeed()}</td>
-												<td>${bicycle.getDate()}</td>
-												<td>${bicycle.getState()}</td>
-												<td>${bicycle.getStatus()}</td>
+												<td>${bicycle.getKey().getBrand()}</td>
+												<td>${bicycle.getKey().getColor()}</td>
+												<td>${bicycle.getKey().getSpeed()}</td>
+												<td>${bicycle.getKey().getDate()}</td>
+												<td>${bicycle.getKey().getState()}</td>
+												<td>${bicycle.getKey().getStatus()}</td>
 												<c:choose>
-													<c:when test='${bicycle.getPointId() == 0 || bicycle.getStatus() == "DISABLE"}'>
+													<c:when test='${bicycle.getKey().getPointId() == 0 || bicycle.getKey().getStatus() == "DISABLE"}'>
 														<td>Not on map</td>
 													</c:when>
-													<c:when test='${bicycle.getPointId() != 0 && bicycle.getStatus() == "ENABLE"}'>
+													<c:when test='${bicycle.getKey().getPointId() != 0 && bicycle.getKey().getStatus() == "ENABLE"}'>
 														<td>On map</td>
 													</c:when>
 												</c:choose>
 												<c:choose>
-													<c:when test='${bicycle.getStatus() == "DISABLE"}'>
-														<td><a href="${pageContext.session.servletContext.contextPath}/controller?command=Enable_bicycle&id=${bicycle.getId()}"><i
+													<c:when test='${bicycle.getKey().getStatus() == "DISABLE"}'>
+														<td><a href="${pageContext.session.servletContext.contextPath}/controller?command=Enable_bicycle&id=${bicycle.getKey().getId()}"><i
 																class="glyphicon glyphicon-check"></i></a></td>
 													</c:when>
-													<c:when test='${bicycle.getStatus() == "ENABLE"}'>
-														<td><a href="${pageContext.session.servletContext.contextPath}/controller?command=Disable_bicycle&id=${bicycle.getId()}"><i
+													<c:when test='${bicycle.getKey().getStatus() == "ENABLE"}'>
+														<td><a href="${pageContext.session.servletContext.contextPath}/controller?command=Disable_bicycle&id=${bicycle.getKey().getId()}"><i
 																class="glyphicon glyphicon-Lock"></i></a></td>
 													</c:when>
 												</c:choose>
@@ -130,14 +130,14 @@
 						<form class="add" method="POST" action="${pageContext.session.servletContext.contextPath}/controller">
 							<input type="hidden" name="command" value="Add_bicycle" />
 							<div class="form-group">
-								<select name="Brand" id="select">
+								<select name="Brand" id="select" required>
 									<c:forEach var="num" items="${priceLists}">
 										<option value="${num.getBrand()}">${num.getBrand()}</option>
 									</c:forEach>
 								</select>
 							</div>
 							<div class="form-group">
-								<select name="Color" id="select">
+								<select name="Color" id="select" required>
 									<option value="RED">RED</option>
 									<option value="GREEN">GREEN</option>
 									<option value="BLACK">BLACK</option>
@@ -153,7 +153,7 @@
 								<input type="text" name="MaxSpeed" value="" class="form-control" placeholder="${enter_speed}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${speed_error}</span>
 							</div>
 							<div class="form-group">
-								<select name="State" id="select">
+								<select name="State" id="select" required>
 									<option value="GOOD">GOOD</option>
 									<option value="WORN">WORN</option>
 									<option value="BAD">BAD</option>

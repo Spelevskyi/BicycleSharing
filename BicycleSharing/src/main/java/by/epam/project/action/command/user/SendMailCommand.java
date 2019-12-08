@@ -1,4 +1,4 @@
-package by.epam.project.action.command.admin;
+package by.epam.project.action.command.user;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,44 +16,36 @@ import by.epam.project.action.command.Router;
 import by.epam.project.entity.user.User;
 import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
-import by.epam.project.logic.common.ChangeProfileLogic;
+import by.epam.project.logic.user.SendMailLogic;
 import by.epam.project.util.Constants;
 import by.epam.project.util.PageError;
 
-public class AdminChangeProfileCommand implements ActionCommand {
+public class SendMailCommand implements ActionCommand {
 
-    private static final Logger logger = LogManager.getLogger(AdminChangeProfileCommand.class);
+    private static final Logger logger = LogManager.getLogger(SendMailCommand.class);
 
-    private Logic logic = new ChangeProfileLogic();
+    private Logic logic = new SendMailLogic();
 
-    @Override
     public Router execute(HttpServletRequest request) {
-        logger.info("Admin profile info changing executing.");
         Router router = new Router();
-        router.setType(RouteType.REDIRECT);
+        router.setType(RouteType.FORWARD);
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(Constants.SESSION_USER);
-        String firstName = request.getParameter(Constants.FIRST_NAME);
-        String lastName = request.getParameter(Constants.LAST_NAME);
-        String phoneNumber = request.getParameter(Constants.PHONE_NUMBER);
         List<String> parameters = new ArrayList<>();
-        parameters.add(firstName);
-        parameters.add(lastName);
-        parameters.add(phoneNumber);
         parameters.add(String.valueOf(user.getId()));
         try {
             logic.action(parameters);
-            ChangeProfileLogic profileLogic = (ChangeProfileLogic) logic;
-            request.getSession().setAttribute(Constants.SESSION_USER, profileLogic.getUser());
-            router.setRoutePath(RoutePath.REDIRECT_ADMIN_ACCOUNT.getRoutePath());
-            router.setType(RouteType.REDIRECT);
+            SendMailLogic mailLogic = (SendMailLogic) logic;
+            request.getSession().setAttribute(Constants.CONFIRMATION_CODE, mailLogic.getConfirmCode());
+            router.setRoutePath(RoutePath.CONFIRMATION_USER_PAGE_PATH.getRoutePath());
+            logger.info("Sending confirmation code to user email!");
         } catch (LogicException ex) {
             logger.error(ex);
             request.getSession().setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
-            router.setType(RouteType.FORWARD);
+            router.setType(RouteType.REDIRECT);
         }
         return router;
-
     }
 }
+
