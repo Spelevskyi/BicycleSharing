@@ -18,13 +18,15 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.user.EndMoveLogic;
 import by.epam.project.util.Constants;
-import by.epam.project.util.PageError;
 
 public class EndMoveCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger(EndMoveCommand.class);
     private Logic logic = new EndMoveLogic();
 
+    /**
+     * Command for ending move
+     */
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("Ending road executing.");
@@ -41,8 +43,8 @@ public class EndMoveCommand implements ActionCommand {
             router.setRoutePath(RoutePath.REDIRECT_USER_POINTS.getRoutePath());
             logger.info("Succesfully ending current road executing!");
         } catch (LogicException ex) {
-            logger.info(ex);
-            request.setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
+            logger.error(ex);
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }

@@ -6,7 +6,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.epam.project.dao.impl.BillingDaoImpl;
-import by.epam.project.dao.impl.UserDaoImpl;
 import by.epam.project.entity.billing.PriceList;
 import by.epam.project.exception.DaoException;
 import by.epam.project.exception.LogicException;
@@ -18,18 +17,16 @@ public class BillingAdminLogic implements Logic {
     private static final Logger logger = LogManager.getLogger(BillingAdminLogic.class);
 
     private BillingDaoImpl billDao = new BillingDaoImpl();
-    private UserDaoImpl userDao = new UserDaoImpl();
 
     private List<PriceList> lists;
 
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of forwarding to admin billing page performing.");
-        if (parameters.size() != Constants.BILLING_USER_PARAMETERS_AMOUNT) {
+        if (parameters.size() != Constants.BILLING_ADMIN_PARAMETERS_AMOUNT) {
             logger.error("Invalid billing page parameters amount!");
             throw new LogicException("Invalid billing page parameters amount!");
         }
-        int userId = Integer.valueOf(parameters.get(0));
         try {
             lists = billDao.findAll();
             logger.info("Forwarding to admin billing page was succesfull!");

@@ -19,7 +19,6 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.common.LogoutLogic;
 import by.epam.project.util.Constants;
-import by.epam.project.util.PageError;
 
 public class LogoutCommand implements ActionCommand {
 
@@ -27,6 +26,9 @@ public class LogoutCommand implements ActionCommand {
 
     private Logic logic = new LogoutLogic();
 
+    /**
+     * Command for log out
+     */
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("Logout executing.");
@@ -45,7 +47,7 @@ public class LogoutCommand implements ActionCommand {
             logger.info("Succesfully logout executing!");
         } catch (LogicException ex) {
             logger.error(ex);
-            request.setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }

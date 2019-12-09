@@ -16,7 +16,6 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.admin.LockUserLogic;
 import by.epam.project.util.Constants;
-import by.epam.project.util.PageError;
 
 public class LockUserCommand implements ActionCommand {
 
@@ -24,6 +23,9 @@ public class LockUserCommand implements ActionCommand {
 
     private Logic logic = new LockUserLogic();
 
+    /**
+     * Command for locking user
+     */
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("Locking user executing.");
@@ -38,7 +40,7 @@ public class LockUserCommand implements ActionCommand {
             logger.info("Successfully locking user.");
         } catch (LogicException ex) {
             logger.error(ex);
-            request.setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }

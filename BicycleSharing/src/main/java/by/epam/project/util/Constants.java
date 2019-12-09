@@ -5,7 +5,11 @@ public class Constants {
     // session constants
     public static final String SESSION_USER = "user";
     public static final String SESSION_ROLE = "role";
+    public static final String COMMAND = "command";
     public static final String SESSION_IS_LOGIN = "is_login";
+
+    // encoding
+    public static final String ENCODING_TYPE = "MD5";
 
     // errors
     public static final String LOCKED_ERROR = "You are locked in sharing system besause of not paying debt. Please pay debt!";
@@ -25,7 +29,7 @@ public class Constants {
 
     // bicycle states
     public static final String GOOD = "GOOD";
-    public static final String WORN = "WORD";
+    public static final String WORN = "WORN";
     public static final String BAD = "BAD";
 
     // bank masters
@@ -38,10 +42,16 @@ public class Constants {
     public static final int ILLEGAL_DELETE_PARAMETERS_AMOUNT = 0;
     public static final int ACCOUNT_PARAMETERS_AMOUNT = 1;
     public static final int DISABLE_CARD_PARAMETERS_AMOUNT = 1;
+    public static final int ENABLE_BICYCLE_PARAMETERS_AMOUNT = 1;
+    public static final int DISABLE_BICYCLE_PARAMETERS_AMOUNT = 1;
+    public static final int LOCK_USER_PARAMETERS_AMOUNT = 1;
+    public static final int UNLOCK_USER_PARAMETERS_AMOUNT = 1;
     public static final int ENABLE_CARD_PARAMETERS_AMOUNT = 1;
     public static final int HOME_PARAMETERS_AMOUNT = 1;
     public static final int FAVORITES_PARAMETERS_AMOUNT = 1;
     public static final int START_MOVE_PARAMETERS_AMOUNT = 1;
+    public static final int POINTS_PARAMETERS_AMOUNT = 0;
+    public static final int BILLING_ADMIN_PARAMETERS_AMOUNT = 0;
     public static final int BILLING_USER_PARAMETERS_AMOUNT = 1;
     public static final int RENTAL_POINTS_PARAMETERS_AMOUNT = 1;
     public static final int USERS_PARAMETERS_AMOUNT = 0;
@@ -59,6 +69,7 @@ public class Constants {
     public static final int BALANCE_REPLENICH_PARAMETERS_AMOUNT = 5;
     public static final int CREATE_CARD_PARAMETERS_AMOUNT = 5;
     public static final int REGISTRATION_PARAMETERS_AMOUNT = 6;
+    public static final int CHANGE_BICYCLE_PARAMETERS_AMOUNT = 12;
     public static final int ADD_BICYCLE_PARAMETERS_AMOUNT = 6;
     public static final int ADD_BILLING_PARAMETERS_AMOUNT = 12;
     public static final int CHANGE_BILLING_PARAMETERS_AMOUNT = 12;
@@ -82,6 +93,7 @@ public class Constants {
     public static final String USER_ONROAD = "user.OnRoad";
 
     // Rental point constants
+    public static final String POINT_BICYCLE_ID = "rental_point.BicycleId";
     public static final String POINT_ID = "rental_point.Id";
     public static final String POINT_X_COORDINATE = "rental_point.x_coordinate";
     public static final String POINT_Y_COORDINATE = "rental_point.y_coordinate";
@@ -223,6 +235,9 @@ public class Constants {
 
     // Change billing command constants
     public static final String CHANGE_BILLING_ID = "id";
+
+    // Change bicycle command constants
+    public static final String CHANGE_BICYCLE_ID = "id";
 
     // Disable bicycle command constants
     public static final String DISABLE_BICYCLE_ID = "id";

@@ -20,6 +20,9 @@ public class LogoutLogic implements Logic {
 
     public UserDaoImpl userDao = new UserDaoImpl();
 
+    /**
+     * Logic method for log out
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Logout performing!");

@@ -39,6 +39,9 @@
 <fmt:message bundle="${local}" key="bicycles.creation.date" var="creation_date" />
 <fmt:message bundle="${local}" key="bicycles.status" var="status" />
 <fmt:message bundle="${local}" key="bicycles.enable" var="enable" />
+<fmt:message bundle="${local}" key="bicycles.choose.brand" var="choose_brand" />
+<fmt:message bundle="${local}" key="bicycles.choose.color" var="choose_color" />
+<fmt:message bundle="${local}" key="bicycles.choose.state" var="choose_state" />
 <fmt:message bundle="${local}" key="bicycles.brand.error" var="brand_error" />
 <fmt:message bundle="${local}" key="bicycles.color.error" var="color_error" />
 <fmt:message bundle="${local}" key="bicycles.choose.state" var="choose_state" />
@@ -46,6 +49,9 @@
 <fmt:message bundle="${local}" key="bicycles.speed.error" var="speed_error" />
 <fmt:message bundle="${local}" key="bicycles.error.info" var="error_info" />
 <fmt:message bundle="${local}" key="bicycles.title" var="title" />
+<fmt:message bundle="${local}" key="bicycles.change.bicycle" var="change_info" />
+<fmt:message bundle="${local}" key="bicycles.bicycle.info" var="bicycle_info" />
+<fmt:message bundle="${local}" key="bicycles.update" var="update" />
 <fmt:message bundle="${local}" key="bicycles.x" var="x" />
 <fmt:message bundle="${local}" key="bicycles.y" var="y" />
 <fmt:message bundle="${local}" key="bicycles.ru" var="ru" />
@@ -84,7 +90,8 @@
 										</tr>
 										<c:forEach var="bicycle" items="${bicycles.entrySet()}">
 											<tr>
-												<td><input type="checkbox" class="chkCheckBoxId" value='${bicycle.getKey().getId()}' name="id" /></td>
+												<td>
+												<input type="checkbox" class="chkCheckBoxId" value='${bicycle.getKey().getId()}' name="id" />
 												<td>
 													<div id="bicycle-wrapper">
 														<p>
@@ -92,17 +99,17 @@
 														</p>
 													</div>
 												</td>
-												<td>${bicycle.getKey().getBrand()}</td>
+												<td><a href="#change_bicycle" data-toggle="modal" data-id='${num.getId()}'>${bicycle.getKey().getBrand()}</a></td></td>
 												<td>${bicycle.getKey().getColor()}</td>
 												<td>${bicycle.getKey().getSpeed()}</td>
 												<td>${bicycle.getKey().getDate()}</td>
 												<td>${bicycle.getKey().getState()}</td>
 												<td>${bicycle.getKey().getStatus()}</td>
 												<c:choose>
-													<c:when test='${bicycle.getKey().getPointId() == 0 || bicycle.getKey().getStatus() == "DISABLE"}'>
+													<c:when test='${bicycle.getValue().getBicycleId() == 0 || bicycle.getKey().getStatus() == "DISABLE"}'>
 														<td>Not on map</td>
 													</c:when>
-													<c:when test='${bicycle.getKey().getPointId() != 0 && bicycle.getKey().getStatus() == "ENABLE"}'>
+													<c:when test='${bicycle.getValue().getBicycleId() != 0 && bicycle.getKey().getStatus() == "ENABLE"}'>
 														<td>On map</td>
 													</c:when>
 												</c:choose>
@@ -130,14 +137,14 @@
 						<form class="add" method="POST" action="${pageContext.session.servletContext.contextPath}/controller">
 							<input type="hidden" name="command" value="Add_bicycle" />
 							<div class="form-group">
-								<select name="Brand" id="select" required>
+								<label for="Card master">${choose_brand}  </label> <select name="Brand" id="select" required>
 									<c:forEach var="num" items="${priceLists}">
 										<option value="${num.getBrand()}">${num.getBrand()}</option>
 									</c:forEach>
 								</select>
 							</div>
 							<div class="form-group">
-								<select name="Color" id="select" required>
+								<label for="Card master">${choose_color}  </label> <select name="Color" id="select" required>
 									<option value="RED">RED</option>
 									<option value="GREEN">GREEN</option>
 									<option value="BLACK">BLACK</option>
@@ -150,10 +157,10 @@
 								</select>
 							</div>
 							<div class="form-group">
-								<input type="text" name="MaxSpeed" value="" class="form-control" placeholder="${enter_speed}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${speed_error}</span>
+								<input type="text" name="MaxSpeed" value="" class="form-control" placeholder="${enter_speed}" pattern="^[0-9]{1,2}$" required /> <span class="form_error">${speed_error}</span>
 							</div>
 							<div class="form-group">
-								<select name="State" id="select" required>
+								<label for="Card master">${choose_state}  </label> <select name="State" id="select" required>
 									<option value="GOOD">GOOD</option>
 									<option value="WORN">WORN</option>
 									<option value="BAD">BAD</option>
@@ -176,7 +183,7 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-sm-2">
+								<div class="col-sm-4">
 									<input type="radio" class="toggle" name="status" value="ENABLE" id="type"> ${enable}
 								</div>
 								<div class="col-sm-1">
@@ -189,35 +196,66 @@
 			</div>
 		</div>
 	</div>
+	<div class="modal fade" id="change_bicycle" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header" style="padding: 35px 50px;">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4>
+						<span class="glyphicon glyphicon-usd"></span> ${change_info}</h4>
+				</div>
+				<div class="modal-body" style="padding: 40px 50px;">
+				<h3>${bicycle_info}</h3>
+					<form name="form" method="POST" action="${pageContext.session.servletContext.contextPath}/controller">
+						<input type="hidden" name="command" value="Change_bicycle" />
+						<input type="hidden" name="id" value="" />
+							<div class="form-group">
+							<label for="Card master">${choose_color}  </label> <select name="Color" id="select" required>
+									<option value="RED">RED</option>
+									<option value="GREEN">GREEN</option>
+									<option value="BLACK">BLACK</option>
+									<option value="WHITE">WHITE</option>
+									<option value="YELLOW">YELLOW</option>
+									<option value="BLUE">BLUE</option>
+									<option value="GRY">GRAY</option>
+									<option value="PURPLE">PURPLE</option>
+									<option value="ORANGE">ORANGE</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<input type="text" name="MaxSpeed" value="" class="form-control" placeholder="${enter_speed}" pattern="^[0-9]{1,2}$" required /> <span class="form_error">${speed_error}</span>
+							</div>
+							<div class="form-group">
+								<label for="Card master">${choose_state}  </label> <select name="State" id="select" required>
+									<option value="GOOD">GOOD</option>
+									<option value="WORN">WORN</option>
+									<option value="BAD">BAD</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-2">
+										<input type="text" name="ImagePath" value="" class="form-control" id="imagePath" placeholder="${enter_path}" pattern="^.\/image\/[a-zA-z0-9]{1,100}.(png|jpg)$"
+											required /> <span class="form_error">${image_error}</span>
+									</div>
+									<div class="col-sm-1">
+										<div class="search">
+											<div id="dialog-search">
+												<image id="searchImage" src="./image/search.png" />
+											</div>
+											<input id="uploadImage" type="file" name="search_photo" placeholder="Photo" required="" capture>
+										</div>
+									</div>
+								</div>
+							</div>
+							<button type="submit" class="btn btn-submit" id="dialog-button">${create}</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 	<script type="text/javascript">
-		$('input[type=hidden]:checked').val();
-		$(document).ready(function() {
-			$('#checkBoxAll').click(function() {
-				if ($(this).is(":checked"))
-					$('.chkCheckBoxId').prop('checked', true);
-				else
-					$('.chkCheckBoxId').prop('checked', false);
-			});
-		});
-
-		$("#searchImage").click(function(e) {
-			$("#uploadImage").click();
-		});
-
-		function fasterPreview(uploader) {
-			if (uploader.files && uploader.files[0]) {
-				var path = window.URL.createObjectURL(uploader.files[0]);
-			}
-		}
-
-		$("#uploadImage").change(function() {
-			fasterPreview(this);
-			var path, url;
-			url = this.value;
-			url = url.split("\\");
-			path = "./image/" + url[2];
-			document.getElementById('imagePath').value = path;
-		});
+	<%@include file="/js/bicycles.js"%>
 	</script>
 </body>
 </html>

@@ -32,8 +32,10 @@ public class DebtDaoImpl extends DebtDao {
     private static final String SQL_FIND_USERS_DEBTS = "SELECT * FROM debt INNER JOIN user ON user.Id = debt.DebtorId";
     private static final String SQL_FIND_USER_DEBT = "SELECT * FROM debt INNER JOIN user ON user.Id = debt.DebtorId WHERE user.Id = ?";
 
-    // DebtDao transaction method for updating user after paying debt and deleting
-    // debt entity
+    /**
+     * DebtDao transaction method for updating user after paying debt and deleting
+     * debt entity
+     */
     @Override
     public void updateAfterPayDebt(User user, Debt debt) throws DaoException {
         logger.info("Updating user after paying debt and deleting debt in dao.");
@@ -73,7 +75,9 @@ public class DebtDaoImpl extends DebtDao {
 
     }
 
-    // DebtDao method for finding all debt with users
+    /**
+     * DebtDao method for finding all debt with users
+     */
     @Override
     public Map<Debt, User> findUserDebt(int id) throws DaoException {
         logger.info("Finding users with debts in dao.");
@@ -96,7 +100,9 @@ public class DebtDaoImpl extends DebtDao {
         }
     }
 
-    // DebtDao method of finding all debts of current user
+    /**
+     * DebtDao method of finding all debts of current user
+     */
     @Override
     public List<Debt> findAllById(int id) throws DaoException {
         logger.info("Finding all debt of current user by id in dao.");
@@ -116,7 +122,9 @@ public class DebtDaoImpl extends DebtDao {
         }
     }
 
-    // DebtDao method for finding users with debts
+    /**
+     * DebtDao method for finding users with debts
+     */
     @Override
     public Map<Debt, User> findUsersDebts() throws DaoException {
         logger.info("Finding users with debts in dao.");
@@ -138,7 +146,9 @@ public class DebtDaoImpl extends DebtDao {
         }
     }
 
-    // DabtDao method of finding all debts
+    /**
+     * DabtDao method of finding all debts
+     */
     @Override
     public List<Debt> findAll() throws DaoException {
         logger.info("Finding all debts in dao.");
@@ -159,7 +169,9 @@ public class DebtDaoImpl extends DebtDao {
         }
     }
 
-    // DebtDao method of finding debt by id
+    /**
+     * DebtDao method of finding debt by id
+     */
     @Override
     public Optional<Debt> findById(int id) throws DaoException {
         logger.info("Finding debt by id in dao.");
@@ -181,7 +193,9 @@ public class DebtDaoImpl extends DebtDao {
         }
     }
 
-    // DebtDao method for deleting user debt
+    /**
+     * DebtDao method for deleting user debt
+     */
     @Override
     public void delete(int id) throws DaoException {
         logger.info("Deleting user debt in dao.");
@@ -193,7 +207,7 @@ public class DebtDaoImpl extends DebtDao {
             statement.setInt(1, id);
             int result = statement.executeUpdate();
             if (result == 0) {
-                throw new DaoException("User debt was not deleted!");
+                logger.error("User debt was not deleted!");
             }
         } catch (SQLException ex) {
             throw new DaoException(ex);
@@ -203,7 +217,9 @@ public class DebtDaoImpl extends DebtDao {
         }
     }
 
-    // DebtDao method for creating debt
+    /**
+     * DebtDao method for creating debt
+     */
     @Override
     public void create(Debt entity) throws DaoException {
         logger.info("Creating debt in dao.");
@@ -217,7 +233,7 @@ public class DebtDaoImpl extends DebtDao {
             statement.setDate(3, entity.getCreationDate());
             int result = statement.executeUpdate();
             if (result == 0) {
-                throw new DaoException("User debt was not created!");
+                logger.error("User debt was not created!");
             }
         } catch (SQLException ex) {
             throw new DaoException(ex);
@@ -227,7 +243,9 @@ public class DebtDaoImpl extends DebtDao {
         }
     }
 
-    // DebtDao method for updating user debt
+    /**
+     * DebtDao method for updating user debt
+     */
     @Override
     public void update(Debt entity) throws DaoException {
         logger.info("Creating debt in dao.");
@@ -242,7 +260,7 @@ public class DebtDaoImpl extends DebtDao {
             statement.setInt(4, entity.getId());
             int result = statement.executeUpdate();
             if (result == 0) {
-                throw new DaoException("User debt was not updated!");
+                logger.error("User debt was not updated!");
             }
         } catch (SQLException ex) {
             throw new DaoException(ex);

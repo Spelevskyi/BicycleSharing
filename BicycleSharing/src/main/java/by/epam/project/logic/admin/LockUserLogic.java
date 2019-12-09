@@ -22,7 +22,7 @@ public class LockUserLogic implements Logic {
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of locking user perfoming.");
-        if (parameters.size() == 0) {
+        if (parameters.size() != Constants.LOCK_USER_PARAMETERS_AMOUNT) {
             logger.error("Invalid parameters amount for lock user!");
             throw new LogicException("Invalid parameters amount for lock user!");
         }

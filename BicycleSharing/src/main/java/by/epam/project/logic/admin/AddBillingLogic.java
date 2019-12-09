@@ -20,6 +20,9 @@ public class AddBillingLogic implements Logic {
 
     private BillingDaoImpl billDao = new BillingDaoImpl();
 
+    /**
+     * Logic method for adding new price list
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Adding new billing list executing.");
@@ -97,5 +100,4 @@ public class AddBillingLogic implements Logic {
             throw new LogicException("Adding new billing list failed!", ex);
         }
     }
-
 }

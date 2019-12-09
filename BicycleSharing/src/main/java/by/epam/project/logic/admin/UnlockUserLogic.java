@@ -19,10 +19,13 @@ public class UnlockUserLogic implements Logic {
 
     public UserDaoImpl userDao = new UserDaoImpl();
 
+    /**
+     * Logic method for unlocking user
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of unlocking user perfoming.");
-        if (parameters.size() == 0) {
+        if (parameters.size() != Constants.UNLOCK_USER_PARAMETERS_AMOUNT) {
             logger.error("Invalid parameters amount for unlock user!");
             throw new LogicException("Invalid parameters amount for unlock user!");
         }
@@ -35,7 +38,7 @@ public class UnlockUserLogic implements Logic {
                 User user = userDao.findById(userId).get();
                 user.setStatus(Constants.UNLOCKED);
                 userDao.update(user);
-                logger.info("Unloocking user succesfully!");
+                logger.info("Unlocking user succesfully!");
             }
         } catch (DaoException ex) {
             throw new LogicException("User unlocking failed!", ex);

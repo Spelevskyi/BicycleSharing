@@ -4,6 +4,12 @@ import java.sql.Date;
 
 public class RegularCustomerChecker {
 
+    /**
+     * Static method for finding regular customer by date value
+     * 
+     * @param lastOrderDate
+     * @return boolean value
+     */
     public static boolean isRegularCustomer(Date lastOrderDate) {
         Date currentDate = new Date(System.currentTimeMillis());
         String currentDateArray[] = currentDate.toString().split("-");

@@ -86,33 +86,24 @@ body {
 	margin-top:10px;
 }
 
-h4{
+h4,h3,p{
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-	font-size:20;
-}
-
-#road_button{
-	margin-right:20px;
-	margin-left:10px;
-	margin-bottom:10px;
-	width:300px;
-	background-color:#4CAF50;
-	color:white;
+	border-collapse: collapse;
+	width: 100%;
 }
 
 #image-wrapper {
-    height:450px;
-    width:450px;
+    height:420px;
+    width:600px;
     position:absolute;
     overflow:auto;
     border:1px solid black;
-    margin:30px;
     text-align:center;
 }
 
 .inner {
-    height:450px;
-    width:450px;
+    height:auto;
+    width:auto;
     display:table-cell;
     vertical-align:middle;
 }
@@ -121,23 +112,30 @@ h4{
 	
 	padding-right:150px;
 }
-.zoomin{
-	text-align:center;
-	width:50px;
+
+.adding{
+	padding-top:10px;
+	width:324px;
+    border:1px solid black;
+	background-color:white;
+}
+
+#road-button{
+	margin-right:20px;
+	margin-left:10px;
+	margin-bottom:10px;
+	width:300px;
+	background-color:#4CAF50;
+	color:white;
 }
 
 .button {
 	width:200px;
 }
 
-.zoomout{
-	text-align:center;
-	width:50px;
-}
-
 #image-wrapper img {
-	width:450px;
-    height:450px;
+	width:auto;
+    height:auto;
 }
 
 span.marker {
@@ -152,7 +150,6 @@ span.marker {
 span.marker:before {
   content: "";
   background: url("./image/marker.png") left center no-repeat;
-
   vertical-align: middle;
   background-size: 12px auto;
   padding-left: 16px;

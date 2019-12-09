@@ -34,6 +34,9 @@ public class RentalPointsLogic implements Logic {
     private User user;
     private RentalOrder activeOrder;
 
+    /**
+     * Logic method of forwarding to user rental points page
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of forwarding to user rental points page performing.");
@@ -68,7 +71,6 @@ public class RentalPointsLogic implements Logic {
             user = userDao.findById(userId).get();
             logger.info("Succesfully forwarding to rental points page!");
         } catch (DaoException ex) {
-            System.out.println(ex.getMessage());
             throw new LogicException("Forwarding to rental points page failed!", ex);
         }
     }

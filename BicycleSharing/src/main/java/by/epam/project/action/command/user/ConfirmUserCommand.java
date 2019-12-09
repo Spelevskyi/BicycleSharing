@@ -18,7 +18,6 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.user.ConfirmUserLogic;
 import by.epam.project.util.Constants;
-import by.epam.project.util.PageError;
 
 public class ConfirmUserCommand implements ActionCommand {
 
@@ -26,10 +25,14 @@ public class ConfirmUserCommand implements ActionCommand {
 
     private Logic logic = new ConfirmUserLogic();
 
+    /**
+     * Command for confirming user
+     */
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("User confirmation executing.");
         Router router = new Router();
+        router.setType(RouteType.REDIRECT);
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(Constants.SESSION_USER);
         int confirmationCode = (int) session.getAttribute(Constants.CONFIRMATION_CODE);
@@ -43,11 +46,10 @@ public class ConfirmUserCommand implements ActionCommand {
             ConfirmUserLogic confirmLogic = (ConfirmUserLogic) logic;
             request.getSession().setAttribute(Constants.SESSION_USER, confirmLogic.getUser());
             router.setRoutePath(RoutePath.REDIRECT_ACCOUNT_PAGE.getRoutePath());
-            router.setType(RouteType.REDIRECT);
             logger.info("Successfully confirm user email!");
         } catch (LogicException ex) {
             logger.error(ex);
-            request.getSession().setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }

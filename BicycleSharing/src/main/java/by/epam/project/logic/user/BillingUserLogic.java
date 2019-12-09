@@ -28,6 +28,9 @@ public class BillingUserLogic implements Logic {
     private List<Card> cards;
     private List<Debt> debets;
 
+    /**
+     * Logic method of forwarding to user billing page
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of forwarding to user billing page performing.");

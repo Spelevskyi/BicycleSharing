@@ -11,6 +11,7 @@ import by.epam.project.entity.billing.PriceList;
 import by.epam.project.exception.DaoException;
 import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
+import by.epam.project.util.Constants;
 
 public class DeleteBillingLogic implements Logic {
 
@@ -18,12 +19,15 @@ public class DeleteBillingLogic implements Logic {
 
     public BillingDaoImpl billDao = new BillingDaoImpl();
 
+    /**
+     * Logic method for deleting price lists
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
-        logger.info("Actuin of deleting price lists performing.");
-        if (parameters.size() == 0) {
-            logger.error("Invalid parameters amount for deleting billing!");
-            throw new LogicException("Invalid parameters amount for deleting billing!");
+        logger.info("Action of deleting price lists performing.");
+        if (parameters.size() == Constants.ILLEGAL_DELETE_PARAMETERS_AMOUNT) {
+            logger.error("Invalid parameters amount for deleting billing list!");
+            throw new LogicException("Invalid parameters amount for deleting billing list!");
         }
         try {
             for (String id : parameters) {
@@ -33,7 +37,7 @@ public class DeleteBillingLogic implements Logic {
                     logger.error("Price list not exists!");
                 } else {
                     billDao.delete(billId);
-                    logger.info("Deleting row from bicycle price list.");
+                    logger.info("Deleting row from bicycle price list!");
                 }
             }
         } catch (DaoException ex) {

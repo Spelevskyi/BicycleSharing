@@ -21,6 +21,9 @@ public class AccountPageLogic implements Logic {
 
     private User user;
 
+    /**
+     * Logic method of forwarding to account page
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of forwarding to account page executing.");
@@ -38,7 +41,7 @@ public class AccountPageLogic implements Logic {
             }
             logger.info("Succesfully forwarding to user account page.");
         } catch (DaoException ex) {
-            throw new LogicException(ex);
+            throw new LogicException("Forwarding to account page failed!", ex);
         }
     }
 

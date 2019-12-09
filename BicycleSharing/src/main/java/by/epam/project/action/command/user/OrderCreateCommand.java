@@ -18,13 +18,16 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.user.OrderLogic;
 import by.epam.project.util.Constants;
-import by.epam.project.util.PageError;
 
 public class OrderCreateCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger(OrderCreateCommand.class);
 
     private Logic logic = new OrderLogic();
+
+    /**
+     * Command for creation order
+     */
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("Creating order executing.");
@@ -44,8 +47,7 @@ public class OrderCreateCommand implements ActionCommand {
             logger.info("Succesfully creating user order executing!");
         } catch (LogicException ex) {
             logger.error(ex);
-            request.setAttribute(Constants.ERROR,
-                    PageError.getError(Constants.TRUE, ex.getMessage()));
+            request.setAttribute(Constants.ERROR, ex.getMessage());
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }

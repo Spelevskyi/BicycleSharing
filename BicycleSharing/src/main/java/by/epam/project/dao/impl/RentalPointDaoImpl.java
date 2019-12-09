@@ -1,10 +1,8 @@
 package by.epam.project.dao.impl;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,15 +20,39 @@ public class RentalPointDaoImpl extends RentalPointDao {
 
     private static final Logger logger = LogManager.getLogger(RentalPointDaoImpl.class);
 
-    private static final String FIND_ALL_RENTAL_POINTS = "SELECT * FROM rental_point";
+    private static final String SQL_FIND_ALL = "SELECT * FROM rental_point";
     private static final String SQL_CREATE_POINT = "INSERT INTO rental_point(x_coordinate,y_coordinate) VALUES(?,?)";
-    private static final String SEARCH_BY_COORDINATES = "SELECT * FROM rental_point WHERE x_coordinate = ? AND y_coordinate = ?";
-    private static final String SEARCH_BY_ID = "SELECT * FROM rental_point WHERE Id = ?";
-    private static final String FIND_ALL_RENTAL_POINTS_BY_LOCATION = "SELECT * FROM rental_point WHERE Location = ?";
-    private static final String REMOVE_POINT = "DELETE FROM rental_point WHERE Id = ?";
-    private static final String UPDATE_RENTAL_POINT = "UPDATE rental_point SET rental_point.x_coordinate = ?,"
-            + "rental_point.y_coordinate = ? WHERE Id = ?";
+    private static final String SQL_SEARCH_BY_ID = "SELECT * FROM rental_point WHERE Id = ?";
+    private static final String SQL_DELETE_BY_BICYCLE_ID = "DELETE FROM rental_point WHERE BicycleId = ?";
+    private static final String SQL_DELETE_POINT = "DELETE FROM rental_point WHERE Id = ?";
 
+    /**
+     * RentalPointDao method for deleting point by bicycle id
+     */
+    @Override
+    public void deleteByBicycleId(int bicycleId) throws DaoException {
+        logger.info("Deleting rental point by bicycle id in dao.");
+        ProxyConnection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = ConnectionPool.INSTANCE.getConnection();
+            statement = connection.prepareStatement(SQL_DELETE_BY_BICYCLE_ID);
+            statement.setInt(1, bicycleId);
+            int result = statement.executeUpdate();
+            if (result == 0) {
+                logger.error("Rental point was not deleted!");
+            }
+        } catch (SQLException ex) {
+            throw new DaoException(ex);
+        } finally {
+            close(statement);
+            close(connection);
+        }
+    }
+
+    /**
+     * RentalPointDao method for creating point
+     */
     @Override
     public void create(RentalPoint entity) throws DaoException {
         logger.info("Creation rental point in point dao.");
@@ -53,84 +75,74 @@ public class RentalPointDaoImpl extends RentalPointDao {
         }
     }
 
-    @Override
-    public void updateRentalPoint(int x_coordinate, int y_coordinate, int id) throws DaoException {
-        try (Connection connection = ConnectionPool.INSTANCE.getConnection();
-                PreparedStatement statement = connection.prepareStatement(UPDATE_RENTAL_POINT)) {
-            statement.setInt(1, x_coordinate);
-            statement.setInt(2, y_coordinate);
-            statement.setInt(3, id);
-            statement.executeUpdate();
-        } catch (SQLException ex) {
-            throw new DaoException(ex.getMessage());
-        }
-    }
-
+    /**
+     * RentalPointDao method for finding all rental points
+     */
     @Override
     public List<RentalPoint> findAll() throws DaoException {
-        try (Connection connection = ConnectionPool.INSTANCE.getConnection();
-                PreparedStatement statement = connection.prepareStatement(FIND_ALL_RENTAL_POINTS)) {
-            ResultSet result = statement.executeQuery();
+        logger.info("Finding all rental points in point dao.");
+        ProxyConnection connection = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+        try {
+            connection = ConnectionPool.INSTANCE.getConnection();
+            statement = connection.prepareStatement(SQL_FIND_ALL);
+            result = statement.executeQuery();
             return RentalPointBuilder.createPoints(result);
         } catch (SQLException ex) {
-            throw new DaoException(ex.getMessage());
+            throw new DaoException(ex);
+        } finally {
+            close(result);
+            close(statement);
+            close(connection);
         }
     }
 
+    /**
+     * RentalPointDao method for finding point by id
+     */
     @Override
     public Optional<RentalPoint> findById(int id) throws DaoException {
-        try (Connection connection = ConnectionPool.INSTANCE.getConnection();
-                PreparedStatement statement = connection.prepareStatement(SEARCH_BY_ID)) {
-            statement.setInt(1, id);
-            ResultSet result = statement.executeQuery();
-            if (!result.next()) {
-                return Optional.empty();
-            } else {
-                RentalPoint point = RentalPointBuilder.createPoint(result);
-                return Optional.ofNullable(point);
-            }
-        } catch (SQLException ex) {
-            throw new DaoException(ex.getMessage());
-        }
-    }
-
-    @Override
-    public RentalPoint findByCoordinates(int x, int y) throws DaoException {
-        try (Connection connection = ConnectionPool.INSTANCE.getConnection();
-                PreparedStatement statement = connection.prepareStatement(SEARCH_BY_COORDINATES)) {
-            statement.setInt(1, x);
-            statement.setInt(2, y);
-            ResultSet result = statement.executeQuery();
+        logger.info("Deleting rental point in point dao.");
+        ProxyConnection connection = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+        try {
+            connection = ConnectionPool.INSTANCE.getConnection();
+            statement = connection.prepareStatement(SQL_SEARCH_BY_ID);
+            result = statement.executeQuery();
             return RentalPointBuilder.createPoint(result);
         } catch (SQLException ex) {
-            throw new DaoException(ex.getMessage());
+            throw new DaoException(ex);
+        } finally {
+            close(result);
+            close(statement);
+            close(connection);
         }
     }
 
+    /**
+     * RentalPointDao method for deleting point
+     */
     @Override
     public void delete(int id) throws DaoException {
-        try (Connection connection = ConnectionPool.INSTANCE.getConnection();
-                PreparedStatement statement = connection.prepareStatement(REMOVE_POINT)) {
+        logger.info("Deleting rental point in point dao.");
+        ProxyConnection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = ConnectionPool.INSTANCE.getConnection();
+            statement = connection.prepareStatement(SQL_DELETE_POINT);
             statement.setInt(1, id);
-            statement.execute();
+            int result = statement.executeUpdate();
+            if (result == 0) {
+                logger.error("Rental point was not deleted!");
+            }
         } catch (SQLException ex) {
-            throw new DaoException(ex.getMessage());
+            throw new DaoException(ex);
+        } finally {
+            close(statement);
+            close(connection);
         }
-
-    }
-
-    @Override
-    public List<RentalPoint> searchRentalPointsByLocation(String location) throws DaoException {
-        try (Connection connection = ConnectionPool.INSTANCE.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(FIND_ALL_RENTAL_POINTS_BY_LOCATION);
-            statement.setString(1, location);
-            ResultSet result = statement.executeQuery();
-            ArrayList<RentalPoint> points = RentalPointBuilder.createPoints(result);
-            return points;
-        } catch (SQLException ex) {
-            throw new DaoException(ex.getMessage());
-        }
-
     }
 
     @Override

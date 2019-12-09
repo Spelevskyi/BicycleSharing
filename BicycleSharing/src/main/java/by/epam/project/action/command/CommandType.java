@@ -6,6 +6,7 @@ import by.epam.project.action.command.admin.AddBillingCommand;
 import by.epam.project.action.command.admin.AdminBillingPageCommand;
 import by.epam.project.action.command.admin.AdminHomeCommand;
 import by.epam.project.action.command.admin.BicyclesCommand;
+import by.epam.project.action.command.admin.ChangeBicycleCommand;
 import by.epam.project.action.command.admin.ChangeBillingCommand;
 import by.epam.project.action.command.admin.DeleteBicycleCommand;
 import by.epam.project.action.command.admin.DeleteBillingCommand;
@@ -22,7 +23,6 @@ import by.epam.project.action.command.common.ChangePasswordCommand;
 import by.epam.project.action.command.common.ChangeProfileCommand;
 import by.epam.project.action.command.common.ConfirmCommand;
 import by.epam.project.action.command.common.ConfirmPageCommand;
-import by.epam.project.action.command.common.ForgotPasswordCommand;
 import by.epam.project.action.command.common.HomePageCommand;
 import by.epam.project.action.command.common.LanguageCommand;
 import by.epam.project.action.command.common.LogoutCommand;
@@ -162,6 +162,11 @@ public enum CommandType {
             this.command = new ConfirmUserCommand();
         }
     },
+    CHANGE_BICYCLE {
+        {
+            this.command = new ChangeBicycleCommand();
+        }
+    },
     CONFIRM_PAGE {
         {
             this.command = new ConfirmPageCommand();
@@ -185,11 +190,6 @@ public enum CommandType {
     END_MOVE {
         {
             this.command = new EndMoveCommand();
-        }
-    },
-    FORGOT_PASSWORD {
-        {
-            this.command = new ForgotPasswordCommand();
         }
     },
     CHANGE_PASSWORD {

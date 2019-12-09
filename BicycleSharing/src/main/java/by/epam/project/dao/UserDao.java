@@ -11,7 +11,6 @@ public abstract class UserDao extends AbstractDao<User> {
 
     public abstract boolean matchEmailPassword(String email, String password) throws DaoException;
     public abstract Optional<User> findUserByEmail(String email) throws DaoException;
-    public abstract void confirmUser(String email) throws DaoException;
     public abstract void replenishCash(User user, Card card) throws DaoException;
     public abstract void updateUserAfterOrder(User user, Bicycle bicycle) throws DaoException;
 }

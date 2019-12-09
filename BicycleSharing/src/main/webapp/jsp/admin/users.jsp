@@ -32,6 +32,7 @@
 <fmt:message bundle="${local}" key="users.amount" var="amount" />
 <fmt:message bundle="${local}" key="users.status" var="status" />
 <fmt:message bundle="${local}" key="users.title" var="title" />
+<fmt:message bundle="${local}" key="users.online" var="online" />
 <fmt:message bundle="${local}" key="users.error.info" var="error_info" />
 <title>${title}</title>
 </head>
@@ -63,7 +64,7 @@
 									<th>${amount}</th>
 									<th>${balance}</th>
 									<th>${confirmed}</th>
-									<th>Online</th>
+									<th>${online}</th>
 									<th></th>
 								</tr>
 								<c:forEach var="user" items="${users}">
@@ -98,14 +99,7 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		$(document).ready(function() {
-			$('#checkBoxAll').click(function() {
-				if ($(this).is(":checked"))
-					$('.chkCheckBoxId').prop('checked', true);
-				else
-					$('.chkCheckBoxId').prop('checked', false);
-			});
-		});
+	<%@include file="/js/users.js"%>
 	</script>
 </body>
 </html>

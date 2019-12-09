@@ -1,0 +1,140 @@
+body {
+	background-image: url("./image/background.jpg");
+	background-size: 1400px 660px;
+	font-family: Georgia, Helvetica, serif;
+}
+
+.tab {
+	background-color: white;
+}
+
+th {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: left;
+	background-color: #4CAF50;
+	color: white;
+	width: auto;
+}
+
+#bill-button{
+	margin-right:20px;
+	margin-left:10px;
+	margin-bottom:10px;
+	width:340px;
+	background-color:#4CAF50;
+	color:white;
+}
+
+td {
+	border: 1px solid #ddd;
+	padding: 10px;
+}
+
+.form-group{
+	margin-left:10px;
+	margin-right:10px;
+	margin-top:10px;
+}
+
+tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+tr:hover {
+	background-color: #ddd;
+}
+
+.table {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.inner {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+#card {
+	border: 1px solid #ddd;
+	width: auto;
+	height: auto;
+	background-color: white;
+}
+
+#bill-wrapper {
+	height: 200px;
+	width: 700px;
+	position: absolute;
+	overflow: auto;
+	border: 1px solid black;
+	text-align: center;
+}
+
+.debets {
+	margin-top: 270px;
+	margin-left: 405px;
+}
+
+.bill-inner {
+	height: auto;
+	width: 700;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+#select {
+	margin-right: 10px;
+	margin-left: 10px;
+}
+
+.button {
+	width: 200px;
+	background-color: #d9d4d4;
+	color: black;
+}
+
+#image-wrapper {
+	height: 400px;
+	position: absolute;
+	overflow: auto;
+	text-align: center;
+}
+
+#adding {
+	padding-top:10px;
+	margin-left:30px;
+	width:400px;
+    border:1px solid black;
+	background-color:white;
+}
+
+#plus {
+	color: black;
+}
+
+input:valid:not(:placeholder-shown) {
+  border-color: green;
+}
+
+input:invalid:not(:placeholder-shown) {
+  border-color: red;
+}
+
+input:invalid:not(:placeholder-shown) + .form_error {
+  display: block;
+}
+
+.form_error {
+  font-size: 15px;
+  font-weight: 300;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  color: red;
+  text-align: left;
+  margin-top: 3px;
+  display: none;
+  padding-left: 10px;
+}

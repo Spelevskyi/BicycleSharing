@@ -14,6 +14,9 @@ public class HomePageCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger(ConfirmPageCommand.class);
 
+    /**
+     * Command of forwarding to index page
+     */
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("Home page forwarding executing.");

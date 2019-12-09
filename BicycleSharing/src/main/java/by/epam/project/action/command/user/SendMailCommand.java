@@ -18,7 +18,6 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.user.SendMailLogic;
 import by.epam.project.util.Constants;
-import by.epam.project.util.PageError;
 
 public class SendMailCommand implements ActionCommand {
 
@@ -26,6 +25,9 @@ public class SendMailCommand implements ActionCommand {
 
     private Logic logic = new SendMailLogic();
 
+    /**
+     * Command for sending email for confirming
+     */
     public Router execute(HttpServletRequest request) {
         Router router = new Router();
         router.setType(RouteType.FORWARD);
@@ -41,9 +43,9 @@ public class SendMailCommand implements ActionCommand {
             logger.info("Sending confirmation code to user email!");
         } catch (LogicException ex) {
             logger.error(ex);
-            request.getSession().setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
-            router.setType(RouteType.REDIRECT);
+            router.setType(RouteType.FORWARD);
         }
         return router;
     }

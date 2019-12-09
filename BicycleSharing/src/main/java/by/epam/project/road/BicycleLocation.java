@@ -3,6 +3,9 @@ package by.epam.project.road;
 import java.math.BigDecimal;
 import java.sql.Date;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import by.epam.project.dao.impl.BicycleDaoImpl;
 import by.epam.project.dao.impl.DebtDaoImpl;
 import by.epam.project.dao.impl.OrderDaoImpl;
@@ -21,8 +24,17 @@ import by.epam.project.util.CurrentDate;
 
 public class BicycleLocation {
 
+    private static final Logger logger = LogManager.getLogger(BicycleLocation.class);
+
+    /**
+     * Static method for changing operations for several entities after road ending
+     * 
+     * @param id - user id
+     * @throws LogicException
+     */
     public static void changeBicycleLocation(int id) throws LogicException {
         try {
+            logger.info("Chnaging perameters after ending moving.");
             String dateTime = CurrentDate.getCurrentDate();
             OrderDaoImpl orderDao = new OrderDaoImpl();
             BicycleDaoImpl dao = new BicycleDaoImpl();
@@ -36,6 +48,7 @@ public class BicycleLocation {
             BigDecimal price = BillingOperation.ChangeBalance(order, user, list);
             BigDecimal difference = price.subtract(user.getCash());
             if (difference.doubleValue() >= 0) {
+                logger.info("User balance less than price.");
                 Date creationDate = new Date(System.currentTimeMillis());
                 user.setCash(BigDecimal.valueOf(0));
                 user.setStatus(Constants.LOCKED);
@@ -43,10 +56,12 @@ public class BicycleLocation {
                 debtDao.create(debt);
             }
             else {
+                logger.info("User balance bigger than road price.");
                 BigDecimal newCash = user.getCash().subtract(price);
                 user.setCash(newCash);
                 user.setStatus(Constants.UNLOCKED);
             }
+            user.setOnRoad(false);
             order.setDistance(distance);
             order.setActualEndTime(dateTime);
             order.setBookedEndTime(dateTime);
@@ -54,37 +69,45 @@ public class BicycleLocation {
             bicycle.setStatus(Constants.ENABLE);
             switch (order.getDirection()) {
             case "North":
+                logger.info("Moving to the North.");
                 point.setY_coordinate(point.getY_coordinate() - (int) distance);
                 dao.updateAfterMoving(order, bicycle, point, user);
                 break;
             case "South":
+                logger.info("Moving to the South.");
                 point.setY_coordinate(point.getY_coordinate() + (int) distance);
                 dao.updateAfterMoving(order, bicycle, point, user);
                 break;
             case "West":
+                logger.info("Moving to the West.");
                 point.setX_coordinate(point.getX_coordinate() - (int) distance);
                 dao.updateAfterMoving(order, bicycle, point, user);
                 break;
             case "East":
+                logger.info("Moving to the East.");
                 point.setX_coordinate(point.getX_coordinate() + (int) distance);
                 dao.updateAfterMoving(order, bicycle, point, user);
                 break;
             case "North-West":
+                logger.info("Moving to the North-West.");
                 point.setX_coordinate(point.getX_coordinate() - (int) distance);
                 point.setY_coordinate(point.getY_coordinate() - (int) distance);
                 dao.updateAfterMoving(order, bicycle, point, user);
                 break;
             case "North-East":
+                logger.info("Moving to the North-East.");
                 point.setX_coordinate(point.getX_coordinate() + (int) distance);
                 point.setY_coordinate(point.getY_coordinate() - (int) distance);
                 dao.updateAfterMoving(order, bicycle, point, user);
                 break;
             case "South-West":
+                logger.info("Moving to the South-West.");
                 point.setX_coordinate(point.getX_coordinate() - (int) distance);
                 point.setY_coordinate(point.getY_coordinate() + (int) distance);
                 dao.updateAfterMoving(order, bicycle, point, user);
                 break;
             case "South-East":
+                logger.info("Moving to the South-East.");
                 point.setX_coordinate(point.getX_coordinate() + (int) distance);
                 point.setY_coordinate(point.getY_coordinate() + (int) distance);
                 dao.updateAfterMoving(order, bicycle, point, user);
@@ -93,6 +116,7 @@ public class BicycleLocation {
                 break;
             }
         } catch (DaoException ex) {
+            logger.error(ex);
             throw new LogicException("Ending current road failed!", ex);
         }
     }

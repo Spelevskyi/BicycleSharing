@@ -22,6 +22,9 @@ public class EndMoveLogic implements Logic{
 
     private User user;
 
+    /**
+     * Logic method
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of ending road performing.");

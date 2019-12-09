@@ -30,11 +30,13 @@ public class OrderDaoImpl extends OrderDao {
     private static final String SQL_UPDATE_ORDER_FOR_MOVE = "UPDATE rental_order SET rental_order.ActualStartTime = ?"
             + ",rental_order.Direction = (SELECT direction.Direction FROM direction WHERE direction.Id = ?) WHERE RenterId = ? AND Status = 'ACTIVE'";
     private static final String SQL_FULL_ORDER_INFO = "SELECT * FROM rental_order LEFT JOIN bicycle ON bicycle.Id = rental_order.BicycleId LEFT JOIN user ON user.Id = rental_order.RenterId "
-            + "LEFT JOIN rental_point ON rental_point.Id = bicycle.PointId LEFT JOIN billing ON billing.Id = bicycle.BillingId WHERE rental_order.RenterId = ? AND rental_order.Status = 'ACTIVE'";
+            + "LEFT JOIN rental_point ON rental_point.BicycleId = bicycle.Id LEFT JOIN billing ON billing.Id = bicycle.BillingId WHERE rental_order.RenterId = ? AND rental_order.Status = 'ACTIVE'";
     private static final String SQL_SEARCH_BY_ID = "SELECT * FROM rental_order WHERE Id = ?";
     private static final String SQL_DELETE_ORDER = "DELETE FROM rental_order WHERE Id = ?";
 
-    // OrderDao method for creating bicycle order
+    /**
+     * OrderDao method for creating bicycle order
+     */
     @Override
     public void create(RentalOrder entity) throws DaoException {
         logger.info("Creating bicycle order in dao.");
@@ -63,7 +65,9 @@ public class OrderDaoImpl extends OrderDao {
         }
     }
 
-    // OrderDao method for finding order with bicycle
+    /**
+     * OrderDao method for finding order with bicycle
+     */
     @Override
     public Map<RentalOrder, Bicycle> findOrderWithBicycle() throws DaoException {
         logger.info("Finding orders with bicycle in order dao.");
@@ -90,7 +94,9 @@ public class OrderDaoImpl extends OrderDao {
 
     }
 
-    // OrderDao method of founding active order for user with id as parameter
+    /**
+     * OrderDao method of founding active order for user with id as parameter
+     */
     @Override
     public Optional<RentalOrder> findActiveOrder(int id) throws DaoException {
         logger.info("Finding active order for current user inf dao!");
@@ -112,7 +118,9 @@ public class OrderDaoImpl extends OrderDao {
         }
     }
 
-    // OrderDao method for finding order by renter id
+    /**
+     * OrderDao method for finding order by renter id
+     */
     @Override
     public Optional<RentalOrder> findByRenterId(int id) throws DaoException {
         logger.info("Finding order by renter id in dao.");
@@ -134,7 +142,9 @@ public class OrderDaoImpl extends OrderDao {
         }
     }
 
-    // OrderDao method for updating order after starting moving
+    /**
+     * OrderDao method for updating order after starting moving
+     */
     @Override
     public void updateOrderForMove(String time, int directionId, int id) throws DaoException {
         logger.info("Updating order after starting moving in dao.");
@@ -158,7 +168,9 @@ public class OrderDaoImpl extends OrderDao {
         }
     }
 
-    // OrderDao method for finding all orders
+    /**
+     * OrderDao method for finding all orders
+     */
     @Override
     public List<RentalOrder> findAll() throws DaoException {
         logger.info("Finding all orders in dao.");
@@ -177,7 +189,9 @@ public class OrderDaoImpl extends OrderDao {
         }
     }
 
-    // OrderDao method for finding order by id
+    /**
+     * OrderDao method for finding order by id
+     */
     @Override
     public Optional<RentalOrder> findById(int id) throws DaoException {
         logger.info("Finding order by id in dao.");
@@ -199,7 +213,9 @@ public class OrderDaoImpl extends OrderDao {
         }
     }
 
-    // OrderDao method for deleting order
+    /**
+     * OrderDao method for deleting order
+     */
     @Override
     public void delete(int id) throws DaoException {
         logger.info("Deleting order by id in dao.");

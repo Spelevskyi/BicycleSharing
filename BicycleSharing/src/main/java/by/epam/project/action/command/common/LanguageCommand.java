@@ -15,6 +15,9 @@ public class LanguageCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger(LanguageCommand.class);
 
+    /**
+     * Command for changing language
+     */
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("Changing language executing.");

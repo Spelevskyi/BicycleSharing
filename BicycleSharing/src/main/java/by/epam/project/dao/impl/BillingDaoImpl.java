@@ -30,7 +30,9 @@ public class BillingDaoImpl extends BillingDao {
     private static final String SQL_FIND_ALL = "SELECT * FROM billing";
     private static final String SQL_SEARCH_BY_ID = "SELECT * FROM billing WHERE Id = ?";
 
-    // BillingDao method for creating priceList
+    /**
+     * BillingDao method for creating priceList
+     */
     @Override
     public void create(PriceList entity) throws DaoException {
         logger.info("Creating price list in dao.");
@@ -63,7 +65,9 @@ public class BillingDaoImpl extends BillingDao {
         }
     }
 
-    // BillingDao method for updating existing billing price list
+    /**
+     * BillingDao method for updating existing billing price list
+     */
     @Override
     public void update(PriceList entity) throws DaoException {
         logger.info("Updating price list in dao.");
@@ -98,7 +102,9 @@ public class BillingDaoImpl extends BillingDao {
 
     }
 
-    // BillingDao method for deleting existing price list
+    /**
+     * BillingDao method for deleting existing price list
+     */
     @Override
     public void delete(int id) throws DaoException {
         logger.info("Deleting price list in dao.");
@@ -121,7 +127,9 @@ public class BillingDaoImpl extends BillingDao {
 
     }
 
-    // PriceListDao method for finding all price lists
+    /**
+     * PriceListDao method for finding all price lists
+     */
     @Override
     public List<PriceList> findAll() throws DaoException {
         logger.info("Finding all price lists.");
@@ -142,7 +150,9 @@ public class BillingDaoImpl extends BillingDao {
         }
     }
 
-    // PriceListDao method for finding list by id
+    /**
+     * PriceListDao method for finding list by id
+     */
     @Override
     public Optional<PriceList> findById(int id) throws DaoException {
         logger.info("Finding price list by id.");

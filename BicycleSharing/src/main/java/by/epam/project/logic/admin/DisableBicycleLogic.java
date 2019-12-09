@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.epam.project.dao.impl.BicycleDaoImpl;
+import by.epam.project.dao.impl.RentalPointDaoImpl;
 import by.epam.project.entity.bicycle.Bicycle;
 import by.epam.project.exception.DaoException;
 import by.epam.project.exception.LogicException;
@@ -18,7 +19,11 @@ public class DisableBicycleLogic implements Logic {
     private static final Logger logger = LogManager.getLogger(DisableBicycleLogic.class);
 
     public BicycleDaoImpl bicycleDao = new BicycleDaoImpl();
+    public RentalPointDaoImpl pointDao = new RentalPointDaoImpl();
 
+    /**
+     * Logic method for disabling bicycle
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of disabling bicycle performing.");
@@ -35,6 +40,7 @@ public class DisableBicycleLogic implements Logic {
                 Bicycle bicycle = findedBicycle.get();
                 bicycle.setStatus(Constants.DISABLE);
                 bicycleDao.update(bicycle);
+                pointDao.deleteByBicycleId(bicycleId);
                 logger.info("Disable bicycle!");
             }
         } catch (DaoException ex) {

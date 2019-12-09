@@ -16,7 +16,6 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.admin.AddBicycleLogic;
 import by.epam.project.util.Constants;
-import by.epam.project.util.PageError;
 
 public class AddBicycleCommand implements ActionCommand {
 
@@ -24,6 +23,9 @@ public class AddBicycleCommand implements ActionCommand {
 
     private Logic logic = new AddBicycleLogic();
 
+    /**
+     * Adding new bicycle command
+     */
     public Router execute(HttpServletRequest request) {
         logger.info("Adding bicycle executing.");
         Router router = new Router();
@@ -49,11 +51,10 @@ public class AddBicycleCommand implements ActionCommand {
         try {
             logic.action(parameters);
             router.setRoutePath(RoutePath.REDIRECT_BICYCLE_PAGE.getRoutePath());
-            logger.info("Redirecting to admin points page.");
+            logger.info("Adding bicycle executing succesfully!");
         } catch (LogicException ex) {
             logger.error(ex);
-            request.getSession().setAttribute(Constants.ERROR,
-                    PageError.getError(Constants.TRUE, ex.getMessage()));
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }

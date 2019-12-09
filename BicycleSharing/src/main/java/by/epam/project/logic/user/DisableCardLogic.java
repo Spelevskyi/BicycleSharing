@@ -19,6 +19,9 @@ public class DisableCardLogic implements Logic {
 
     public CardDaoImpl cardDao = new CardDaoImpl();
 
+    /**
+     * Logic method for disabling credit card
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of disabling user card performing.");

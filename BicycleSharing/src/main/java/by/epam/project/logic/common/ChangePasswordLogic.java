@@ -20,6 +20,9 @@ public class ChangePasswordLogic implements Logic {
 
     public UserDaoImpl userDao = new UserDaoImpl();
 
+    /**
+     * Logic method for changing password
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of changing password performing.");

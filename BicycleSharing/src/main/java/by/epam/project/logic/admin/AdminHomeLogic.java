@@ -22,9 +22,11 @@ public class AdminHomeLogic implements Logic {
     public UserDaoImpl userDao = new UserDaoImpl();
     public DebtDaoImpl debtDao = new DebtDaoImpl();
 
-    private User user;
     private Map<Debt, User> debts;
 
+    /**
+     * Logic method of forwarding to admin home page
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of performing admin home page forwarding.");
@@ -32,17 +34,12 @@ public class AdminHomeLogic implements Logic {
             logger.error("Invalid admin home page parameters amount!");
             throw new LogicException("Invalid admin home page parameters amount!");
         }
-        int userId = Integer.valueOf(parameters.get(0));
         try {
             debts = debtDao.findUsersDebts();
             logger.info("Succesfully admin home page logic performing.");
         } catch (DaoException ex) {
             throw new LogicException("Admin home page forwarding failed!", ex);
         }
-    }
-
-    public User getUser() {
-        return user;
     }
 
     public Map<Debt, User> getDebts() {

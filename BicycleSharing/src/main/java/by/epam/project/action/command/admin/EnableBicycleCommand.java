@@ -16,7 +16,6 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.admin.EnableBicycleLogic;
 import by.epam.project.util.Constants;
-import by.epam.project.util.PageError;
 
 public class EnableBicycleCommand implements ActionCommand {
 
@@ -24,6 +23,9 @@ public class EnableBicycleCommand implements ActionCommand {
 
     private Logic logic = new EnableBicycleLogic();
 
+    /**
+     * Command for enabling bicycle
+     */
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("Enabling bicycle executing.");
@@ -34,12 +36,11 @@ public class EnableBicycleCommand implements ActionCommand {
         parameters.add(bicycleId);
         try {
             logic.action(parameters);
-            request.getSession().setAttribute(Constants.ERROR, PageError.getError(Constants.FALSE, ""));
             router.setRoutePath(RoutePath.REDIRECT_BICYCLE_PAGE.getRoutePath());
             logger.info("Successfully enabling bicycle executing!");
         } catch (LogicException ex) {
             logger.error(ex);
-            request.getSession().setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }

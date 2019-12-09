@@ -14,6 +14,9 @@ public class ConfirmPageCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger(ConfirmPageCommand.class);
 
+    /**
+     * Command of forwarding to confirming page when you are guest
+     */
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("Confirm page forwarding executing.");

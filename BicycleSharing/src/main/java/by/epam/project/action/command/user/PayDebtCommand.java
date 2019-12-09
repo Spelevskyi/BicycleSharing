@@ -18,7 +18,6 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.user.PayDebtLogic;
 import by.epam.project.util.Constants;
-import by.epam.project.util.PageError;
 
 public class PayDebtCommand implements ActionCommand {
 
@@ -26,6 +25,9 @@ public class PayDebtCommand implements ActionCommand {
 
     private Logic logic = new PayDebtLogic();
 
+    /**
+     * Command for paying debt
+     */
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("Paying user debt executing.");
@@ -45,7 +47,7 @@ public class PayDebtCommand implements ActionCommand {
             logger.info("Succesfully pay debt executing!");
         } catch (LogicException ex) {
             logger.error(ex);
-            request.setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }

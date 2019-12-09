@@ -51,10 +51,7 @@
 		</div>
 	</div>
 	<script>
-	$(document).ready(function() {
-		$("#confirmUser").modal('show');
-		
-	});
+	<%@include file="/js/confirm.js"%>
 	</script>
 </body>
 </html>

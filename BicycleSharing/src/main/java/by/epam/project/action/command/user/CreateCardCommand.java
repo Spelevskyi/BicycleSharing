@@ -18,13 +18,15 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.user.CreateCardLogic;
 import by.epam.project.util.Constants;
-import by.epam.project.util.PageError;
 
 public class CreateCardCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger(CreateCardCommand.class);
     private Logic logic = new CreateCardLogic();
 
+    /**
+     * Command for creation credit card
+     */
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("Creating credit card executing.");
@@ -48,8 +50,7 @@ public class CreateCardCommand implements ActionCommand {
             logger.info("Succesfully creating credit card executing!");
         } catch (LogicException ex) {
             logger.error(ex);
-            request.setAttribute(Constants.ERROR,
-                    PageError.getError(Constants.TRUE, ex.getMessage()));
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }

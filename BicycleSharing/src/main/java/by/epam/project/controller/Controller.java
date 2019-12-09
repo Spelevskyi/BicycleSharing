@@ -37,7 +37,6 @@ public class Controller extends HttpServlet {
         Optional<ActionCommand> definedCommand = ActionFactory.defineCommand(req.getParameter("command"));
         Router router = definedCommand.get().execute(req);
         String pagePath = router.getRoutePath();
-        System.out.println(req.getContextPath() + pagePath);
         if (router.getType().equals(RouteType.FORWARD)) {
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(pagePath);
             dispatcher.forward(req, resp);

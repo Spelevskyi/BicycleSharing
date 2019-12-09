@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,13 +23,14 @@ public class BicyclesCommand implements ActionCommand {
 
     private Logic logic = new BicyclesLogic();
 
+    /**
+     * Command of forwarding to bicycles page
+     */
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("Bicycles page forwarding command executing.");
         Router router = new Router();
         router.setType(RouteType.FORWARD);
-        HttpSession session = request.getSession();
-        String previousPage = (String) session.getAttribute(Constants.PREVIOUS_PATH_PAGE);
         List<String> parameters = new ArrayList<>();
         try {
             logic.action(parameters);
@@ -40,9 +40,10 @@ public class BicyclesCommand implements ActionCommand {
             router.setRoutePath(RoutePath.BICYCLES_PAGE_PATH.getRoutePath());
             logger.info("Succesfully forwarding to bicycles page executing!");
         } catch (LogicException ex) {
-            System.out.println(ex.getMessage());
             logger.error(ex);
-            router.setRoutePath(previousPage);
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
+            router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
+            router.setType(RouteType.FORWARD);
         }
         return router;
     }

@@ -26,6 +26,9 @@ public class ReplenishBalanceLogic implements Logic {
 
     private User user;
 
+    /**
+     * Logic method for replenishing user balance
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("User balance replenishing executing.");

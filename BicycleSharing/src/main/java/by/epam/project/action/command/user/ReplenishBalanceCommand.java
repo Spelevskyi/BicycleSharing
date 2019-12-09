@@ -18,7 +18,6 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.user.ReplenishBalanceLogic;
 import by.epam.project.util.Constants;
-import by.epam.project.util.PageError;
 
 public class ReplenishBalanceCommand implements ActionCommand {
 
@@ -26,6 +25,9 @@ public class ReplenishBalanceCommand implements ActionCommand {
 
     private Logic logic = new ReplenishBalanceLogic();
 
+    /**
+     * Command for replenishing balance
+     */
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("User balance replenishing executing.");
@@ -51,8 +53,7 @@ public class ReplenishBalanceCommand implements ActionCommand {
             logger.info("Succesfully replenish card balance executing!");
         } catch (LogicException ex) {
             logger.error(ex);
-            request.setAttribute(Constants.ERROR,
-                    PageError.getError(Constants.TRUE, ex.getMessage()));
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }

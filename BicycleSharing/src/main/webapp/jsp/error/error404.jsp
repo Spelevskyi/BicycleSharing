@@ -11,19 +11,21 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <style>
 <%@include file="/css/error.css"%>
 </style>
+
 <c:set var="previous_path" value="/jsp/error/error404.jsp" scope="session" />
 <c:set var="language" value="${lang}" />
 <fmt:setLocale value="${language}" />
-<fmt:setBundle basename="properties.local" var="local" />
 <fmt:message bundle="${local}" key="error.request" var="request" />
 <fmt:message bundle="${local}" key="error.status" var="status" />
 <fmt:message bundle="${local}" key="error.servlet" var="servlet" />
 <fmt:message bundle="${local}" key="error.exception" var="exception" />
 <fmt:message bundle="${local}" key="error.404.title" var="title" />
 <title>${title}</title>
+
 </head>
 <body>
 	<jsp:include page="/jsp/error/error_navbar.jsp"/> 

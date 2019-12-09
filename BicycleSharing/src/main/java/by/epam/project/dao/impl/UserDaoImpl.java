@@ -40,7 +40,9 @@ public class UserDaoImpl extends UserDao {
             + "Cash = ?, OnRoad = ? WHERE Id = ? ";
     private static final String SQL_UPDATE_ORDERED_BICYCLE = "UPDATE bicycle SET Status = 'DISABLE' WHERE Id = ?";
 
-    // UserDao method for finding user by id
+    /**
+     * UserDao method for finding user by id
+     */
     @Override
     public Optional<User> findById(int id) throws DaoException {
         logger.info("Finding user by id in user dao.");
@@ -62,7 +64,9 @@ public class UserDaoImpl extends UserDao {
         }
     }
 
-    // UserDao method for creating user
+    /**
+     * UserDao method for creating user
+     */
     @Override
     public void create(User entity) throws DaoException {
         logger.info("Creating user in user dao.");
@@ -98,7 +102,9 @@ public class UserDaoImpl extends UserDao {
         }
     }
 
-    // UserDao method for updating current user
+    /**
+     * UserDao method for updating current user
+     */
     @Override
     public void update(User entity) throws DaoException {
         logger.info("Updating parameters in user dao.");
@@ -135,7 +141,9 @@ public class UserDaoImpl extends UserDao {
         }
     }
 
-    // UserDao method of founding all system users
+    /**
+     * UserDao method of founding all system users
+     */
     @Override
     public List<User> findAll() throws DaoException {
         ProxyConnection connection = null;
@@ -155,7 +163,9 @@ public class UserDaoImpl extends UserDao {
         }
     }
 
-    // UserDao method for deleting user
+    /**
+     * UserDao method for deleting user
+     */
     @Override
     public void delete(int id) throws DaoException {
         logger.info("Deleting user in dao.");
@@ -177,7 +187,9 @@ public class UserDaoImpl extends UserDao {
         }
     }
 
-    // UserDao method for matching existing user in database by email and password
+    /**
+     * UserDao method for matching existing user in database by email and password
+     */
     @Override
     public boolean matchEmailPassword(String email, String password) throws DaoException {
         logger.info("Matching inputing email and password with user in database.");
@@ -200,7 +212,9 @@ public class UserDaoImpl extends UserDao {
         }
     }
 
-    // UserDao method for finding existing user by email
+    /**
+     * UserDao method for finding existing user by email
+     */
     @Override
     public Optional<User> findUserByEmail(String email) throws DaoException {
         logger.info("Finding existing user by email.");
@@ -222,27 +236,9 @@ public class UserDaoImpl extends UserDao {
         }
     }
 
-    @Override
-    public void confirmUser(String email) throws DaoException {
-        ProxyConnection connection = null;
-        PreparedStatement statement = null;
-        try {
-            connection = ConnectionPool.INSTANCE.getConnection();
-            statement = connection.prepareStatement(SQL_CONFIRM_USER);
-            statement.setString(1, email);
-            int row = statement.executeUpdate();
-            if (row == 0) {
-                logger.error("User was not confirmed!");
-            }
-        } catch (SQLException ex) {
-            throw new DaoException(ex);
-        } finally {
-            close(statement);
-            close(connection);
-        }
-    }
-
-    // UserDao transaction method for replenishing user cash
+    /**
+     * UserDao transaction method for replenishing user cash
+     */
     @Override
     public void replenishCash(User user, Card card) throws DaoException {
         logger.info("Replenish user cash in user dao!");
@@ -281,7 +277,9 @@ public class UserDaoImpl extends UserDao {
         }
     }
 
-    // UserDao transaction method for updating user after ordering bicycle
+    /**
+     * UserDao transaction method for updating user after ordering bicycle
+     */
     @Override
     public void updateUserAfterOrder(User user, Bicycle bicycle) throws DaoException {
         logger.info("Updating user and bicycle after ordering in dao.");

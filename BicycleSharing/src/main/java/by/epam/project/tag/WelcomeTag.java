@@ -20,6 +20,9 @@ public class WelcomeTag extends TagSupport {
         this.name = name;
     }
 
+    /**
+     * Custom tag
+     */
     @Override
     public int doStartTag() throws JspException {
         try {

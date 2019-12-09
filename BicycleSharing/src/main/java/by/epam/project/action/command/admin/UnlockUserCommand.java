@@ -16,7 +16,6 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.admin.UnlockUserLogic;
 import by.epam.project.util.Constants;
-import by.epam.project.util.PageError;
 
 public class UnlockUserCommand implements ActionCommand {
 
@@ -24,6 +23,9 @@ public class UnlockUserCommand implements ActionCommand {
 
     private Logic logic = new UnlockUserLogic();
 
+    /**
+     * Command for unlocking user
+     */
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("Unlocking user executing.");
@@ -36,10 +38,10 @@ public class UnlockUserCommand implements ActionCommand {
         try {
             logic.action(parameters);
             router.setRoutePath(RoutePath.REDIRECT_USERS_PAGE.getRoutePath());
-            logger.info("Successfully unlocking user.");
+            logger.info("Successfully unlocking user!");
         } catch (LogicException ex) {
             logger.error(ex);
-            request.setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }

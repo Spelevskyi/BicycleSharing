@@ -8,7 +8,6 @@ import by.epam.project.entity.point.RentalPoint;
 public class Bicycle {
     
     private int id;
-    private int pointId;
     private int billingId;
     private String brand;
     private String color;
@@ -43,13 +42,6 @@ public class Bicycle {
         this.id = id;
     }
 
-    public int getPointId() {
-        return pointId;
-    }
-
-    public void setPointId(int pointId) {
-        this.pointId = pointId;
-    }
 
     public String getBrand() {
         return brand;

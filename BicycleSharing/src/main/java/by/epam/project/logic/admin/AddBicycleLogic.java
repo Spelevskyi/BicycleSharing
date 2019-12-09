@@ -20,6 +20,9 @@ public class AddBicycleLogic implements Logic {
 
     public BicycleDaoImpl bicycleDao = new BicycleDaoImpl();
 
+    /**
+     * Adding new bicycle logic method
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of adding new bicycle performing.");

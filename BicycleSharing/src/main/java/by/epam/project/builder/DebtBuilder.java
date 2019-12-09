@@ -21,8 +21,19 @@ public class DebtBuilder {
 
     private static final Logger logger = LogManager.getLogger(DebtBuilder.class);
 
+    /**
+     * DebtBuilder static method for creation debt from ResultSet
+     * @param result - ResultSet
+     * @return Optional value of debt
+     * @throws DaoException
+     */
     public static Optional<Debt> createDebt(ResultSet result) throws DaoException {
         try {
+            logger.info("Creating new debt entity.");
+            if (!result.next()) {
+                logger.error("Debt not exists!");
+                return Optional.empty();
+            }
             result.beforeFirst();
             result.next();
             int debtorId = result.getInt(Constants.DEBTOR_ID);
@@ -30,15 +41,21 @@ public class DebtBuilder {
             Date creationDate = result.getDate(Constants.DEBT_DATE);
             Debt debt = new Debt(debtorId, amount, creationDate);
             debt.setId(result.getInt(Constants.DEBT_ID));
+            logger.info("Succesfully creating debt.");
             return Optional.of(debt);
         } catch (SQLException ex) {
             throw new DaoException(ex);
         }
     }
 
-    // DebtBuilder static method for creating Map with key - Debt and value - User
+    /**
+     * DebtBuilder static method for creating Map with key - Debt and value - User
+     * @param result - resultSet
+     * @return Map with key - Debt, value - User
+     * @throws DaoException
+     */
     public static Map<Debt, User> createUsersDebts(ResultSet result) throws DaoException {
-        logger.info("Creating debts with users in builder.");
+        logger.info("Creating debts with users.");
         Map<Debt, User> debets = new HashMap<>();
         try {
             while (result.next()) {
@@ -58,9 +75,15 @@ public class DebtBuilder {
         return debets;
     }
 
-    // DebtBuilder static method for creating Map with key - Debt and value - User
+    /**
+     * DebtBuilder static method for creating Map with one single element with key -
+     * Debt and value - User
+     * @param result - ResultSet
+     * @return Map with key - Debt, value - User
+     * @throws DaoException
+     */
     public static Map<Debt, User> createUserDebt(ResultSet result) throws DaoException {
-        logger.info("Creating debt of current user in builder.");
+        logger.info("Creating debt of current user.");
         Map<Debt, User> debets = new HashMap<>();
         try {
             result.beforeFirst();
@@ -80,7 +103,14 @@ public class DebtBuilder {
         return debets;
     }
 
+    /**
+     * DebtBuilder static method for creation list of debts of users
+     * @param result - ResultSet
+     * @return list of debts
+     * @throws DaoException
+     */
     public static ArrayList<Debt> createDebets(ResultSet result) throws DaoException {
+        logger.info("Creating debts list.");
         ArrayList<Debt> debets = new ArrayList<>();
         try {
             while (result.next()) {
@@ -90,10 +120,12 @@ public class DebtBuilder {
                 Debt debt = new Debt(debtorId, amount, creationDate);
                 debt.setId(result.getInt(Constants.DEBT_ID));
                 debets.add(debt);
+                logger.info("New debt entity was added.");
             }
         } catch (SQLException ex) {
             throw new DaoException(ex);
         }
+        logger.info("Succesfully creating all debts of existing users.");
         return debets;
     }
 }

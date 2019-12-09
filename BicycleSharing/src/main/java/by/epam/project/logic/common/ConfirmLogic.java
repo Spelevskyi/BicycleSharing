@@ -21,6 +21,9 @@ public class ConfirmLogic implements Logic {
 
     private User user;
 
+    /**
+     * Logic method for confirming guest
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of forwarding to confirm page executing.");
@@ -46,7 +49,7 @@ public class ConfirmLogic implements Logic {
                 logger.info("Succesfully confirm user email!");
             }
         } catch (DaoException ex) {
-            throw new LogicException(ex);
+            throw new LogicException("Confirmation email for anonymous user failed!", ex);
         }
     }
 

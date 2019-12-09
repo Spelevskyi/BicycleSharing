@@ -19,10 +19,13 @@ public class EnableBicycleLogic implements Logic {
 
     public BicycleDaoImpl bicycleDao = new BicycleDaoImpl();
 
+    /**
+     * Logic method for enabling bicycle
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of enabling bicycle performing.");
-        if (parameters.size() == 0) {
+        if (parameters.size() != Constants.ENABLE_BICYCLE_PARAMETERS_AMOUNT) {
             logger.error("Invalid parameters amount for enabling bicycle!");
             throw new LogicException("Invalid parameters amount for enabling bicycle!");
         }

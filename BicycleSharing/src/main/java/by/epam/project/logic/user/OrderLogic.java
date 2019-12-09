@@ -33,6 +33,9 @@ public class OrderLogic implements Logic {
 
     private User user;
 
+    /**
+     * Logic method for ordering bicycle
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Ordering bicycle action performing.");
@@ -63,7 +66,7 @@ public class OrderLogic implements Logic {
                 if (list.getUnlockPrice().doubleValue() > changedUser.getCash().doubleValue()) {
                     logger.error("You cash value not enough for ordering! Should be more than "
                             + list.getUnlockPrice().doubleValue() + " !");
-                    throw new DaoException("You cash value not enough for ordering! Should be more than "
+                    throw new LogicException("You cash value not enough for ordering! Should be more than "
                             + list.getUnlockPrice().doubleValue() + " !");
                 }
                 RentalOrder order = new RentalOrder(bicycleId, userId, dateTime, new String(""), new String(""),
@@ -78,7 +81,6 @@ public class OrderLogic implements Logic {
                 logger.info("Succesfully ordering bicycle!");
             }
         } catch (DaoException ex) {
-            System.out.println(ex.getMessage());
             throw new LogicException("Ordering bicycle failed!", ex);
         }
     }

@@ -13,7 +13,8 @@
 <style>
 <%@include file="/css/message.css"%>
 </style>
-<c:set var="language" value="${sessionScope.lang}" />
+
+<c:set var="language" value="${lang}" />
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="properties.local" var="local" />
 <fmt:message bundle="${local}" key="main.home" var="home" />
@@ -38,6 +39,7 @@
 <fmt:message bundle="${local}" key="main.history" var="history" />
 <fmt:message bundle="${local}" key="main.direction" var="direction" />
 <fmt:message bundle="${local}" key="main.distance" var="distance" />
+<fmt:message bundle="${local}" key="main.error.info" var="error_info" />
 </head>
 <body>
 	<c:choose>
@@ -57,20 +59,16 @@
 				<div class="modal-header" style="padding: 35px 50px;">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4>
-						<span class="glyphicon glyphicon-alert"></span>${error_info}</h4>
+						<span class="glyphicon glyphicon-alert"></span> ${error_info}</h4>
 				</div>
 				<div class="modal-body" style="padding: 40px 50px;">
-					<h4>${error[1]}</h4>
+					<h4>${error}</h4>
 				</div>
 			</div>
 		</div>
 	</div>
 	<script>
-	$(document).ready(function() {
-		if ('${error[0]}' == "true") {
-			$("#pointError").modal('show');
-		}
-	});
+	<%@include file="/js/message.js"%>
 	</script>
 </body>
 </html>

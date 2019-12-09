@@ -21,6 +21,9 @@ public class ChangeBillingLogic implements Logic {
 
     public BillingDaoImpl billDao = new BillingDaoImpl();
 
+    /**
+     * Logic method for changing existing price list
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of changing price list performing.");

@@ -19,6 +19,9 @@ public class DeleteCardLogic implements Logic {
 
     public CardDaoImpl cardDao = new CardDaoImpl();
 
+    /**
+     * Logic method for deleting credit card
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of deleting cards performing.");

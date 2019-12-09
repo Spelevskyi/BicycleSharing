@@ -21,6 +21,9 @@ public class UsersLogic implements Logic {
 
     private List<User> users;
 
+    /**
+     * Logic method of forwarding to users page
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of forwarding to users page perfoming.");

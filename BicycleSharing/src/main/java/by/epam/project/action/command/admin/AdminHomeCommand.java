@@ -22,15 +22,18 @@ import by.epam.project.util.Constants;
 public class AdminHomeCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger(AdminHomeCommand.class);
+
     private Logic logic = new AdminHomeLogic();
 
+    /**
+     * Command of forwarding to admin home page
+     */
     public Router execute(HttpServletRequest request) {
         logger.info("Admin home page forwarding executing.");
         Router router = new Router();
         router.setType(RouteType.FORWARD);
         HttpSession session = request.getSession(true);
         User user = (User) session.getAttribute(Constants.SESSION_USER);
-        String previousPage = (String) session.getAttribute(Constants.PREVIOUS_PATH_PAGE);
         List<String> parameters = new ArrayList<String>();
         parameters.add(String.valueOf(user.getId()));
         try {
@@ -41,7 +44,9 @@ public class AdminHomeCommand implements ActionCommand {
             logger.info("Succesfully forwarding to admin home page.");
         } catch (LogicException ex) {
             logger.error(ex);
-            router.setRoutePath(previousPage);
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
+            router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
+            router.setType(RouteType.FORWARD);
         }
         return router;
     }

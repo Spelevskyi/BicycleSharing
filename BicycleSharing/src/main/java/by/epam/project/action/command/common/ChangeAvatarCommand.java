@@ -18,7 +18,6 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.common.ChangeAvatarLogic;
 import by.epam.project.util.Constants;
-import by.epam.project.util.PageError;
 
 public class ChangeAvatarCommand implements ActionCommand {
 
@@ -26,6 +25,9 @@ public class ChangeAvatarCommand implements ActionCommand {
 
     private Logic logic = new ChangeAvatarLogic();
 
+    /**
+     * Command for changing user avatar
+     */
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("Avatar image changing executing.");
@@ -45,7 +47,7 @@ public class ChangeAvatarCommand implements ActionCommand {
             logger.info("Succesfully changing avatar image executing!");
         } catch (LogicException ex) {
             logger.error(ex);
-            request.setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }

@@ -73,7 +73,7 @@
 											<p class="form-control">${order.getBookedStartTime()}
 										</div>
 										<h4>${not_move}</h4>
-										<input type="submit" value="btn btn-submit " id="road_button">${move}
+										<input type="submit" value="btn btn-submit " id="road-button">${move}
 									</form>
 								</c:when>
 								<c:when test='${!order.getActualStartTime().equals("")}'>
@@ -85,7 +85,7 @@
 											<h4 class="text-left">${actual_start}:</h4>
 											<p class="form-control">${order.getActualStartTime()}</p>
 										</div>
-										<button type="submit" class="btn btn-submit" id="road_button">${cancel}</button>
+										<button type="submit" class="btn btn-submit" id="road-button">${cancel}</button>
 									</form>
 								</c:when>
 							</c:choose>

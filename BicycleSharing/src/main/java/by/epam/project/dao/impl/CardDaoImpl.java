@@ -29,7 +29,9 @@ public class CardDaoImpl extends CardDao {
     private static final String SQL_MATCH_CODE_NUMBER_MASTER = "SELECT * FROM credit_card WHERE Code = ? AND Number = ? AND CardMaster = ?";
     private static final String SQL_FIND_USER_CARD = "SELECT * FROM credit_card WHERE OwnerId = ? AND Code = ? AND Number = ?";
 
-    // CardDao method for finding user credit card
+    /**
+     * CardDao method for finding user credit card
+     */
     @Override
     public Optional<Card> findUserCard(int id, String code, int number, String master) throws DaoException {
         logger.info("Finding user credit card.");
@@ -54,7 +56,9 @@ public class CardDaoImpl extends CardDao {
     }
 
 
-    // CardDao method of founding all cards
+    /**
+     * CardDao method of founding all cards
+     */
     @Override
     public List<Card> findAll() throws DaoException {
         logger.info("Findinf all cards in dao.");
@@ -75,7 +79,9 @@ public class CardDaoImpl extends CardDao {
         }
     }
 
-    // CardDo method of founding card by id
+    /**
+     * CardDo method of founding card by id
+     */
     @Override
     public Optional<Card> findById(int id) throws DaoException {
         logger.info("Finding credit card by id in dao.");
@@ -97,7 +103,9 @@ public class CardDaoImpl extends CardDao {
         }
     }
 
-    // CardDao method for deleting credit cards
+    /**
+     * CardDao method for deleting credit cards
+     */
     @Override
     public void delete(int id) throws DaoException {
         logger.info("Deleting user card in dao.");
@@ -109,7 +117,7 @@ public class CardDaoImpl extends CardDao {
             statement.setInt(1, id);
             int result = statement.executeUpdate();
             if (result == 0) {
-                throw new DaoException("User credit card was not deleted!");
+                logger.error("User credit card was not deleted!");
             }
         } catch (SQLException ex) {
             throw new DaoException(ex);
@@ -119,7 +127,9 @@ public class CardDaoImpl extends CardDao {
         }
     }
 
-    // CardDao method for finding all credit cards of current user
+    /**
+     * CardDao method for finding all credit cards of current user
+     */
     @Override
     public List<Card> findUserCards(int id) throws DaoException {
         logger.info("Finding users credit cards in dao.");
@@ -141,7 +151,9 @@ public class CardDaoImpl extends CardDao {
         }
     }
 
-    // CardDao method for matching existing card with new one
+    /**
+     * CardDao method for matching existing card with new one
+     */
     @Override
     public boolean matchCodeNumberMaster(String code, int number, String master) throws DaoException {
         logger.info(
@@ -166,7 +178,9 @@ public class CardDaoImpl extends CardDao {
         }
     }
 
-    // CardDao method of creating credit card
+    /**
+     * CardDao method of creating credit card
+     */
     @Override
     public void create(Card entity) throws DaoException {
         logger.info("Creating card in card dao.");
@@ -194,7 +208,9 @@ public class CardDaoImpl extends CardDao {
         }
     }
 
-    // CarDao method of updating existing credit card
+    /**
+     * CarDao method of updating existing credit card
+     */
     @Override
     public void update(Card entity) throws DaoException {
         logger.info("Updating current credit card in dao.");

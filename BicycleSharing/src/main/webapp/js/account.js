@@ -13,10 +13,8 @@ $("#imageUpload").change(function() {
 	fasterPreview(this);
 	var path, url;
 	url = this.value;
-	alert(url);
 	url = url.split("\\");
-	path = "../" + url[8] + "/" + url[9];
-	alert(path);
+	path = "./image/" + url[2];
 	document.getElementById('ImagePathId').value = path;
 	document.getElementById("formId").submit();
 });

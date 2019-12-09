@@ -3,39 +3,47 @@ package by.epam.project.builder;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Optional;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import by.epam.project.entity.point.RentalPoint;
+import by.epam.project.exception.DaoException;
+import by.epam.project.util.Constants;
 
 public class RentalPointBuilder {
 
-    private static final String X_COORDINATE = "x_coordinate";
-    private static final String Y_COORDINATE = "y_coordinate";
+    private static final Logger logger = LogManager.getLogger(RentalPointBuilder.class);
 
-    public static RentalPoint createPoint(ResultSet result) {
+
+    public static Optional<RentalPoint> createPoint(ResultSet result) throws DaoException {
         try {
             result.beforeFirst();
             result.next();
-            int x_coordinate = result.getInt(X_COORDINATE);
-            int y_coordinate = result.getInt(Y_COORDINATE);
-            System.out.println(result.getInt("Id"));
+            int x_coordinate = result.getInt(Constants.POINT_X_COORDINATE);
+            int y_coordinate = result.getInt(Constants.POINT_Y_COORDINATE);
             RentalPoint point = new RentalPoint(x_coordinate, y_coordinate);
-            point.setId(result.getInt("Id"));
-            return point;
+            point.setId(result.getInt(Constants.POINT_ID));
+            return Optional.of(point);
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            throw new DaoException(ex);
         }
-        return null;
     }
 
-    public static ArrayList<RentalPoint> createPoints(ResultSet result) throws SQLException {
+    public static ArrayList<RentalPoint> createPoints(ResultSet result) throws DaoException {
         ArrayList<RentalPoint> points = new ArrayList<>();
-        while (result.next()) {
-            int x_cootdinate = result.getInt(X_COORDINATE);
-            int y_coordinate = result.getInt(Y_COORDINATE);
-            RentalPoint point = new RentalPoint(x_cootdinate, y_coordinate);
-            point.setId(result.getInt("Id"));
-            points.add(point);
+        try {
+            while (result.next()) {
+                int x_cootdinate = result.getInt(Constants.POINT_X_COORDINATE);
+                int y_coordinate = result.getInt(Constants.POINT_Y_COORDINATE);
+                RentalPoint point = new RentalPoint(x_cootdinate, y_coordinate);
+                point.setId(result.getInt(Constants.POINT_ID));
+                points.add(point);
+            }
+            return points;
+        } catch (SQLException ex) {
+            throw new DaoException(ex);
         }
-        return points;
     }
 }

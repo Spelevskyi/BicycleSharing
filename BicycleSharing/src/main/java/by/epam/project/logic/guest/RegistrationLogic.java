@@ -1,6 +1,7 @@
 package by.epam.project.logic.guest;
 
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.epam.project.dao.impl.UserDaoImpl;
+import by.epam.project.encoding.PasswordEncoding;
 import by.epam.project.entity.user.RoleType;
 import by.epam.project.entity.user.User;
 import by.epam.project.exception.DaoException;
@@ -26,6 +28,9 @@ public class RegistrationLogic implements Logic {
 
     private int confirmCode;
 
+    /**
+     * Logic for registration performing
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Registration performing.");
@@ -74,7 +79,10 @@ public class RegistrationLogic implements Logic {
             } else {
                 int generatedCode = ConfirmationCodeGenerator.generateCode();
                 Date registrationDate = new Date(System.currentTimeMillis());
-                User user = new User(firstName, lastName, email, firstPassword, RoleType.USER, registrationDate,
+                String encodePassword = new String(firstPassword.getBytes(StandardCharsets.ISO_8859_1),
+                        StandardCharsets.UTF_8);
+                User user = new User(firstName, lastName, email, PasswordEncoding.encode(encodePassword), RoleType.USER,
+                        registrationDate,
                         Constants.INITIAL_RENTAL_AMOUNT, registrationDate, phoneNumber, Constants.UNLOCKED, false,
                         Constants.INITIAL_IMAGE_PATH, new BigDecimal(0));
                 user.setOnRoad(false);

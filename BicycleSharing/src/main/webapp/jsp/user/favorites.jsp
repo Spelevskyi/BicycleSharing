@@ -15,10 +15,12 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <style>
 <%@include file="/css/favorites.css"%>
 </style>
-<c:set var="previous_path" value="/jsp/user/favorites.jsp" scope="session" />
+
+<c:set var="previous_path" value="controller?command=Favorites" scope="session" />
 <c:set var="language" value="${lang}" />
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="properties.local" var="local" />
@@ -26,6 +28,7 @@
 <fmt:message bundle="${local}" key="favorites.color.table" var="color_table" />
 <fmt:message bundle="${local}" key="favorites.color" var="color" />
 <fmt:message bundle="${local}" key="favorites.brand" var="brand" />
+<fmt:message bundle="${local}" key="favorites.amount" var="amount" />
 <fmt:message bundle="${local}" key="favorites.title" var="title" />
 <title>${title}</title>
 </head>
@@ -43,7 +46,7 @@
 									<table class="table table-hover">
 										<tr>
 											<th>${brand}</th>
-											<th>amount</th>
+											<th>${amount}</th>
 										</tr>
 										<c:forEach var="num" items="${brandSorted.entrySet()}">
 											<tr>
@@ -66,11 +69,13 @@
 									<table class="table table-hover">
 										<tr>
 											<th>${color}</th>
+											<th>${amount}</th>
 										</tr>
-										<c:forEach var="num" items="${colorSorted}">
-											<tr>
-												<td>${num}</td>
-											</tr>
+										<c:forEach var="num" items="${colorSorted.entrySet()}">
+										<tr>
+											<td>${num.getValue()}</td>
+											<td>${num.getKey()}</td>	
+										</tr>
 										</c:forEach>
 									</table>
 								</form>

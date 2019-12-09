@@ -26,6 +26,9 @@ public class PayDebtLogic implements Logic {
 
     private User user;
 
+    /**
+     * Logic method for paying debt
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of paying user debt performing.");

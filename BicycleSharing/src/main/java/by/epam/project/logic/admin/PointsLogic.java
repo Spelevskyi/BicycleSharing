@@ -25,10 +25,13 @@ public class PointsLogic implements Logic {
     private JsonArray pointsJson = new JsonArray();
     private Map<Bicycle, RentalPoint> bicycles;
 
+    /**
+     * Logic method of forwarding to admin points page
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of forwarding to points page executing.");
-        if (parameters.size() != 0) {
+        if (parameters.size() != Constants.POINTS_PARAMETERS_AMOUNT) {
             logger.error("Invalid rental points page parameters amount!");
             throw new LogicException("Invalid rental points page parameters amount!");
         }
@@ -44,7 +47,7 @@ public class PointsLogic implements Logic {
             bicycles = bicycleDao.findBicyclesWithPoints();
             logger.info("Succefull rental points forwarding!");
         } catch (DaoException ex) {
-            throw new LogicException(ex);
+            throw new LogicException("Forwarding to rental points page failed!", ex);
         }
     }
 

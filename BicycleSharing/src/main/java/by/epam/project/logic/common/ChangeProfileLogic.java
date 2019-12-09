@@ -22,6 +22,9 @@ public class ChangeProfileLogic implements Logic {
 
     private User user;
 
+    /**
+     * Logic method for changing profile info
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of changing user profile info performing.");

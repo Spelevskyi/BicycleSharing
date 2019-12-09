@@ -11,6 +11,7 @@ import by.epam.project.dao.impl.OrderDaoImpl;
 import by.epam.project.dao.impl.UserDaoImpl;
 import by.epam.project.entity.bicycle.Bicycle;
 import by.epam.project.entity.order.RentalOrder;
+import by.epam.project.entity.user.User;
 import by.epam.project.exception.DaoException;
 import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
@@ -26,6 +27,9 @@ public class UserHomeLogic implements Logic {
     private Map<RentalOrder, Bicycle> orders;
     private RentalOrder activeOrder;
 
+    /**
+     * Logic method of forwarding to user home page
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of forwarding to user home page performing.");
@@ -41,8 +45,13 @@ public class UserHomeLogic implements Logic {
             } else {
                 activeOrder = findedOrder.get();
             }
-            orders = orderDao.findOrderWithBicycle();
-            logger.info("Succesfully user home page forwarding performing!");
+            Optional<User> findedUser = userDao.findById(userId);
+            if (!findedUser.isPresent()) {
+                logger.error("User not exists!");
+            } else {
+                orders = orderDao.findOrderWithBicycle();
+                logger.info("Succesfully user home page forwarding performing!");
+            }
         } catch (DaoException ex) {
             throw new LogicException(ex);
         }

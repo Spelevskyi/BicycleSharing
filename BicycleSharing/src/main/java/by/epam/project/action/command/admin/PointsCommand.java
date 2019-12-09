@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,13 +22,14 @@ public class PointsCommand implements ActionCommand {
     public static final Logger logger = LogManager.getLogger(PointsCommand.class);
     private Logic logic = new PointsLogic();
 
+    /**
+     * Command of forwarding to admin rental points page
+     */
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("Forwarding to points page executing.");
         Router router = new Router();
         router.setType(RouteType.FORWARD);
-        HttpSession session = request.getSession();
-        String previousPage = (String) session.getAttribute(Constants.PREVIOUS_PATH_PAGE);
         List<String> parameters = new ArrayList<>();
         try {
             logic.action(parameters);
@@ -40,7 +40,9 @@ public class PointsCommand implements ActionCommand {
             logger.info("Succesfully forwarding to points page executing!");
         } catch (LogicException ex) {
             logger.error(ex);
-            router.setRoutePath(previousPage);
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
+            router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
+            router.setType(RouteType.FORWARD);
         }
         return router;
     }

@@ -18,7 +18,6 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.common.ChangePasswordLogic;
 import by.epam.project.util.Constants;
-import by.epam.project.util.PageError;
 
 public class ChangePasswordCommand implements ActionCommand {
 
@@ -26,6 +25,9 @@ public class ChangePasswordCommand implements ActionCommand {
 
     private Logic logic = new ChangePasswordLogic();
 
+    /**
+     * Command for changing user password
+     */
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("Password changing executing.");
@@ -45,7 +47,7 @@ public class ChangePasswordCommand implements ActionCommand {
             logger.info("Successfully admin changing password executing.");
         } catch (LogicException ex) {
             logger.error(ex);
-            request.getSession().setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }

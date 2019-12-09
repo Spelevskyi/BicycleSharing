@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,7 +16,6 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.guest.RegistrationLogic;
 import by.epam.project.util.Constants;
-import by.epam.project.util.PageError;
 
 public class RegisterCommand implements ActionCommand {
 
@@ -25,10 +23,13 @@ public class RegisterCommand implements ActionCommand {
 
     private Logic logic = new RegistrationLogic();
 
+    /**
+     * Command for registration user
+     */
     public Router execute(HttpServletRequest request) {
+        logger.info("Registration user executing!");
         Router router = new Router();
         router.setType(RouteType.REDIRECT);
-        HttpSession session = request.getSession();
         String firstName = request.getParameter(Constants.FIRST_NAME);
         String lastName = request.getParameter(Constants.LAST_NAME);
         String email = request.getParameter(Constants.EMAIL);
@@ -51,8 +52,8 @@ public class RegisterCommand implements ActionCommand {
             router.setRoutePath(RoutePath.REDIRECT_CONFIRM_PAGE.getRoutePath());
         } catch (LogicException ex) {
             logger.error(ex);
-            request.getSession().setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
-            router.setRoutePath(RoutePath.INDEX_PAGE_PATH.getRoutePath());
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
+            router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }
         return router;

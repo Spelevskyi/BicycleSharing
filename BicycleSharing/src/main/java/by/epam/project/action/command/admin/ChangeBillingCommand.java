@@ -16,13 +16,16 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.admin.ChangeBillingLogic;
 import by.epam.project.util.Constants;
-import by.epam.project.util.PageError;
 
 public class ChangeBillingCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger(ChangeBillingCommand.class);
+
     private Logic logic = new ChangeBillingLogic();
 
+    /**
+     * Command of changing existing price list
+     */
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("Changing price list executing.");
@@ -59,8 +62,7 @@ public class ChangeBillingCommand implements ActionCommand {
             logger.info("Succesfully changing bicycle price list.");
         } catch (LogicException ex) {
             logger.error(ex);
-            request.getSession().setAttribute(Constants.ERROR,
-                    PageError.getError(Constants.TRUE, ex.getMessage()));
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }

@@ -18,7 +18,6 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.user.StartMoveLogic;
 import by.epam.project.util.Constants;
-import by.epam.project.util.PageError;
 
 public class StartMoveCommand implements ActionCommand {
 
@@ -26,6 +25,9 @@ public class StartMoveCommand implements ActionCommand {
 
     private Logic logic = new StartMoveLogic();
 
+    /**
+     * Command for starting moving
+     */
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("Starting moving executing.");
@@ -41,7 +43,7 @@ public class StartMoveCommand implements ActionCommand {
             logger.info("Starting moving executing.");
         } catch (LogicException ex) {
             logger.error(ex);
-            request.getSession().setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }

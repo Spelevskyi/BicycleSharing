@@ -18,7 +18,6 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.common.AccountPageLogic;
 import by.epam.project.util.Constants;
-import by.epam.project.util.PageError;
 
 public class AccountPageCommand implements ActionCommand {
 
@@ -26,6 +25,9 @@ public class AccountPageCommand implements ActionCommand {
 
     private Logic logic = new AccountPageLogic();
 
+    /**
+     * Command of forwarding to account page
+     */
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("Account page forwarding executing.");
@@ -33,25 +35,19 @@ public class AccountPageCommand implements ActionCommand {
         router.setType(RouteType.FORWARD);
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(Constants.SESSION_USER);
-        String previousPage = (String) session.getAttribute(Constants.PREVIOUS_PATH_PAGE);
         List<String> parameters = new ArrayList<>();
         parameters.add(String.valueOf(user.getId()));
-        if (user.getStatus().equals(Constants.LOCKED)) {
-            request.getSession().setAttribute(Constants.ERROR,
-                    PageError.getError(Constants.TRUE, Constants.LOCKED_ERROR));
+        try {
+            logic.action(parameters);
+            AccountPageLogic accountLogic = (AccountPageLogic) logic;
+            request.setAttribute(Constants.USER, accountLogic.getUser());
+            router.setRoutePath(RoutePath.ACCOUNT_PAGE_PATH.getRoutePath());
+            logger.info("Succesfully forwarding to account page!");
+        } catch (LogicException ex) {
+            logger.error(ex);
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
-        } else {
-            try {
-                logic.action(parameters);
-                AccountPageLogic accountLogic = (AccountPageLogic) logic;
-                request.setAttribute(Constants.USER, accountLogic.getUser());
-                router.setRoutePath(RoutePath.ACCOUNT_PAGE_PATH.getRoutePath());
-                logger.info("Succesfully forwarding to account page.");
-            } catch (LogicException ex) {
-                logger.error(ex);
-                router.setRoutePath(previousPage);
-            }
         }
         return router;
     }

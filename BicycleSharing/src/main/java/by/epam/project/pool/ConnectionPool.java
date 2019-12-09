@@ -35,7 +35,11 @@ public enum ConnectionPool {
         init();
     }
 
-    // Function of getting connection from connection pool
+    /**
+     * Function of getting connection from connection pool
+     * 
+     * @return free connection
+     */
     public ProxyConnection getConnection() {
         ProxyConnection connection = null;
         try {
@@ -48,7 +52,9 @@ public enum ConnectionPool {
         return connection;
     }
 
-    // Function of connection pool initialization
+    /**
+     * Function of connection pool initialization
+     */
     private void init() {
         Properties properties = new Properties();
         properties.put(Constants.DB_USER, initializer.USER_NAME);
@@ -68,21 +74,27 @@ public enum ConnectionPool {
                         "jdbc:mysql://localhost:3306/bicycle_rental?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC",
                         properties);
             } catch (SQLException ex) {
-                ex.printStackTrace();
+                logger.error(ex);
             }
             ProxyConnection proxyConnection = new ProxyConnection(connection);
             freeConnections.add(proxyConnection);
         }
     }
 
-    // Function of releasing one of taken connections and returning it into pool
+    /**
+     * Function of releasing one of taken connections and returning it into pool
+     * 
+     * @param connection
+     */
     public void releaseConnection(ProxyConnection connection) {
         givenConnections.remove(connection);
         freeConnections.offer(connection);
         logger.info("Returning connection to free pool connections.");
     }
 
-    // Function of destroying connection pool
+    /**
+     * Function of destroying connection pool
+     */
     public void destroyPool() {
         for (int i = 0; i < poolSize; i++) {
             ProxyConnection connection = null;
@@ -98,7 +110,9 @@ public enum ConnectionPool {
         deregisterDrivers();
     }
 
-    // Function of deregistration JDBC drivers
+    /**
+     * Function of deregistration JDBC drivers
+     */
     private void deregisterDrivers() {
         Enumeration<Driver> drivers = DriverManager.getDrivers();
         while (drivers.hasMoreElements()) {

@@ -25,6 +25,9 @@ public class UserBillingPageCommand implements ActionCommand {
 
     private Logic logic = new BillingUserLogic();
 
+    /**
+     * Command of forwarding to user billing page
+     */
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("User billing page forwarding executing.");
@@ -32,7 +35,6 @@ public class UserBillingPageCommand implements ActionCommand {
         router.setType(RouteType.FORWARD);
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(Constants.SESSION_USER);
-        String previousPage = (String) session.getAttribute(Constants.PREVIOUS_PATH_PAGE);
         List<String> parameters = new ArrayList<>();
         parameters.add(String.valueOf(user.getId()));
         try {
@@ -44,7 +46,9 @@ public class UserBillingPageCommand implements ActionCommand {
             logger.info("Forwarding to user billing page.");
         } catch (LogicException ex) {
             logger.error(ex);
-            router.setRoutePath(previousPage);
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
+            router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
+            router.setType(RouteType.FORWARD);
         }
         return router;
     }

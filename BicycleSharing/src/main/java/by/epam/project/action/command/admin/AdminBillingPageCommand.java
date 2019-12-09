@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,7 +12,6 @@ import by.epam.project.action.command.ActionCommand;
 import by.epam.project.action.command.RoutePath;
 import by.epam.project.action.command.RouteType;
 import by.epam.project.action.command.Router;
-import by.epam.project.entity.user.User;
 import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.admin.BillingAdminLogic;
@@ -30,11 +28,7 @@ public class AdminBillingPageCommand implements ActionCommand {
         logger.info("Admin billing page forwarding executing.");
         Router router = new Router();
         router.setType(RouteType.FORWARD);
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute(Constants.SESSION_USER);
-        String previousPage = (String) session.getAttribute(Constants.PREVIOUS_PATH_PAGE);
         List<String> parameters = new ArrayList<>();
-        parameters.add(String.valueOf(user.getId()));
         try {
             logic.action(parameters);
             BillingAdminLogic billingLogic = (BillingAdminLogic) logic;
@@ -43,7 +37,9 @@ public class AdminBillingPageCommand implements ActionCommand {
             logger.info("Succesfully forwarding to admin billing page.");
         } catch (LogicException ex) {
             logger.error(ex);
-            router.setRoutePath(previousPage);
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
+            router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
+            router.setType(RouteType.FORWARD);
         }
         return router;
     }

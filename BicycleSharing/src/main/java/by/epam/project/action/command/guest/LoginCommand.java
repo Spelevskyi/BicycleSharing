@@ -18,13 +18,16 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.guest.LoginLogic;
 import by.epam.project.util.Constants;
-import by.epam.project.util.PageError;
 
 public class LoginCommand implements ActionCommand {
 
     private static final Logger logger = LogManager.getLogger(LoginCommand.class);
+
     private Logic logic = new LoginLogic();
 
+    /**
+     * Command for log in system
+     */
     public Router execute(HttpServletRequest request) {
         logger.info("Guest login executing.");
         Router router = new Router();
@@ -40,7 +43,6 @@ public class LoginCommand implements ActionCommand {
             LoginLogic loginLogic = (LoginLogic) logic;
             session.setAttribute(Constants.SESSION_USER, loginLogic.getUser());
             session.setAttribute(Constants.SESSION_ROLE, loginLogic.getUser().getRole());
-            session.setAttribute(Constants.SESSION_IS_LOGIN, Constants.TRUE);
             if (loginLogic.getUser().getRole().equals(RoleType.ADMIN)) {
                 router.setRoutePath(RoutePath.REDIRECT_ADMIN_HOME.getRoutePath());
                 logger.info("Succesfully admin log in system.");
@@ -50,8 +52,8 @@ public class LoginCommand implements ActionCommand {
             }
         } catch (LogicException ex) {
             logger.error(ex);
-            request.getSession().setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
-            router.setRoutePath(RoutePath.INDEX_PAGE_PATH.getRoutePath());
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
+            router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }
         return router;

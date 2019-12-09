@@ -26,6 +26,9 @@ public class BicyclesLogic implements Logic {
     private List<PriceList> lists;
     private Map<Bicycle, RentalPoint> bicycles;
 
+    /**
+     * Logic method of forwarding to bicycles page
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of bicycles page forwarding performing.");
@@ -38,7 +41,6 @@ public class BicyclesLogic implements Logic {
             bicycles = bicycleDao.findBicyclesWithPoints();
             logger.info("Succesfully bicycles page forwarding!");
         } catch (DaoException ex) {
-            System.out.println(ex.getMessage());
             throw new LogicException("Bicycles page forwarding failed!", ex);
         }
     }

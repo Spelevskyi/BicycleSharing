@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <style>
-<%@include file="/css/billing.css"%>
+<%@include file="/css/admin_billing.css"%>
 </style>
 
 <c:set var="previous_path" value="controller?command=Admin_billing_page" scope="session" />
@@ -53,6 +53,7 @@
 <fmt:message bundle="${local}" key="billing.day.price.error" var="day_error" />
 <fmt:message bundle="${local}" key="billing.brand.error" var="brand_error" />
 <fmt:message bundle="${local}" key="billing.update" var="update" />
+<fmt:message bundle="${local}" key="billing.add" var="add" />
 <fmt:message bundle="${local}" key="billing.error.info" var="error_info" />
 <title>${title}</title>
 </head>
@@ -68,7 +69,7 @@
 							<form name="form" method="POST" action="${pageContext.session.servletContext.contextPath}/controller">
 								<div class="row-button">
 									<div class="col-sm-1">
-										<a href="#add_billing" data-toggle="modal" id="plus">Add</a>
+										<a href="#add_billing" data-toggle="modal" id="plus">${add}</a>
 									</div>
 									<div class="col-sm-1">
 										<input type="hidden" name="command" value="Delete_billing">
@@ -84,6 +85,7 @@
 										<th>${unlockprice}</th>
 										<th>${per_minute}</th>
 										<th>${per_hour}</th>
+										<th>${stay_price}</th>
 										<th>${three_hour}</th>
 										<th>${six_hour}</th>
 										<th>${nine_hour}</th>
@@ -97,16 +99,17 @@
 										<tr>
 											<td><input type="checkbox" class="chkCheckBoxId" value='${num.getId()}' name="id" /></td>
 											<td>${num.getBrand()}</td>
-											<td>${num.getUnlockPrice()}</td>
-											<td>${num.getPerMinutePrice()}</td>
-											<td>${num.getPerHourPrice()}</td>
-											<td>${num.getThreeHoursDiscount()}</td>
-											<td>${num.getSixHoursDiscount()}</td>
-											<td>${num.getNineHoursDiscount()}</td>
-											<td>${num.getDaySale()}</td>
-											<td>${num.getRegularCustomerDiscount()}</td>
-											<td>${num.getTravelerDiscount()}</td>
-											<td>${num.getNewCustomerDiscount()}</td>
+											<td>${num.getUnlockPrice()}$</td>
+											<td>${num.getPerMinutePrice()}$</td>
+											<td>${num.getPerHourPrice()}$</td>
+											<td>${num.getStayPrice()}$</td>
+											<td>${num.getThreeHoursDiscount()}%</td>
+											<td>${num.getSixHoursDiscount()}%</td>
+											<td>${num.getNineHoursDiscount()}%</td>
+											<td>${num.getDaySale()}%</td>
+											<td>${num.getRegularCustomerDiscount()}%</td>
+											<td>${num.getTravelerDiscount()}%</td>
+											<td>${num.getNewCustomerDiscount()}%</td>
 											<td><a href="#change_billing" data-toggle="modal" data-id='${num.getId()}'>${edit}</a></td>
 										</tr>
 									</c:forEach>
@@ -160,10 +163,6 @@
 						<div class="form-group">
 							<label for="Nine hour discount"><span class="glyphicon glyphicon-usd"></span>${nine_hour}</label> <input type="text" name="NineHourDiscount" value=""
 								class="form-control" placeholder="${enter_nine}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${percentage_error}</span>
-						</div>
-						<div class="form-group">
-							<label for="Day sale"><span class="glyphicon glyphicon-usd"></span>${all_day}</label> <input type="text" name="DaySale" value="" class="form-control"
-								placeholder="${enter_day_sale}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${percentage_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Regular customer discount"><span class="glyphicon glyphicon-usd"></span>${regular}</label> <input type="text" name="RegularCustomerDiscount" value=""
@@ -220,31 +219,27 @@
 						</div>
 						<div class="form-group">
 							<label for="Three hour discount"><span class="glyphicon glyphicon-usd"></span>${three_hour}</label> <input type="text" name="ThreeHourDiscount" value=""
-								class="form-control" placeholder="${enter_three}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${price_error}</span>
+								class="form-control" placeholder="${enter_three}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${percentage_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Six hour discount"><span class="glyphicon glyphicon-usd"></span>${six_hour}</label> <input type="text" name="SixHourDiscount" value=""
-								class="form-control" placeholder="${enter_six}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${price_error}</span>
+								class="form-control" placeholder="${enter_six}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${percentage_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Nine hour discount"><span class="glyphicon glyphicon-usd"></span>${nine_hour}</label> <input type="text" name="NineHourDiscount" value=""
-								class="form-control" placeholder="${enter_nine}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${price_error}</span>
-						</div>
-						<div class="form-group">
-							<label for="Day sale"><span class="glyphicon glyphicon-usd"></span>${all_day}</label> <input type="text" name="DaySale" value="" class="form-control"
-								placeholder="${enter_day_sale}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${price_error}</span>
+								class="form-control" placeholder="${enter_nine}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${percentage_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Regular customer discount"><span class="glyphicon glyphicon-usd"></span>${regular}</label> <input type="text" name="RegularCustomerDiscount" value=""
-								class="form-control" placeholder="${enter_regular}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${price_error}</span>
+								class="form-control" placeholder="${enter_regular}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${percentage_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Traveler discount"><span class="glyphicon glyphicon-usd"></span>${traveler}</label> <input type="text" name="TravelerDiscount" value=""
-								class="form-control" placeholder="${enter_traveler}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${price_error}</span>
+								class="form-control" placeholder="${enter_traveler}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${percentage_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="New customer discount"><span class="glyphicon glyphicon-usd"></span>${newcustomer}</label> <input type="text" name="NewCustomerDiscount" value=""
-								class="form-control" placeholder="${enter_new}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${price_error}</span>
+								class="form-control" placeholder="${enter_new}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${percentage_error}</span>
 						</div>
 						<button type="submit" class="btn btn-success btn-block">${update}</button>
 					</form>
@@ -253,21 +248,7 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-	
-		$('input[name=toggle]:checked').val();
-		$(document).ready(function() {
-			$('#checkBoxAll').click(function() {
-				if ($(this).is(":checked"))
-					$('.chkCheckBoxId').prop('checked', true);
-				else
-					$('.chkCheckBoxId').prop('checked', false);
-			});
-		});
-		
-		$('#change_billing').on('show.bs.modal', function(e) {
-			var id = $(e.relatedTarget).data('id');
-			$(e.currentTarget).find('input[name="id"]').val(id);
-		});
+	<%@include file="/js/admin_billing.js"%>
 	</script>
 </body>
 </html>

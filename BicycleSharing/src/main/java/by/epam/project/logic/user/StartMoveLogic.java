@@ -23,6 +23,9 @@ public class StartMoveLogic implements Logic {
     private OrderDaoImpl orderDao = new OrderDaoImpl();
     private UserDaoImpl userDao = new UserDaoImpl();
 
+    /**
+     * Logic method for start moving
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of starting bicycle moving performing.");

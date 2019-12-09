@@ -13,7 +13,6 @@
 <%@include file="/css/main.css"%>
 </style>
 
-
 <c:set var="previous_path" value="controller?command=Admin_home_page" scope="session" />
 <c:set var="language" value="${lang}" />
 <fmt:setLocale value="${language}" />

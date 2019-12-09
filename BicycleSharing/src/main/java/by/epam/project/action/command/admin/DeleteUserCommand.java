@@ -16,7 +16,6 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.admin.DeleteUserLogic;
 import by.epam.project.util.Constants;
-import by.epam.project.util.PageError;
 
 public class DeleteUserCommand implements ActionCommand {
 
@@ -24,6 +23,9 @@ public class DeleteUserCommand implements ActionCommand {
 
     private Logic logic = new DeleteUserLogic();
 
+    /**
+     * Command for deleting users
+     */
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("Deleting users executing.");
@@ -38,10 +40,10 @@ public class DeleteUserCommand implements ActionCommand {
             List<String> parameters = Arrays.asList(requestParameters);
             logic.action(parameters);
             router.setRoutePath(RoutePath.REDIRECT_USERS_PAGE.getRoutePath());
-            logger.info("Successfully deleting user.");
+            logger.info("Successfully deleting user or users!");
         } catch (LogicException ex) {
             logger.error(ex);
-            request.setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }

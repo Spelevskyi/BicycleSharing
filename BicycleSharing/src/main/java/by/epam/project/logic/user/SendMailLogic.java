@@ -23,6 +23,9 @@ public class SendMailLogic implements Logic {
 
     private int confirmCode;
 
+    /**
+     * Logic method for sending mail message
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Sending code on user email performing.");

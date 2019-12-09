@@ -3,17 +3,29 @@ package by.epam.project.pool;
 import java.util.ResourceBundle;
 
 public class PoolInitializer {
-    // DB localhost url;
+    /**
+     * DB localhost url;
+     */
     final String URL;
-    // DB user name value
+    /**
+     * DB user name value
+     */
     final String USER_NAME;
-    // DB password value
+    /**
+     * DB password value
+     */
     final String PASSWORD;
-    // DB Driver for connection
+    /**
+     * DB Driver for connection
+     */
     final String DRIVER;
-
+    /**
+     * Encoding parameter
+     */
     final String ENCODING;
-
+    /**
+     * Pool size value
+     */
     final String POOL_SIZE;
 
     final String USE_UNICODE;

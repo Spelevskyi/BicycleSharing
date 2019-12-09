@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import by.epam.project.dao.impl.BicycleDaoImpl;
 import by.epam.project.dao.impl.RentalPointDaoImpl;
 import by.epam.project.entity.bicycle.Bicycle;
+import by.epam.project.entity.point.RentalPoint;
 import by.epam.project.exception.DaoException;
 import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
@@ -22,6 +23,9 @@ public class AddBicycleWithLocationLogic implements Logic {
     public BicycleDaoImpl bicycleDao = new BicycleDaoImpl();
     public RentalPointDaoImpl pointDao = new RentalPointDaoImpl();
 
+    /**
+     * Logic method for adding bicycle with point coordinates on map
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Adding bicycle with location on map performing.");
@@ -45,8 +49,10 @@ public class AddBicycleWithLocationLogic implements Logic {
             if (!findedBicycle.isPresent()) {
                 logger.error("Bicycle not exists!");
             } else {
-                bicycleDao.addBicycleWithPoint(bicycleId, xCoordinate, yCoordinate);
-                logger.info("Creation rental point with bicycle adding on it.");
+                RentalPoint point = new RentalPoint(xCoordinate, yCoordinate);
+                point.setBicycleId(bicycleId);
+                pointDao.create(point);
+                logger.info("Creation rental point with bicycle adding on it!");
             }
         } catch (DaoException ex) {
             throw new LogicException("Adding bicycle with location on map failed!", ex);

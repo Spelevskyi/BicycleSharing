@@ -16,7 +16,6 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.admin.DeleteBicycleLogic;
 import by.epam.project.util.Constants;
-import by.epam.project.util.PageError;
 
 public class DeleteBicycleCommand implements ActionCommand {
 
@@ -24,6 +23,9 @@ public class DeleteBicycleCommand implements ActionCommand {
 
     private Logic logic = new DeleteBicycleLogic();
 
+    /**
+     * Deleting bicycle command
+     */
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("Deleting bicycles executing.");
@@ -38,11 +40,10 @@ public class DeleteBicycleCommand implements ActionCommand {
             List<String> parameters = Arrays.asList(requestParameters);
             logic.action(parameters);
             router.setRoutePath(RoutePath.REDIRECT_BICYCLE_PAGE.getRoutePath());
-            logger.info("Successfully deleting bicycle.");
+            logger.info("Successfully deleting bicycle or bicycles!");
         } catch (LogicException ex) {
             logger.error(ex);
-            request.setAttribute(Constants.ERROR,
-                    PageError.getError(Constants.TRUE, ex.getMessage()));
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }

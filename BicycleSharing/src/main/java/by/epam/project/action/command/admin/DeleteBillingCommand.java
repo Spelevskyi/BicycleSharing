@@ -16,13 +16,15 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.admin.DeleteBillingLogic;
 import by.epam.project.util.Constants;
-import by.epam.project.util.PageError;
 
 public class DeleteBillingCommand implements ActionCommand {
 
     public static final Logger logger = LogManager.getLogger(DeleteBillingCommand.class);
     private Logic logic = new DeleteBillingLogic();
 
+    /**
+     * Command for deleting price list
+     */
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("Deleting price list executing.");
@@ -40,8 +42,7 @@ public class DeleteBillingCommand implements ActionCommand {
             logger.info("Successfully deleting price list.");
         } catch (LogicException ex) {
             logger.error(ex);
-            request.setAttribute(Constants.ERROR,
-                    PageError.getError(Constants.TRUE, ex.getMessage()));
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }

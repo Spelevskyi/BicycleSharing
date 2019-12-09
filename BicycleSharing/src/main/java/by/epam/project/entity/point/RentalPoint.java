@@ -5,6 +5,7 @@ public class RentalPoint {
     private int id;
     private int x_coordinate;
     private int y_coordinate;
+    private int bicycleId;
 
     public RentalPoint(int x_coordinate, int y_coordinate) {
         this.x_coordinate = x_coordinate;
@@ -33,6 +34,14 @@ public class RentalPoint {
 
     public void setY_coordinate(int y_coordinate) {
         this.y_coordinate = y_coordinate;
+    }
+
+    public int getBicycleId() {
+        return bicycleId;
+    }
+
+    public void setBicycleId(int bicycleId) {
+        this.bicycleId = bicycleId;
     }
 
 }

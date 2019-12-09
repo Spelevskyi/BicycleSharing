@@ -19,7 +19,13 @@ public class UserBuilder {
 
     private static final Logger logger = LogManager.getLogger(UserBuilder.class);
 
-    // UserBuilder method for creating user entity
+    /**
+     * UserBuilder method for creating user entity
+     * 
+     * @param result - ResultSet
+     * @return Optional value of user
+     * @throws DaoException
+     */
     public static Optional<User> createUser(ResultSet result) throws DaoException {
         logger.info("Creating user in builder method.");
         try {
@@ -56,6 +62,13 @@ public class UserBuilder {
         }
     }
 
+    /**
+     * UserBuilder method for creation order for user
+     * 
+     * @param result - ResultSet
+     * @return Oprional value of user
+     * @throws DaoException
+     */
     public static Optional<User> createOrderUser(ResultSet result) throws DaoException {
         logger.info("Creating user in builder method.");
         try {
@@ -86,142 +99,13 @@ public class UserBuilder {
         }
     }
 
-    public static Optional<User> createUserWithCardsAndOrders(ResultSet result) throws DaoException {
-        try {
-            result.beforeFirst();
-            result.next();
-            String firstName = result.getString(Constants.USER_FIRSTNAME);
-            String lastName = result.getString(Constants.USER_LASTNAME);
-            String email = result.getString(Constants.USER_EMAIL);
-            String password = result.getString(Constants.USER_PASSWORD);
-            String status = result.getString(Constants.USER_STATUS);
-            RoleType role = RoleType.valueOf(result.getString(Constants.USER_ROLE));
-            Date registrationDate = result.getDate(Constants.USER_REGISTRATION_DATE);
-            int rentalAmount = result.getInt(Constants.USER_RENTAL_AMOUNT);
-            Date lastRentalDate = result.getDate(Constants.USER_LAST_RENTAL_DATE);
-            String phoneNumber = result.getString(Constants.USER_PHONE_NUMBER);
-            boolean confirmed = result.getBoolean(Constants.CONFIRMED_USER);
-            String imagePath = result.getString(Constants.IMAGE_PATH);
-            BigDecimal cash = result.getBigDecimal(Constants.USER_CASH);
-            boolean onRoad = result.getBoolean(Constants.USER_ONROAD);
-            boolean online = result.getBoolean(Constants.USER_ONLINE);
-            User user = new User(firstName, lastName, email, password, role, registrationDate, rentalAmount,
-                    lastRentalDate, phoneNumber, status, confirmed, imagePath, cash);
-            user.setId(result.getInt(Constants.USER_ID));
-            user.setOnline(online);
-            user.setOnRoad(onRoad);
-            user.setCards(CardBuilder.createUserCards(result));
-            user.setOrders(RentalOrderBuilder.createOrders(result));
-            return Optional.ofNullable(user);
-        } catch (SQLException ex) {
-            throw new DaoException(ex);
-        }
-    }
-
-    public static Optional<User> createUserWithCards(ResultSet result) throws DaoException {
-        try {
-            logger.info("Creating user entity with card list");
-            if (!result.next()) {
-
-                return Optional.empty();
-            }
-            result.beforeFirst();
-            result.next();
-            String firstName = result.getString(Constants.USER_FIRSTNAME);
-            String lastName = result.getString(Constants.USER_LASTNAME);
-            String email = result.getString(Constants.USER_EMAIL);
-            String password = result.getString(Constants.USER_PASSWORD);
-            String status = result.getString(Constants.USER_STATUS);
-            RoleType role = RoleType.valueOf(result.getString(Constants.USER_ROLE));
-            Date registrationDate = result.getDate(Constants.USER_REGISTRATION_DATE);
-            int rentalAmount = result.getInt(Constants.USER_RENTAL_AMOUNT);
-            Date lastRentalDate = result.getDate(Constants.USER_LAST_RENTAL_DATE);
-            String phoneNumber = result.getString(Constants.USER_PHONE_NUMBER);
-            boolean confirmed = result.getBoolean(Constants.CONFIRMED_USER);
-            String imagePath = result.getString(Constants.IMAGE_PATH);
-            BigDecimal cash = result.getBigDecimal(Constants.USER_CASH);
-            boolean onRoad = result.getBoolean(Constants.USER_ONROAD);
-            boolean online = result.getBoolean(Constants.USER_ONLINE);
-            User user = new User(firstName, lastName, email, password, role, registrationDate, rentalAmount,
-                    lastRentalDate, phoneNumber, status, confirmed, imagePath, cash);
-            user.setId(result.getInt(Constants.USER_ID));
-            user.setOnline(online);
-            user.setOnRoad(onRoad);
-            user.setCards(CardBuilder.createUserCards(result));
-            logger.info("Succesfully creating user entity with card list.");
-            return Optional.ofNullable(user);
-        } catch (SQLException ex) {
-            throw new DaoException(ex);
-        }
-    }
-
-    public static Optional<User> createUserWithOrders(ResultSet result) throws DaoException {
-        try {
-            logger.info("Creating user entity with order list");
-            if (!result.next()) {
-                return Optional.empty();
-            }
-            result.beforeFirst();
-            result.next();
-            String firstName = result.getString(Constants.USER_FIRSTNAME);
-            String lastName = result.getString(Constants.USER_LASTNAME);
-            String email = result.getString(Constants.USER_EMAIL);
-            String password = result.getString(Constants.USER_PASSWORD);
-            String status = result.getString(Constants.USER_STATUS);
-            RoleType role = RoleType.valueOf(result.getString(Constants.USER_ROLE));
-            Date registrationDate = result.getDate(Constants.USER_REGISTRATION_DATE);
-            int rentalAmount = result.getInt(Constants.USER_RENTAL_AMOUNT);
-            Date lastRentalDate = result.getDate(Constants.USER_LAST_RENTAL_DATE);
-            String phoneNumber = result.getString(Constants.USER_PHONE_NUMBER);
-            boolean confirmed = result.getBoolean(Constants.CONFIRMED_USER);
-            String imagePath = result.getString(Constants.IMAGE_PATH);
-            BigDecimal cash = result.getBigDecimal(Constants.USER_CASH);
-            boolean onRoad = result.getBoolean(Constants.USER_ONROAD);
-            boolean online = result.getBoolean(Constants.USER_ONLINE);
-            User user = new User(firstName, lastName, email, password, role, registrationDate, rentalAmount,
-                    lastRentalDate, phoneNumber, status, confirmed, imagePath, cash);
-            user.setId(result.getInt(Constants.USER_ID));
-            user.setOnline(online);
-            user.setOnRoad(onRoad);
-            user.setOrders(RentalOrderBuilder.createUserOrders(result));
-            logger.info("Succesfully creating user entity with order list.");
-            return Optional.ofNullable(user);
-        } catch (SQLException ex) {
-            throw new DaoException(ex);
-        }
-    }
-
-    public static Optional<User> createUserWithActiveOrder(ResultSet result) throws DaoException {
-        try {
-            result.beforeFirst();
-            result.next();
-            String firstName = result.getString(Constants.USER_FIRSTNAME);
-            String lastName = result.getString(Constants.USER_LASTNAME);
-            String email = result.getString(Constants.USER_EMAIL);
-            String password = result.getString(Constants.USER_PASSWORD);
-            String status = result.getString(Constants.USER_STATUS);
-            RoleType role = RoleType.valueOf(result.getString(Constants.USER_ROLE));
-            Date registrationDate = result.getDate(Constants.USER_REGISTRATION_DATE);
-            int rentalAmount = result.getInt(Constants.USER_RENTAL_AMOUNT);
-            Date lastRentalDate = result.getDate(Constants.USER_LAST_RENTAL_DATE);
-            String phoneNumber = result.getString(Constants.USER_PHONE_NUMBER);
-            boolean confirmed = result.getBoolean(Constants.CONFIRMED_USER);
-            String imagePath = result.getString(Constants.IMAGE_PATH);
-            BigDecimal cash = result.getBigDecimal(Constants.USER_CASH);
-            boolean onRoad = result.getBoolean(Constants.USER_ONROAD);
-            boolean online = result.getBoolean(Constants.USER_ONLINE);
-            User user = new User(firstName, lastName, email, password, role, registrationDate, rentalAmount,
-                    lastRentalDate, phoneNumber, status, confirmed, imagePath, cash);
-            user.setId(result.getInt(Constants.USER_ID));
-            user.setOnline(online);
-            user.setOnRoad(onRoad);
-            user.setActiveOrder(RentalOrderBuilder.createOrder(result).get());
-            return Optional.ofNullable(user);
-        } catch (SQLException ex) {
-            throw new DaoException(ex);
-        }
-    }
-
+    /**
+     * UserBuilder method for creating list of users
+     * 
+     * @param result - ResultSet
+     * @return list of users
+     * @throws DaoException
+     */
     public static ArrayList<User> createUsers(ResultSet result) throws DaoException {
         logger.info("Creating users list.");
         ArrayList<User> users = new ArrayList<>();
@@ -254,10 +138,10 @@ public class UserBuilder {
                 users.add(user);
                 logger.info("User was created in builder.");
             }
-            logger.info("All user were created!");
         } catch (SQLException ex) {
-            throw new DaoException("Users were not found!");
+            throw new DaoException(ex);
         }
+        logger.info("All users were created in builder methos!");
         return users;
     }
 }

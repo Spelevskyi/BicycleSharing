@@ -5,9 +5,11 @@
 
 <html>
 <head>
+
 <style>
-<%@include file="/css/main.css"%>
+<%@include file="/css/admin_navbar.css"%>
 </style>
+
 <c:set var="language" value="${lang}" />
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="properties.local" var="local" />

@@ -22,6 +22,9 @@ public class ChangeAvatarLogic implements Logic {
 
     private User user;
 
+    /**
+     * Logic method for changing user avatar
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of changing avatar image performing.");

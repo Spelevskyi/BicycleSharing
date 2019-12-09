@@ -16,7 +16,6 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.admin.AddBillingLogic;
 import by.epam.project.util.Constants;
-import by.epam.project.util.PageError;
 
 public class AddBillingCommand implements ActionCommand {
 
@@ -24,6 +23,9 @@ public class AddBillingCommand implements ActionCommand {
 
     private Logic logic = new AddBillingLogic();
 
+    /**
+     * Command of adding new price list
+     */
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("Adding new billing list executing.");
@@ -60,8 +62,7 @@ public class AddBillingCommand implements ActionCommand {
             logger.info("Succesfully adding bicycle price list executing!");
         } catch (LogicException ex) {
             logger.error(ex);
-            request.getSession().setAttribute(Constants.ERROR,
-                    PageError.getError(Constants.TRUE, ex.getMessage()));
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }

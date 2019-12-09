@@ -26,6 +26,9 @@ public class FavoritesLogic implements Logic {
     private Map<Integer, String> sortedByBrand;
     private Map<Integer, String> sortedByColor;
 
+    /**
+     * Logic method of forwarding to favorites bicycles page
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Favorites page forwarding perforning!");

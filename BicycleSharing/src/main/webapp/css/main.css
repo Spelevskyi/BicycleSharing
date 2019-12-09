@@ -4,83 +4,6 @@ body {
 	font-family: Georgia, Helvetica, serif;
 }
 
-.navbar-inverse.nav-upper {
-	width: 100%;
-	background-color: #272929;
-}
-
-.navbar-inverse.nav-upper ul {
-	float: left;
-}
-
-.navbar-inverse.nav-upper .navbar-nav.navbar-right>li>a {
-	display: #272929;
-	color: white;
-	text-align: center;
-	padding: 14px 14px;
-	text-decoration: none;
-	font-size: 17px;
-}
-
-.navbar-inverse.nav-upper .navbar-nav.navbar-right>li>a:hover {
-	background-color: #272929;
-	color: #084473;
-}
-
-.navbar-inverse.nav-upper .navbar-nav input[type=text] {
-	float: right;
-	padding: 6px;
-	border: none;
-	margin-top: 8px;
-	margin-right: 16px;
-	font-size: 17px;
-}
-
-.navbar.navbar-inverse.navbar-static-top.navbar-lower {
-	width: 100%;
-	background-color: #d9d4d4;
-}
-
-.navbar.navbar-inverse.navbar-static-top.navbar-lower .navbar-nav.navbar-left
-	{
-	padding-left: 350px;
-}
-
-.navbar.navbar-inverse.navbar-static-top.navbar-lower .navbar-nav.navbar-right ul
-	{
-	padding-right: 10px;
-}
-
-.navbar.navbar-inverse.navbar-static-top.navbar-lower .navbar-nav.navbar-left>li>a
-	{
-	text-align: center;
-	color: black;
-	text-decoration: none;
-	font-size: 17px;
-}
-
-.navbar.navbar-inverse.navbar-static-top.navbar-lower .navbar-nav.navbar-right>li
-	{
-	text-align: center;
-	color: #d9d4d4;
-	text-decoration: none;
-	font-size: 0px;
-}
-
-.navbar.navbar-inverse.navbar-static-top.navbar-lower .navbar-nav.navbar-left>li>a:hover
-	{
-	background-color: #084473;
-	color: white;
-}
-
-@media ( min-width : 768px) {
-	.navbar-inverse.nav-upper .navbar-nav.navbar-right {
-		display: block;
-		margin-top: 0;
-		border-radius: 0;
-	}
-}
-
 .tab{
 	background-color:white;
 }
@@ -126,6 +49,20 @@ tr:hover {
 	vertical-align: middle;
 }
 
+h4,h3,p{
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+#road-button{
+	margin-right:20px;
+	margin-left:10px;
+	margin-bottom:10px;
+	width:340px;
+	background-color:#4CAF50;
+	color:white;
+}
 
 #replenish{
 	margin-right:10px;
@@ -165,7 +102,7 @@ tr:hover {
 
 #table-wrapper {
 	height: 400px;
-	width:auto;
+	width:800px;
 	position: absolute;
 	overflow: auto;
 	text-align: center;

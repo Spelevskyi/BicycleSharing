@@ -23,6 +23,9 @@ public class CreateCardLogic implements Logic {
     public UserDaoImpl userDao = new UserDaoImpl();
     public CardDaoImpl cardDao = new CardDaoImpl();
 
+    /**
+     * Logic method for creation credit card
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of creating user credit card performing.");

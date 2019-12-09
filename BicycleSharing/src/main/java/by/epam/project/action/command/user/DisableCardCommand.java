@@ -16,7 +16,6 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.user.DisableCardLogic;
 import by.epam.project.util.Constants;
-import by.epam.project.util.PageError;
 
 public class DisableCardCommand implements ActionCommand {
 
@@ -24,6 +23,9 @@ public class DisableCardCommand implements ActionCommand {
 
     private Logic logic = new DisableCardLogic();
 
+    /**
+     * Disabling credit card
+     */
     @Override
     public Router execute(HttpServletRequest request) {
         logger.info("Disabling user card executing.");
@@ -37,8 +39,8 @@ public class DisableCardCommand implements ActionCommand {
             router.setRoutePath(RoutePath.REDIRECT_USER_BILLING.getRoutePath());
             logger.info("Successfully disabling credit card executing!");
         } catch (LogicException ex) {
-            logger.info(ex);
-            request.setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
+            logger.error(ex);
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }

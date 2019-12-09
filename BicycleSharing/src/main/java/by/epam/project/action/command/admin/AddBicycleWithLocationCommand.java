@@ -16,7 +16,6 @@ import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.logic.admin.AddBicycleWithLocationLogic;
 import by.epam.project.util.Constants;
-import by.epam.project.util.PageError;
 
 public class AddBicycleWithLocationCommand implements ActionCommand {
 
@@ -24,6 +23,9 @@ public class AddBicycleWithLocationCommand implements ActionCommand {
 
     private Logic logic = new AddBicycleWithLocationLogic();
 
+    /**
+     * Adding bicycle with map point command
+     */
     public Router execute(HttpServletRequest request) {
         logger.info("Adding bicycle with location executing.");
         Router router = new Router();
@@ -41,7 +43,7 @@ public class AddBicycleWithLocationCommand implements ActionCommand {
             logger.info("Succesfully adding bicycle on map executing!");
         } catch (LogicException ex) {
             logger.error(ex);
-            request.getSession().setAttribute(Constants.ERROR, PageError.getError(Constants.TRUE, ex.getMessage()));
+            request.getSession().setAttribute(Constants.ERROR, ex.getMessage());
             router.setRoutePath(RoutePath.MESSAGE_PAGE_PATH.getRoutePath());
             router.setType(RouteType.FORWARD);
         }

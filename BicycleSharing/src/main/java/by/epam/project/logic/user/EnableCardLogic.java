@@ -19,6 +19,9 @@ public class EnableCardLogic implements Logic {
 
     public CardDaoImpl cardDao = new CardDaoImpl();
 
+    /**
+     * Logic method for enabling credit card
+     */
     @Override
     public void action(List<String> parameters) throws LogicException {
         logger.info("Action of enabling current card performing.");
