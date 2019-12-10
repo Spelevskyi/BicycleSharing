@@ -11,6 +11,9 @@ public class Constants {
     // encoding
     public static final String ENCODING_TYPE = "MD5";
 
+    // filter
+    public final static String ENCODING = "encoding";
+
     // errors
     public static final String LOCKED_ERROR = "You are locked in sharing system besause of not paying debt. Please pay debt!";
     public static final String CONFIRMED_ERROR = "You are locked in sharing system besause of yoa are not confirmed your email. Please confirm!";
@@ -352,7 +355,4 @@ public class Constants {
 
     public static final int SECONDS_CONSTANT = 3600;
     public static final int MINUTE_CONSTANT = 60;
-
-
-
 }

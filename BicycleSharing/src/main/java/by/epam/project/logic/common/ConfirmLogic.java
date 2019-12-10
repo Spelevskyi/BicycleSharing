@@ -12,6 +12,7 @@ import by.epam.project.exception.DaoException;
 import by.epam.project.exception.LogicException;
 import by.epam.project.logic.Logic;
 import by.epam.project.util.Constants;
+import by.epam.project.validation.UserDataValidator;
 
 public class ConfirmLogic implements Logic {
 
@@ -32,14 +33,22 @@ public class ConfirmLogic implements Logic {
             throw new LogicException("Invalid confrim page parameters amount!");
         }
         String email = parameters.get(0);
-        int enteredCode = Integer.valueOf(parameters.get(1));
-        int confirmationCode = Integer.valueOf(parameters.get(2));
+        String enteredCode = parameters.get(1);
+        String confirmationCode = parameters.get(2);
+        if (!(UserDataValidator.isConfirmCodeValid((enteredCode)))) {
+            logger.error("Invalid entered code value!");
+            throw new LogicException("Invalid entered code value!");
+        }
+        if (!(UserDataValidator.isConfirmCodeValid(confirmationCode))) {
+            logger.error("Invalid confirm code value!");
+            throw new LogicException("Invalid confirm code value!");
+        }
         try {
             Optional<User> findedUser = userDao.findUserByEmail(email);
             if (!findedUser.isPresent()) {
                 logger.error("User not exists!");
             } else {
-                if (!(enteredCode == confirmationCode)) {
+                if (!(enteredCode.equals(confirmationCode))) {
                     logger.error("Entered code not equal to confirmation code!");
                     throw new LogicException("Entered code not equal to confirmation code!");
                 }

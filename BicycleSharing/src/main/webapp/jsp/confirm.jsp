@@ -23,6 +23,7 @@
 <fmt:message bundle="${local}" key="index.confirm" var="confirm" />
 <fmt:message bundle="${local}" key="index.code" var="code" />
 <fmt:message bundle="${local}" key="index.enter.confirm" var="enter_confirm" />
+<fmt:message bundle="${local}" key="index.confirm.error" var="confirm_error" />
 <fmt:message bundle="${local}" key="index.title" var="title" />
 <title>${title}</title>
 </head>
@@ -40,7 +41,8 @@
 					<form name="form" method="POST" action="${pageContext.session.servletContext.contextPath}/controller">
 					<input type="hidden" name="command" value="Confirm" />
 						<div class="form-group">
-							<label for="code">${code}</label> <input type="text" name="code" value="" class="form-control" placeholder="${enter_confirm}" />
+							<label for="code">${code}</label> <input type="text" name="code" value="" class="form-control" placeholder="${enter_confirm}" pattern="^[0-9]{1,5}$" required />
+							<span class="form_error">${confirm_error}</span>
 						</div>
 						<button type="submit" class="btn btn-success btn-block">
 							<span class="glyphicon glyphicon-off"></span>${confirm}

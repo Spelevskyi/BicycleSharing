@@ -43,6 +43,7 @@ public class DeleteBicycleLogic implements Logic {
                 }
             }
         } catch (DaoException ex) {
+            System.out.println(ex.getMessage());
             throw new LogicException("Deleting bicycles failed!", ex);
         }
     }

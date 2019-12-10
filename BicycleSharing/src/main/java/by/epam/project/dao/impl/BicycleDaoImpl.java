@@ -359,7 +359,6 @@ public class BicycleDaoImpl extends BicycleDao {
             if (result == 0) {
                 logger.error("Bicycle was not deleted!");
             }
-            connection.commit();
         } catch (SQLException ex) {
             throw new DaoException(ex);
         } finally {

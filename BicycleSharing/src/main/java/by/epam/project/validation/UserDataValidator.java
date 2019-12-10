@@ -8,6 +8,7 @@ public class UserDataValidator {
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" +
             "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     private static final String FIRSTNAME_PATTERN = "^[A-Z][a-zA-Z]{2,20}$";
+    private static final String CODE_PATTERN = "[0-9]{1,5}$";
     private static final String LASTNAME_PATTERN = "^[A-Z][a-zA-Z]{5,20}$";
     private static final String PASSWORD_PATTERN = "^[0-9a-zA-Z]{4,20}";
     private static final String PHONE_NUMBER_PATTERN = "(\\+375|80) (29|25|44|33) (\\d{3})-(\\d{2})-(\\d{2})$";
@@ -33,6 +34,10 @@ public class UserDataValidator {
         return password != null && !password.isEmpty() && Pattern.matches(PASSWORD_PATTERN, password);
     }
     
+    public static boolean isConfirmCodeValid(String code) {
+        return code != null && !code.isEmpty() && Pattern.matches(CODE_PATTERN, code);
+    }
+
     public static boolean isPasswordEqual(String firstPassword, String secondPassword) {
         return isPasswordValid(firstPassword) && isPasswordValid(secondPassword)
                 && firstPassword.equals(secondPassword);

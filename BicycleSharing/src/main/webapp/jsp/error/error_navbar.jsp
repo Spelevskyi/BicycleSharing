@@ -30,10 +30,10 @@
 	<nav class="navbar navbar-inverse navbar-static-top navbar-lower">
 		<div class="btn-group btn-group-sm divLang" id="center" role="group" aria-label="...">
 			<button type="submit" name="lang" value="en" class="btn btn-default navbar-btn">
-				<img src="../image/england.png" />
+				<img src="${pageContext.session.servletContext.contextPath}/image/england.png" />
 			</button>
 			<button type="submit" name="lang" value="ru" class="btn btn-default navbar-btn">
-				<img src="../image/russia.png" />
+				<img src="${pageContext.session.servletContext.contextPath}/image/russia.png" />
 			</button>
 		</div>
 	</nav>
