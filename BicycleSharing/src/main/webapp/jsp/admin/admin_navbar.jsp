@@ -10,7 +10,7 @@
 <%@include file="/css/admin_navbar.css"%>
 </style>
 
-<c:set var="language" value="${lang}" />
+<c:set var="language" value="${sessionScope.lang}" />
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="properties.local" var="local" />
 <fmt:message bundle="${local}" key="main.home" var="home" />

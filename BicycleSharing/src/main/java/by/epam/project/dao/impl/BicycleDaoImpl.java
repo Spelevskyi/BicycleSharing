@@ -25,9 +25,9 @@ public class BicycleDaoImpl extends BicycleDao {
 
     private static final Logger logger = LogManager.getLogger(BicycleDaoImpl.class);
 
-    private static final String SQL_CREATE_BICYCLE = "INSERT INTO bicycle (Brand,Color,MaxSpeed,CreationDate,State,ImagePath,Status,BillingId) VALUES"
-            + "(?,?,?,?,?,?,?,(SELECT billing.Id FROM billing WHERE billing.Brand = ?))";
-    private static final String SQL_UPDATE_BICYCLE = "UPDATE bicycle SET Brand = ?,Color = ?,MaxSpeed = ? ,CreationDate = ? ,State = ? ,ImagePath = ? ,Status = ?, BillingId = ?"
+    private static final String SQL_CREATE_BICYCLE = "INSERT INTO bicycle (Brand,Color,MaxSpeed,CreationDate,State,ImagePath,Status,BillingId,OnRoad) VALUES"
+            + "(?,?,?,?,?,?,?,(SELECT billing.Id FROM billing WHERE billing.Brand = ?),?)";
+    private static final String SQL_UPDATE_BICYCLE = "UPDATE bicycle SET Brand = ?,Color = ?,MaxSpeed = ? ,CreationDate = ? ,State = ? ,ImagePath = ? ,Status = ?, BillingId = ?, OnRoad = ?"
             + " WHERE Id = ?";
     private static final String SQL_SORT_BY_BRAND = "SELECT bicycle.Brand,COUNT(bicycle.Brand) AS BicycleCount FROM bicycle JOIN rental_order ON rental_order.bicycleId = bicycle.Id WHERE rental_order.RenterId = ?"
             + " GROUP BY bicycle.Brand ORDER BY BicycleCount DESC";
@@ -43,10 +43,8 @@ public class BicycleDaoImpl extends BicycleDao {
     private static final String SQL_FIND_BICYCLES_WITH_POINTS = "SELECT * FROM bicycle LEFT JOIN rental_point"
             + " ON bicycle.Id = rental_point.BicycleId INNER JOIN billing ON bicycle.BillingId = billing.Id ";
     private static final String FIND_ALL_BICYCLES_NOT_LOCATED = "SELECT * FROM bicycle WHERE bicycle.PointId = 'null'";
-    private static final String SQL_ADD_POINT = "INSERT INTO rental_point(x_coordinate,y_coordinate,BicycleId) VALUES(?,?,?)";
     private static final String SQL_SEARCH_BY_ID = "SELECT * FROM bicycle WHERE Id = ?";
     private static final String SQL_DELETE_BICYCLE = "DELETE FROM bicycle WHERE Id = ?";
-    private static final String FIND_BICYCLE_BY_ORDER_ID = "SELECT * FROM bicycle JOIN rental_order ON bicycle.Id = rental_order.BicycleId WHERE rental_order.RenterId = (SELECT user.Id FROM user WHERE user.Id = ?)";
 
     /**
      * BicycleDao method for creation bicycle
@@ -66,12 +64,14 @@ public class BicycleDaoImpl extends BicycleDao {
             statement.setString(5, entity.getState());
             statement.setString(6, entity.getImagePath());
             statement.setString(7, entity.getStatus());
-            statement.setString(8, entity.getBrand().toString());
+            statement.setString(8, entity.getBrand());
+            statement.setBoolean(9, entity.isOnRoad());
             int result = statement.executeUpdate();
             if (result == 0) {
                 logger.error("Bicycle was not added!");
             }
         } catch (SQLException ex) {
+            System.out.println(entity.isOnRoad());
             throw new DaoException(ex);
         } finally {
             close(statement);
@@ -304,7 +304,8 @@ public class BicycleDaoImpl extends BicycleDao {
             statement.setString(6, entity.getImagePath());
             statement.setString(7, entity.getStatus());
             statement.setInt(8, entity.getBillingId());
-            statement.setInt(9, entity.getId());
+            statement.setBoolean(9, entity.isOnRoad());
+            statement.setInt(10, entity.getId());
             int result = statement.executeUpdate();
             if (result == 0) {
                 logger.error("Bicycle was not updated!");

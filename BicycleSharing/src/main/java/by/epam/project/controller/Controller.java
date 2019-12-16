@@ -14,6 +14,8 @@ import by.epam.project.action.ActionFactory;
 import by.epam.project.action.command.ActionCommand;
 import by.epam.project.action.command.RouteType;
 import by.epam.project.action.command.Router;
+import by.epam.project.pool.ConnectionPool;
+import by.epam.project.util.Constants;
 
 
 @WebServlet("/controller")
@@ -22,19 +24,16 @@ public class Controller extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
         processRequest(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
         processRequest(request, response);
 	}
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Optional<ActionCommand> definedCommand = ActionFactory.defineCommand(req.getParameter("command"));
+        req.getSession().setMaxInactiveInterval(10 * 60);
+        Optional<ActionCommand> definedCommand = ActionFactory.defineCommand(req.getParameter(Constants.COMMAND));
         Router router = definedCommand.get().execute(req);
         String pagePath = router.getRoutePath();
         if (router.getType().equals(RouteType.FORWARD)) {
@@ -43,6 +42,11 @@ public class Controller extends HttpServlet {
         } else {
             resp.sendRedirect(pagePath);
         }
+    }
+
+    @Override
+    public void destroy() {
+        ConnectionPool.INSTANCE.destroyPool();
     }
 
 }

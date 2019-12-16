@@ -16,6 +16,7 @@ public class Bicycle {
     private String state;
     private String imagePath;
     private String status;
+    private boolean onRoad;
     private RentalPoint point;
     private PriceList priceList;
 
@@ -122,4 +123,13 @@ public class Bicycle {
     public void setPriceList(PriceList priceList) {
         this.priceList = priceList;
     }
+
+    public boolean isOnRoad() {
+        return onRoad;
+    }
+
+    public void setOnRoad(boolean onRoad) {
+        this.onRoad = onRoad;
+    }
+
 }

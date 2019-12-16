@@ -35,7 +35,6 @@ public class ChangeBicycleCommand implements ActionCommand {
         String imagePath = request.getParameter(Constants.ADD_BICYCLE_IMAGE_PATH);
         String id = request.getParameter(Constants.CHANGE_BICYCLE_ID);
         List<String> parameters = new ArrayList<>();
-        parameters.add(brand);
         parameters.add(color);
         parameters.add(state);
         parameters.add(speed);

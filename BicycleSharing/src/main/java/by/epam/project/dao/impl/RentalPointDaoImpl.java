@@ -21,7 +21,7 @@ public class RentalPointDaoImpl extends RentalPointDao {
     private static final Logger logger = LogManager.getLogger(RentalPointDaoImpl.class);
 
     private static final String SQL_FIND_ALL = "SELECT * FROM rental_point";
-    private static final String SQL_CREATE_POINT = "INSERT INTO rental_point(x_coordinate,y_coordinate) VALUES(?,?)";
+    private static final String SQL_CREATE_POINT = "INSERT INTO rental_point(x_coordinate,y_coordinate,BicycleId) VALUES(?,?,?)";
     private static final String SQL_SEARCH_BY_ID = "SELECT * FROM rental_point WHERE Id = ?";
     private static final String SQL_DELETE_BY_BICYCLE_ID = "DELETE FROM rental_point WHERE BicycleId = ?";
     private static final String SQL_DELETE_POINT = "DELETE FROM rental_point WHERE Id = ?";
@@ -63,6 +63,7 @@ public class RentalPointDaoImpl extends RentalPointDao {
             statement = connection.prepareStatement(SQL_CREATE_POINT);
             statement.setInt(1, entity.getX_coordinate());
             statement.setInt(2, entity.getY_coordinate());
+            statement.setInt(3, entity.getBicycleId());
             int result = statement.executeUpdate();
             if (result == 0) {
                 logger.error("Rental point was not created!");

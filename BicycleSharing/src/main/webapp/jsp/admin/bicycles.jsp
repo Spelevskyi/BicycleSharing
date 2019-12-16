@@ -17,7 +17,7 @@
 </style>
 
 <c:set var="previous_path" value="controller?command=Bicycles" scope="session" />
-<c:set var="language" value="${lang}" />
+<c:set var="language" value="${sessionScope.lang}" />
 <fmt:setLocale value="${language}" />
 
 <fmt:setBundle basename="properties.local" var="local" />
@@ -99,7 +99,7 @@
 														</p>
 													</div>
 												</td>
-												<td><a href="#change_bicycle" data-toggle="modal" data-id='${num.getId()}'>${bicycle.getKey().getBrand()}</a></td></td>
+												<td><a href="#change_bicycle" data-toggle="modal" data-id='${bicycle.getKey().getId()}'>${bicycle.getKey().getBrand()}</a></td></td>
 												<td>${bicycle.getKey().getColor()}</td>
 												<td>${bicycle.getKey().getSpeed()}</td>
 												<td>${bicycle.getKey().getDate()}</td>
@@ -233,22 +233,10 @@
 								</select>
 							</div>
 							<div class="form-group">
-								<div class="row">
-									<div class="col-sm-2">
-										<input type="text" name="ImagePath" value="" class="form-control" id="imagePath" placeholder="${enter_path}" pattern="^.\/image\/[a-zA-z0-9]{1,100}.(png|jpg)$"
+								<input type="text" name="ImagePath" value="" class="form-control" id="imagePath" placeholder="${enter_path}" pattern="^.\/image\/[a-zA-z0-9]{1,100}.(png|jpg)$"
 											required /> <span class="form_error">${image_error}</span>
-									</div>
-									<div class="col-sm-1">
-										<div class="search">
-											<div id="dialog-search">
-												<image id="searchImage" src="./image/search.png" />
-											</div>
-											<input id="uploadImage" type="file" name="search_photo" placeholder="Photo" required="" capture>
-										</div>
-									</div>
-								</div>
 							</div>
-							<button type="submit" class="btn btn-submit" id="dialog-button">${create}</button>
+						<button type="submit" class="btn btn-success btn-block">${update}</button>
 					</form>
 				</div>
 			</div>

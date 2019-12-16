@@ -63,6 +63,7 @@ public class AddBicycleLogic implements Logic {
         try {
             Date registrationDate = new Date(System.currentTimeMillis());
             Bicycle bicycle = new Bicycle(brand, color, speed, registrationDate, state, path, status);
+            bicycle.setOnRoad(false);
             bicycleDao.create(bicycle);
             logger.info("Creating bicycle parameter for inserting in database.");
         } catch (DaoException ex) {

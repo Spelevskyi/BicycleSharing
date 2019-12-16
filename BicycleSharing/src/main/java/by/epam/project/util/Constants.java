@@ -72,7 +72,7 @@ public class Constants {
     public static final int BALANCE_REPLENICH_PARAMETERS_AMOUNT = 5;
     public static final int CREATE_CARD_PARAMETERS_AMOUNT = 5;
     public static final int REGISTRATION_PARAMETERS_AMOUNT = 6;
-    public static final int CHANGE_BICYCLE_PARAMETERS_AMOUNT = 12;
+    public static final int CHANGE_BICYCLE_PARAMETERS_AMOUNT = 5;
     public static final int ADD_BICYCLE_PARAMETERS_AMOUNT = 6;
     public static final int ADD_BILLING_PARAMETERS_AMOUNT = 12;
     public static final int CHANGE_BILLING_PARAMETERS_AMOUNT = 12;
@@ -148,6 +148,7 @@ public class Constants {
     public static final String BICYCLE_IMAGE_PATH = "bicycle.ImagePath";
     public static final String BICYCLE_BILLING_ID = "bicycle.BillingId";
     public static final String BICYCLE_STATUS = "bicycle.Status";
+    public static final String BICYCLE_ON_ROAD = "bicycle.OnRoad";
     public static final String BICYCLE = "bicycle";
     public static final String BICYCLE_COUNT = "BicycleCount";
     public static final String BICYCLE_SELECT_ID = "bicycleId";
@@ -309,7 +310,8 @@ public class Constants {
     public static final String ADMIN_IMAGE_ERROR = "admin_image_error";
     public static final String USER_ERROR = "user_error";
     public static final String PROFILE_ERROR = "profile_error";
-    public static final int INITIAL_RENTAL_AMOUNT = 1000;
+    public static final int INITIAL_RENTAL_AMOUNT = 1;
+    public static final int INITIAL_AMOUNT = 1000;
     public static final String INITIAL_IMAGE_PATH = "../image/default_user.png";
     public static final String TRUE = "true";
     public static final String FALSE = "false";

@@ -44,7 +44,13 @@ public class PriceListBuilder {
         }
     }
 
-    // PriceListBuilder method for creating price list for current bicycle
+    /**
+     * PriceListBuilder method for creating price list for current bicycle
+     * 
+     * @param result
+     * @return
+     * @throws DaoException
+     */
     public static Optional<PriceList> createBicyclePriceList(ResultSet result) throws DaoException {
         try {
             String brand = result.getString(Constants.PRICE_LIST_BRAND);

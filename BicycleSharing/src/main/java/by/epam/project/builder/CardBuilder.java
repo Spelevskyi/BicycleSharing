@@ -19,7 +19,13 @@ public class CardBuilder {
 
     private static final Logger logger = LogManager.getLogger(CardBuilder.class);
 
-    // CardBuilder method for creating single credit card
+    /**
+     * CardBuilder method for creating single credit card
+     * 
+     * @param result
+     * @return
+     * @throws DaoException
+     */
     public static Optional<Card> createCard(ResultSet result) throws DaoException {
         try {
             logger.info("Creating new credit card entity.");
@@ -45,7 +51,13 @@ public class CardBuilder {
         }
     }
 
-    // CardBuilder method for creating cards of current user
+    /**
+     * CardBuilder method for creating cards of current user
+     * 
+     * @param result
+     * @return
+     * @throws DaoException
+     */
     public static List<Card> createUserCards(ResultSet result) throws DaoException {
         ArrayList<Card> cards = new ArrayList<>();
         try {
@@ -73,7 +85,13 @@ public class CardBuilder {
         }
     }
 
-    // CardBuilder method for multiple creating cards
+    /**
+     * CardBuilder method for multiple creating cards
+     * 
+     * @param result
+     * @return
+     * @throws DaoException
+     */
     public static List<Card> createCards(ResultSet result) throws DaoException {
         ArrayList<Card> cards = new ArrayList<>();
         try {

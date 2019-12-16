@@ -20,8 +20,14 @@ public class RentalOrderBuilder {
 
     private static final Logger logger = LogManager.getLogger(RentalOrderBuilder.class);
 
-    // RentalOrderBuilder method of creating new order entity from ResultSet as
-    // parameter
+    /**
+     * RentalOrderBuilder method of creating new order entity from ResultSet as
+     * parameter
+     * 
+     * @param result
+     * @return
+     * @throws DaoException
+     */
     public static Optional<RentalOrder> createOrder(ResultSet result) throws DaoException {
         try {
             logger.info("Creating new rental order entity.");
@@ -50,8 +56,14 @@ public class RentalOrderBuilder {
         }
     }
 
-    // RentalOrderBuilder static method for creating Map with key - RentalOrder and
-    // value - Bicycle
+    /**
+     * RentalOrderBuilder static method for creating Map with key - RentalOrder and
+     * value - Bicycle
+     * 
+     * @param result
+     * @return
+     * @throws DaoException
+     */
     public static Map<RentalOrder, Bicycle> createOrderWithBicycle(ResultSet result) throws DaoException {
         logger.info("Creating orders with bicycles in builder.");
         Map<RentalOrder, Bicycle> orders = new HashMap<>();

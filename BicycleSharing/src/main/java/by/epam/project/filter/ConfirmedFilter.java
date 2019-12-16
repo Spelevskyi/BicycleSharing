@@ -18,9 +18,10 @@ import javax.servlet.http.HttpServletResponse;
 import by.epam.project.entity.user.User;
 import by.epam.project.util.Constants;
 
-@WebFilter(filterName = "ConfirmedFilter", dispatcherTypes = { DispatcherType.REQUEST, DispatcherType.FORWARD,
-        DispatcherType.INCLUDE }, urlPatterns = { "/jsp/account.jsp", "/jsp/user/rental_point.jsp",
-                "/jsp/user/favorites.jsp" }, initParams = { @WebInitParam(name = "MESSAGE_PATH", value = "/jsp/message.jsp") })
+@WebFilter(filterName = "ConfirmedFilter", urlPatterns = { "/jsp/account.jsp", "/jsp/user/rental_point.jsp",
+        "/jsp/user/favorites.jsp" }, dispatcherTypes = { DispatcherType.REQUEST,
+                DispatcherType.FORWARD }, initParams = {
+                        @WebInitParam(name = "MESSAGE_PATH", value = "/jsp/message.jsp") })
 public class ConfirmedFilter implements Filter {
 
     private String messagePath;

@@ -67,6 +67,7 @@ public class BicycleLocation {
             order.setBookedEndTime(dateTime);
             order.setStatus(OrderStatus.EXPIRE);
             bicycle.setStatus(Constants.ENABLE);
+            bicycle.setOnRoad(false);
             switch (order.getDirection()) {
             case "North":
                 logger.info("Moving to the North.");

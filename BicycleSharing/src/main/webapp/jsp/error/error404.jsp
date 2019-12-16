@@ -1,5 +1,5 @@
+<%@ page isErrorPage="true" language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <head>
@@ -17,7 +17,7 @@
 </style>
 
 <c:set var="previous_path" value="/jsp/error/error404.jsp" scope="session" />
-<c:set var="language" value="${lang}" />
+<c:set var="language" value="${sessionScope.lang}" />
 <fmt:setLocale value="${language}" />
 <fmt:message bundle="${local}" key="error.request" var="request" />
 <fmt:message bundle="${local}" key="error.status" var="status" />

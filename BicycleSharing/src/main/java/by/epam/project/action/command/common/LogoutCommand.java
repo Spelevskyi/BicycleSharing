@@ -42,6 +42,7 @@ public class LogoutCommand implements ActionCommand {
             logic.action(parameters);
             session.removeAttribute(Constants.SESSION_USER);
             session.removeAttribute(Constants.PREVIOUS_PATH_PAGE);
+            session.removeAttribute(Constants.ERROR);
             session.setAttribute(Constants.SESSION_ROLE, RoleType.GUEST);
             router.setRoutePath(RoutePath.REDIRECT_HOME_PAGE.getRoutePath());
             logger.info("Succesfully logout executing!");

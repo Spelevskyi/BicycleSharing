@@ -12,12 +12,9 @@
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<style>
-<%@include file="/css/main.css"%>
-</style>
 
 <c:set var="previous_path" value="controller?command=Confirm_page" scope="session" />
-<c:set var="language" value="${lang}" />
+<c:set var="language" value="${sessionScope.lang}" />
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="properties.local" var="local" />
 <fmt:message bundle="${local}" key="index.confirm" var="confirm" />

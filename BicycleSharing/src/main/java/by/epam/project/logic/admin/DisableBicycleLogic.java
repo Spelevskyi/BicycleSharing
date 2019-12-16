@@ -38,6 +38,10 @@ public class DisableBicycleLogic implements Logic {
                 logger.error("Bicycle not exists!");
             } else {
                 Bicycle bicycle = findedBicycle.get();
+                if (bicycle.isOnRoad()) {
+                    logger.error("Bicycle is already on road! You cannot disable it!");
+                    throw new LogicException("Bicycle is already on road! You cannot disable it!");
+                }
                 bicycle.setStatus(Constants.DISABLE);
                 bicycleDao.update(bicycle);
                 pointDao.deleteByBicycleId(bicycleId);

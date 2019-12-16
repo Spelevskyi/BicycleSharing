@@ -32,13 +32,12 @@ public class UserDaoImpl extends UserDao {
     private static final String SQL_CARD_WITHDRAW_BALANCE = "UPDATE credit_card SET Balance = ? WHERE Id = ?";
     private static final String SQL_CREATE_USER = "INSERT INTO user(FirstName,LastName,Email,Password,Role,"
             + "RegistrationDate,RentalAmount,LastRentalDate,PhoneNumber,Status,Confirmed,ImagePath,Cash,OnRoad,InSystem) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-    private static final String SQL_CONFIRM_USER = "UPDATE user SET user.Confirmed = true where user.Email = ?";
     private static final String SQL_DELETE_USER = "DELETE FROM user WHERE Id = ?";
     private static final String SQL_MATCH_EMAIL_PASSWORD = "SELECT * FROM user WHERE Email = ? AND Password = ?";
     private static final String SQL_FIND_USER_BY_EMAIL = "SELECT * FROM user WHERE Email = ?";
     private static final String SQL_UPDATE_USER_AFTER_ORDER = "UPDATE user SET RentalAmount =?,LastRentalDate = ?,"
             + "Cash = ?, OnRoad = ? WHERE Id = ? ";
-    private static final String SQL_UPDATE_ORDERED_BICYCLE = "UPDATE bicycle SET Status = 'DISABLE' WHERE Id = ?";
+    private static final String SQL_UPDATE_ORDERED_BICYCLE = "UPDATE bicycle SET Status = 'DISABLE', OnRoad = ? WHERE Id = ?";
 
     /**
      * UserDao method for finding user by id
@@ -300,7 +299,8 @@ public class UserDaoImpl extends UserDao {
                 logger.info("User was not updated!");
             }
             bicycleStatement = connection.prepareStatement(SQL_UPDATE_ORDERED_BICYCLE);
-            bicycleStatement.setInt(1, bicycle.getId());
+            bicycleStatement.setBoolean(1, bicycle.isOnRoad());
+            bicycleStatement.setInt(2, bicycle.getId());
             result = bicycleStatement.executeUpdate();
             if (result == 0) {
                 logger.info("Bicycle was not updated!");

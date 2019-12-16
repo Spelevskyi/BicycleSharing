@@ -15,7 +15,7 @@
 </style>
 
 <c:set var="previous_path" value="controller?command=Admin_billing_page" scope="session" />
-<c:set var="language" value="${lang}" />
+<c:set var="language" value="${sessionScope.lang}" />
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="properties.local" var="local" />
 <fmt:message bundle="${local}" key="billing.price.list" var="price_list" />
@@ -145,10 +145,6 @@
 								placeholder="${enter_per_hour}" pattern="^[0-9]{1,3}\.[0-9]{1,2}$" required /> <span class="form_error">${price_error}</span>
 						</div>
 						<div class="form-group">
-							<label for="Price per day"><span class="glyphicon glyphicon-usd"></span>${per_day}</label> <input type="text" name="PerDayPrice" value="" class="form-control"
-								placeholder="${enter_per_day}" pattern="^[0-9]{1,4}\.[0-9]{1,2}$" required /> <span class="form_error">${day_error}</span>
-						</div>
-						<div class="form-group">
 							<label for="Stay price"><span class="glyphicon glyphicon-usd"></span>${stay_price}</label> <input type="text" name="StayPrice" value="" class="form-control"
 								placeholder="${enter_stay}" pattern="^[0-9]{1,3}\.[0-9]{1,2}$" required /> <span class="form_error">${price_error}</span>
 						</div>
@@ -163,6 +159,10 @@
 						<div class="form-group">
 							<label for="Nine hour discount"><span class="glyphicon glyphicon-usd"></span>${nine_hour}</label> <input type="text" name="NineHourDiscount" value=""
 								class="form-control" placeholder="${enter_nine}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${percentage_error}</span>
+						</div>
+						<div class="form-group">
+							<label for="Stay price"><span class="glyphicon glyphicon-usd"></span>${all_day}</label> <input type="text" name="DaySale" value="" class="form-control"
+								placeholder="${enter_all_day}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${percentage_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Regular customer discount"><span class="glyphicon glyphicon-usd"></span>${regular}</label> <input type="text" name="RegularCustomerDiscount" value=""
@@ -210,10 +210,6 @@
 								placeholder="${enter_per_hour}" pattern="^[0-9]{1,3}\.[0-9]{1,2}$" required /> <span class="form_error">${price_error}</span>
 						</div>
 						<div class="form-group">
-							<label for="Price per day"><span class="glyphicon glyphicon-usd"></span>${per_day}</label> <input type="text" name="PerDayPrice" value="" class="form-control"
-								placeholder="${enter_per_day}" pattern="^[0-9]{1,4}\.[0-9]{1,2}$" required /> <span class="form_error">${price_error}</span>
-						</div>
-						<div class="form-group">
 							<label for="Stay price"><span class="glyphicon glyphicon-usd"></span>${stay_price}</label> <input type="text" name="StayPrice" value="" class="form-control"
 								placeholder="${enter_stay}" pattern="^[0-9]{1,3}\.[0-9]{1,2}$" required /> <span class="form_error">${price_error}</span>
 						</div>
@@ -228,6 +224,10 @@
 						<div class="form-group">
 							<label for="Nine hour discount"><span class="glyphicon glyphicon-usd"></span>${nine_hour}</label> <input type="text" name="NineHourDiscount" value=""
 								class="form-control" placeholder="${enter_nine}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${percentage_error}</span>
+						</div>
+						<div class="form-group">
+							<label for="Stay price"><span class="glyphicon glyphicon-usd"></span>${all_day}</label> <input type="text" name="DaySale" value="" class="form-control"
+								placeholder="${enter_all_day}" pattern="^[0-9]{1,3}$" required /> <span class="form_error">${percentage_error}</span>
 						</div>
 						<div class="form-group">
 							<label for="Regular customer discount"><span class="glyphicon glyphicon-usd"></span>${regular}</label> <input type="text" name="RegularCustomerDiscount" value=""

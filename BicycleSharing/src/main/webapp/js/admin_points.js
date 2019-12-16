@@ -44,8 +44,8 @@ function myFunction() {
 };
 $(document).ready(function() {
 	$("#image").on("click", function(event) {
-		var x = event.pageX - this.offsetLeft - 143;
-		var y = event.pageY - this.offsetTop - 150;
+		var x = event.pageX - this.offsetLeft - 110;
+		var y = event.pageY - this.offsetTop - 175;
 		document.getElementById('xCoordinate').value = x;
 		document.getElementById('yCoordinate').value = y;
 	});

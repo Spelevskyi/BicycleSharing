@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import by.epam.project.entity.user.User;
 import by.epam.project.util.Constants;
 
-@WebFilter(filterName = "LockUserFilter", dispatcherTypes = { DispatcherType.REQUEST, DispatcherType.FORWARD,
-        DispatcherType.INCLUDE }, urlPatterns = { "/jsp/account.jsp", "/jsp/user/rental_point.jsp",
+@WebFilter(filterName = "LockUserFilter", dispatcherTypes = { DispatcherType.REQUEST,
+        DispatcherType.FORWARD }, urlPatterns = { "/jsp/account.jsp", "/jsp/user/rental_point.jsp",
                 "/jsp/user/favorites.jsp" }, initParams = {
                         @WebInitParam(name = "MESSAGE_PATH", value = "/jsp/message.jsp") })
 public class LockUserFilter implements Filter {

@@ -38,12 +38,15 @@ public class DeleteBicycleLogic implements Logic {
                 if (!findedBicycle.isPresent()) {
                     logger.error("Bicycle not exists!");
                 } else {
+                    if (findedBicycle.get().isOnRoad()) {
+                        logger.error("Bicycle is already on road! You cannot delete it!");
+                        throw new LogicException("Bicycle is already on road! You cannot delete it!");
+                    }
                     bicycleDao.delete(bicycleId);
                     logger.info("Deleting bicycle performing.");
                 }
             }
         } catch (DaoException ex) {
-            System.out.println(ex.getMessage());
             throw new LogicException("Deleting bicycles failed!", ex);
         }
     }

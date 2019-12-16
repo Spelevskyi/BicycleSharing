@@ -36,6 +36,10 @@ public class EnableBicycleLogic implements Logic {
                 logger.error("Bicycle not exists!");
             } else {
                 Bicycle bicycle = findedBicycle.get();
+                if (bicycle.isOnRoad()) {
+                    logger.error("Bicycle is already on road! You cannot enable it!");
+                    throw new LogicException("Bicycle is already on road! You cannot enable it!");
+                }
                 bicycle.setStatus(Constants.ENABLE);
                 bicycleDao.update(bicycle);
                 logger.info("Enable bicycle performing!");

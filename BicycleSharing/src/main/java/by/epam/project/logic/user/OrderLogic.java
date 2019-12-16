@@ -76,6 +76,7 @@ public class OrderLogic implements Logic {
                 changedUser.setLastRentalDate(date);
                 changedUser.setOnRoad(true);
                 changedUser.setCash(changedUser.getCash().subtract(list.getUnlockPrice()));
+                changedBicycle.setOnRoad(true);
                 userDao.updateUserAfterOrder(changedUser, changedBicycle);
                 user = userDao.findById(userId).get();
                 logger.info("Succesfully ordering bicycle!");

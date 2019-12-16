@@ -14,7 +14,7 @@
 </style>
 
 <c:set var="previous_path" value="controller?command=Admin_home_page" scope="session" />
-<c:set var="language" value="${lang}" />
+<c:set var="language" value="${sessionScope.lang}" />
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="properties.local" var="local" />
 <fmt:message bundle="${local}" key="main.home" var="home" />

@@ -57,6 +57,10 @@ public class ChangeBicycleLogic implements Logic {
                 logger.error("Bicycle not exists!");
             } else {
                 Bicycle bicycle = findedBicycle.get();
+                if (bicycle.isOnRoad()) {
+                    logger.error("Bicycle is already on road! You cannot modify it!");
+                    throw new LogicException("Bicycle is already on road! You cannot modify it!");
+                }
                 bicycle.setColor(color);
                 bicycle.setState(state);
                 bicycle.setSpeed(speed);

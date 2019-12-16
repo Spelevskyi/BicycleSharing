@@ -46,8 +46,8 @@ public class BicycleBuilder {
             String status = result.getString(Constants.BICYCLE_STATUS);
             Bicycle bicycle = new Bicycle(brand, color, maxSpeed, registrationDate, state, image_path, status);
             bicycle.setId(result.getInt(Constants.BICYCLE_ID));
-
             bicycle.setBillingId(result.getInt(Constants.BICYCLE_BILLING_ID));
+            bicycle.setOnRoad(result.getBoolean(Constants.BICYCLE_ON_ROAD));
             return Optional.of(bicycle);
         } catch (SQLException ex) {
             throw new DaoException(ex);
@@ -74,6 +74,7 @@ public class BicycleBuilder {
             Bicycle bicycle = new Bicycle(brand, color, maxSpeed, registrationDate, state, image_path, status);
             bicycle.setId(result.getInt(Constants.BICYCLE_ID));
             bicycle.setBillingId(result.getInt(Constants.BICYCLE_BILLING_ID));
+            bicycle.setOnRoad(result.getBoolean(Constants.BICYCLE_ON_ROAD));
             logger.info("Succesfully creating bicycle in builder method!");
             return Optional.of(bicycle);
         } catch (SQLException ex) {
@@ -108,6 +109,7 @@ public class BicycleBuilder {
                     result.getInt(Constants.POINT_Y_COORDINATE));
             point.setId(result.getInt(Constants.POINT_ID));
             point.setBicycleId(result.getInt(Constants.POINT_BICYCLE_ID));
+            bicycle.setOnRoad(result.getBoolean(Constants.BICYCLE_ON_ROAD));
             bicycle.setPoint(point);
             bicycle.setPriceList(PriceListBuilder.createPriceList(result).get());
             logger.info("Succesfully creating bicycle with point and price list in builder method!");
@@ -143,6 +145,7 @@ public class BicycleBuilder {
                         result.getInt(Constants.POINT_Y_COORDINATE));
                 point.setId(result.getInt(Constants.POINT_ID));
                 point.setBicycleId(result.getInt(Constants.POINT_BICYCLE_ID));
+                bicycle.setOnRoad(result.getBoolean(Constants.BICYCLE_ON_ROAD));
                 PriceList list = PriceListBuilder.createBicyclePriceList(result).get();
                 bicycle.setPriceList(list);
                 bicycles.put(bicycle, point);
@@ -231,6 +234,7 @@ public class BicycleBuilder {
                 Bicycle bicycle = new Bicycle(brand, color, maxSpeed, registrationDate, state, image_path, status);
                 bicycle.setId(result.getInt(Constants.BICYCLE_ID));
                 bicycle.setBillingId(result.getInt(Constants.BICYCLE_BILLING_ID));
+                bicycle.setOnRoad(result.getBoolean(Constants.BICYCLE_ON_ROAD));
                 bicycles.add(bicycle);
                 logger.info("Bicycle was created!");
             }

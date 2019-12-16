@@ -45,7 +45,7 @@ public class ReplenishBalanceLogic implements Logic {
             logger.error("Cash amount is less than 0!");
             throw new LogicException("Cash amount is less than 0!");
         }
-        if ((amount > Constants.INITIAL_RENTAL_AMOUNT)) {
+        if ((amount > Constants.INITIAL_AMOUNT)) {
             logger.error("Cash amount is more than 1000!");
             throw new LogicException("Cash amount is more than 1000!");
         }

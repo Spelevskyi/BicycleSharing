@@ -15,8 +15,8 @@ import javax.servlet.annotation.WebInitParam;
 import by.epam.project.util.Constants;
 
 @WebFilter(filterName = "EncodingFilter", dispatcherTypes = { DispatcherType.REQUEST, DispatcherType.FORWARD,
-        DispatcherType.INCLUDE }, urlPatterns = { "/*" }, initParams = {
-                @WebInitParam(name = "encoding", value = "UTF-8") })
+        DispatcherType.INCLUDE }, urlPatterns = {
+                "/*" }, initParams = { @WebInitParam(name = "encoding", value = "UTF-8") })
 
 public class EncodingFilter implements Filter {
 

@@ -97,6 +97,7 @@ public class AddBillingLogic implements Logic {
             billDao.create(list);
             logger.info("Adding new row in bicycle price list.");
         } catch (DaoException ex) {
+            System.out.println(ex.getMessage());
             throw new LogicException("Adding new billing list failed!", ex);
         }
     }

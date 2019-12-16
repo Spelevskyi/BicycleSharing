@@ -27,7 +27,7 @@ public class CardDaoImpl extends CardDao {
     private static final String SQL_DELETE_CARD = "DELETE FROM credit_card WHERE Id = ?";
     private static final String SQL_FIND_BY_ID = "SELECT * FROM credit_card WHERE Id = ?";
     private static final String SQL_MATCH_CODE_NUMBER_MASTER = "SELECT * FROM credit_card WHERE Code = ? AND Number = ? AND CardMaster = ?";
-    private static final String SQL_FIND_USER_CARD = "SELECT * FROM credit_card WHERE OwnerId = ? AND Code = ? AND Number = ?";
+    private static final String SQL_FIND_USER_CARD = "SELECT * FROM credit_card WHERE OwnerId = ? AND Code = ? AND Number = ? AND CardMaster = ?";
 
     /**
      * CardDao method for finding user credit card
@@ -44,6 +44,7 @@ public class CardDaoImpl extends CardDao {
             statement.setInt(1, id);
             statement.setString(2, code);
             statement.setInt(3, number);
+            statement.setString(4, master);
             result = statement.executeQuery();
             return CardBuilder.createCard(result);
         } catch (SQLException ex) {

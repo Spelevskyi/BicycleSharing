@@ -15,7 +15,7 @@
 <%@include file="/css/index.css"%>
 </style>
 <c:set var="previous_path" value="controller?command=Home_page" scope="session"/>
-<c:set var="language" value="${lang}" />
+<c:set var="language" value="${sessionScope.lang}" />
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="properties.local" var="local" />
 <fmt:message bundle="${local}" key="index.home" var="home" />
@@ -123,7 +123,7 @@
 						</button>
 						<div class="forgot text-center">
 						<p>
-							<a href="#change_password" data-toggle="modal" data-target="#change_password">${forgot_password} </a>
+							<a href="#" data-toggle="modal" data-target="#">${forgot_password} </a>
 						</p>
 						</div>
 					</form>
@@ -182,7 +182,7 @@
 						</button>
 						<div class="forgot text-center">
 						<p>
-							<a href="#change_password" data-toggle="modal" data-target="#change_password">${forgot_password} </a>
+							<a href="#" data-toggle="modal" data-target="#">${forgot_password} </a>
 						</p>
 						</div>
 					</form>

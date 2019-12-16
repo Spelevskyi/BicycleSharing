@@ -93,27 +93,27 @@ tr:hover {
 	color: black;
 }
 
-input:valid:not (:placeholder-shown ) {
-	border-color: green;
+input:valid:not(:placeholder-shown) {
+  border-color: green;
 }
 
-input:invalid:not (:placeholder-shown ) {
-	border-color: red;
+input:invalid:not(:placeholder-shown) {
+  border-color: red;
 }
 
-input:invalid:not (:placeholder-shown ) +.form_error {
-	display: block;
+input:invalid:not(:placeholder-shown) + .form_error {
+  display: block;
 }
 
 .form_error {
-	font-size: 15px;
-	font-weight: 300;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	color: red;
-	text-align: left;
-	margin-top: 3px;
-	display: none;
-	padding-left: 10px;
+  font-size: 15px;
+  font-weight: 300;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  color: red;
+  text-align: left;
+  margin-top: 3px;
+  display: none;
+  padding-left: 10px;
 }
